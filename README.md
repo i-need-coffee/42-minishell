@@ -1,0 +1,9 @@
+_This project has been created as part of the 42 curriculum by jturrel, sjolliet._
+
+# Minishell - 42 Common Core
+
+## Description
+
+## Instructions
+
+## Resources

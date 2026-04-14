@@ -1,0 +1,46 @@
+NAME			= minishell
+
+CC				= cc
+CFLAGS			= -Wall -Wextra -Werror -g -Iinclude -Ilibft/include
+
+LIBFT_DIR		= libft
+LIBFT			= $(LIBFT_DIR)/libft.a
+
+SRC_DIR			= src
+OBJ_DIR			= obj
+
+SRCS			= \
+	$(SRC_DIR)/main.c
+
+OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+# **************************************************************************** #
+
+all: $(NAME)
+
+$(LIBFT):
+	@echo "📚 Building Libft..."
+	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
+	@echo "📚 Libft compiled successfully!"
+
+$(NAME): $(OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@echo "🚀 Pipex compiled successfully!"
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	@rm -rf $(OBJ_DIR)
+	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
+	@echo "🧹 Object files removed."
+
+fclean: clean
+	@rm -f $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
+	@echo "🗑️  Library and executables removed."
+
+re: fclean all
+
+.PHONY: all clean fclean re
