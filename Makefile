@@ -1,7 +1,7 @@
 NAME			= minishell
 
 CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -g -Iinclude -Ilibft/include
+CFLAGS			= -Wall -Wextra -Werror -g  -Iinclude -Ilibft/include
 
 LIBFT_DIR		= libft
 LIBFT			= $(LIBFT_DIR)/libft.a
@@ -10,7 +10,7 @@ SRC_DIR			= src
 OBJ_DIR			= obj
 
 SRCS			= \
-	$(SRC_DIR)/main.c
+	$(SRC_DIR)/main.c\
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -24,8 +24,8 @@ $(LIBFT):
 	@echo "📚 Libft compiled successfully!"
 
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
-	@echo "🚀 Pipex compiled successfully!"
+	@$(CC) $(CFLAGS) -lreadline $(OBJS) $(LIBFT) -o $(NAME)
+	@echo "🚀 $(NAME) compiled successfully!"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
