@@ -2,17 +2,20 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
+	t_mini	mini;
 
 	(void)argc;
 	(void)argv;
 	(void)envp;
 	while (1)
 	{
-		line = readline("minishell > ");
-		if (!line)
+		ft_bzero(&mini, sizeof(t_mini));
+		mini.input = readline("minishell > ");
+		if (!mini.input)
 			break ;
-		free(line);
+		tokenize_input(&mini);
+		print_tokens(mini.tokens);
+		free_minishell(&mini);
 	}
 	return (0);
 }

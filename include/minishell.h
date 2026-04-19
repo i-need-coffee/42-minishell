@@ -24,4 +24,15 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_mini
+{
+	char	*input;
+	t_token	*tokens;
+}	t_mini;
+
+void	free_minishell(t_mini *mini);
+void	tokenize_input(t_mini *mini);
+void	free_tokens(t_token **root);
+void	print_tokens(t_token *token);
+
 #endif

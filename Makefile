@@ -11,6 +11,9 @@ OBJ_DIR			= obj
 
 SRCS			= \
 	$(SRC_DIR)/main.c \
+	$(SRC_DIR)/free_minishell.c \
+	$(SRC_DIR)/tokenization/tokenize_input.c \
+	$(SRC_DIR)/tokenization/utils.c
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
