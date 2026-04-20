@@ -27,13 +27,13 @@ void	tokenize_input(t_mini *mini)
 		else
 			add_word_token(mini, &i);
 	}
-	if (!add_token(&mini->tokens, TOKEN_EOF, NULL))
+	if (!add_token(&mini->tokens, TOKEN_EOF, NULL, 0))
 		cleanup_exit(mini, EXIT_FAILURE);
 }
 
 static void	add_pipe_token(t_mini *mini, int *i)
 {
-	if (!add_token(&mini->tokens, TOKEN_PIPE, "|"))
+	if (!add_token(&mini->tokens, TOKEN_PIPE, "|", 0))
 		cleanup_exit(mini, EXIT_FAILURE);
 	(*i)++;
 }
@@ -42,12 +42,12 @@ static void	add_redir_token(t_mini *mini, char c, int *i)
 {
 	if (c == '<')
 	{
-		if (!add_token(&mini->tokens, TOKEN_REDIR_IN, "<"))
+		if (!add_token(&mini->tokens, TOKEN_REDIR_IN, "<", 0))
 			cleanup_exit(mini, EXIT_FAILURE);
 	}
 	else if (c == '>')
 	{
-		if (!add_token(&mini->tokens, TOKEN_REDIR_OUT, ">"))
+		if (!add_token(&mini->tokens, TOKEN_REDIR_OUT, ">", 0))
 			cleanup_exit(mini, EXIT_FAILURE);
 	}
 	else
@@ -57,14 +57,14 @@ static void	add_redir_token(t_mini *mini, char c, int *i)
 
 static void	add_append_token(t_mini *mini, int *i)
 {
-	if (!add_token(&mini->tokens, TOKEN_APPEND, ">>"))
+	if (!add_token(&mini->tokens, TOKEN_APPEND, ">>", 0))
 		cleanup_exit(mini, EXIT_FAILURE);
 	(*i) += 2;
 }
 
 static void	add_heredoc_token(t_mini *mini, int *i)
 {
-	if (!add_token(&mini->tokens, TOKEN_HEREDOC, "<<"))
+	if (!add_token(&mini->tokens, TOKEN_HEREDOC, "<<", 0))
 		cleanup_exit(mini, EXIT_FAILURE);
 	(*i) += 2;
 }
