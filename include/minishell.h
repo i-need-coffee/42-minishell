@@ -1,9 +1,21 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+/*
+** ================================
+**			LIBRARIES
+** ================================
+*/
+
 # include <libft.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+/*
+** ================================
+**		ENUMS & STRUCTS
+** ================================
+*/
 
 typedef enum e_token_type
 {
@@ -31,10 +43,19 @@ typedef struct s_mini
 	t_token	*tokens;
 }	t_mini;
 
-void	tokenize_input(t_mini *mini);
-void	cleanup(t_mini *mini);
-void	free_tokens(t_token **root);
+/*
+** ================================
+**			FUNCTIONS
+** ================================
+*/
+
+/* -- GENERAL -- */
 void	cleanup_exit(t_mini *mini, int exit_code);
+void	cleanup(t_mini *mini);
+
+/* -- TOKENIZATION -- */
+void	tokenize_input(t_mini *mini);
+void	free_tokens(t_token **root);
 int		add_token(t_token **root, t_token_type type, char *value, int expand);
 void	add_word_token(t_mini *mini, int *i);
 
