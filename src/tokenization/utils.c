@@ -7,7 +7,7 @@ void	print_tokens(t_token *token)
 	ft_printf("-- START TOKENS --\n");
 	while (token->type != TOKEN_EOF)
 	{
-		printf("type: %d, value: %s\n", token->type, token->value);
+		ft_printf("type: %d, value: %s\n", token->type, token->value);
 		token = token->next;
 	}
 	ft_printf("-- END TOKENS --\n");
