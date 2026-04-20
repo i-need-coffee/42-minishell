@@ -30,9 +30,12 @@ typedef struct s_mini
 	t_token	*tokens;
 }	t_mini;
 
-void	free_minishell(t_mini *mini);
 void	tokenize_input(t_mini *mini);
-void	free_tokens(t_token **root);
+void	cleanup(t_mini *mini);
 void	print_tokens(t_token *token);
+void	free_tokens(t_token **root);
+void	cleanup_exit(t_mini *mini, int exit_code);
+int		add_token(t_token **root, t_token_type type, char *value);
+void	add_word_token(t_mini *mini, int *i);
 
 #endif

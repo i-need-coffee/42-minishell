@@ -1,40 +1,70 @@
 #include "minishell.h"
 
-static int	add_token(t_token **root, t_token_type type, char *value);
+static void	add_pipe_token(t_mini *mini, int *i);
+static void	add_redir_token(t_mini *mini, char c, int *i);
+static void	add_append_token(t_mini *mini, int *i);
+static void	add_heredoc_token(t_mini *mini, int *i);
 
 void	tokenize_input(t_mini *mini)
 {
-	add_token(&mini->tokens, TOKEN_WORD, "grep");
-	add_token(&mini->tokens, TOKEN_WORD, "hello");
-	add_token(&mini->tokens, TOKEN_PIPE, "|");
-	add_token(&mini->tokens, TOKEN_WORD, "wc");
-	add_token(&mini->tokens, TOKEN_WORD, "-l");
-	add_token(&mini->tokens, TOKEN_REDIR_IN, "<");
-	add_token(&mini->tokens, TOKEN_REDIR_OUT, ">");
-	add_token(&mini->tokens, TOKEN_APPEND, ">>");
-	add_token(&mini->tokens, TOKEN_HEREDOC, "<<");
-	add_token(&mini->tokens, TOKEN_EOF, NULL);
+	int	i;
+
+	i = 0;
+	while (mini->input[i])
+	{
+		if (ft_isspace(mini->input[i]))
+			i++;
+		else if (mini->input[i] == '|')
+			add_pipe_token(mini, &i);
+		else if (mini->input[i] == '<' && mini->input[i + 1] != '<')
+			add_redir_token(mini, '<', &i);
+		else if (mini->input[i] == '>' && mini->input[i + 1] != '>')
+			add_redir_token(mini, '>', &i);
+		else if (mini->input[i] == '>' && mini->input[i + 1] == '>')
+			add_append_token(mini, &i);
+		else if (mini->input[i] == '<' && mini->input[i + 1] == '<')
+			add_heredoc_token(mini, &i);
+		else
+			add_word_token(mini, &i);
+	}
+	if (!add_token(&mini->tokens, TOKEN_EOF, NULL))
+		cleanup_exit(mini, EXIT_FAILURE);
 }
 
-static int	add_token(t_token **root, t_token_type type, char *value)
+static void	add_pipe_token(t_mini *mini, int *i)
 {
-	t_token	*new_token;
-	t_token	*curr;
+	if (!add_token(&mini->tokens, TOKEN_PIPE, "|"))
+		cleanup_exit(mini, EXIT_FAILURE);
+	(*i)++;
+}
 
-	new_token = ft_calloc(1, sizeof(t_token));
-	if (!new_token)
-		return (0);
-	new_token->type = type;
-	new_token->value = value;
-	if (!*root)
+static void	add_redir_token(t_mini *mini, char c, int *i)
+{
+	if (c == '<')
 	{
-		*root = new_token;
-		return (1);
+		if (!add_token(&mini->tokens, TOKEN_REDIR_IN, "<"))
+			cleanup_exit(mini, EXIT_FAILURE);
 	}
-	curr = *root;
-	while (curr->next)
-		curr = curr->next;
-	curr->next = new_token;
-	new_token->prev = curr;
-	return (1);
+	else if (c == '>')
+	{
+		if (!add_token(&mini->tokens, TOKEN_REDIR_OUT, ">"))
+			cleanup_exit(mini, EXIT_FAILURE);
+	}
+	else
+		return ;
+	(*i)++;
+}
+
+static void	add_append_token(t_mini *mini, int *i)
+{
+	if (!add_token(&mini->tokens, TOKEN_APPEND, ">>"))
+		cleanup_exit(mini, EXIT_FAILURE);
+	(*i) += 2;
+}
+
+static void	add_heredoc_token(t_mini *mini, int *i)
+{
+	if (!add_token(&mini->tokens, TOKEN_HEREDOC, "<<"))
+		cleanup_exit(mini, EXIT_FAILURE);
+	(*i) += 2;
 }
