@@ -10,7 +10,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		ft_bzero(&mini, sizeof(t_mini));
-		mini.input = readline("minishell > ");
+		mini.input = readline("minishell> ");
 		if (!mini.input)
 			break ;
 		tokenize_input(&mini);
