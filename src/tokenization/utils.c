@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static t_token	*create_token(t_token_type type, char *value, int expand);
+static t_token	*create_token(t_token_type type, t_quotes quotes, char *value);
 
 void	free_tokens(t_token **root)
 {
@@ -19,12 +19,12 @@ void	free_tokens(t_token **root)
 	*root = NULL;
 }
 
-int	add_token(t_token **root, t_token_type type, char *value, int expand)
+int	add_token(t_token **root, t_token_type type, t_quotes quotes, char *value)
 {
 	t_token	*new_token;
 	t_token	*curr;
 
-	new_token = create_token(type, value, expand);
+	new_token = create_token(type, quotes, value);
 	if (!new_token)
 		return (0);
 	if (!*root)
@@ -40,7 +40,7 @@ int	add_token(t_token **root, t_token_type type, char *value, int expand)
 	return (1);
 }
 
-static t_token	*create_token(t_token_type type, char *value, int expand)
+static t_token	*create_token(t_token_type type, t_quotes quotes, char *value)
 {
 	t_token	*new_token;
 
@@ -52,6 +52,7 @@ static t_token	*create_token(t_token_type type, char *value, int expand)
 	}
 	ft_bzero(new_token, sizeof(t_token));
 	new_token->type = type;
+	new_token->quotes = quotes;
 	if (value != NULL)
 	{
 		new_token->value = ft_strdup(value);
@@ -62,7 +63,5 @@ static t_token	*create_token(t_token_type type, char *value, int expand)
 			return (NULL);
 		}
 	}
-	if (expand)
-		new_token->expand = 1;
 	return (new_token);
 }
