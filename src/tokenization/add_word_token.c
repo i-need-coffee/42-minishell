@@ -1,8 +1,45 @@
 #include "minishell.h"
 
-static size_t	get_token_length(char *input);
+static int	get_token_length(char *input);
 
 void	add_word_token(t_mini *mini, int *i)
+{
+	int		len;
+
+	len = get_token_length(mini->input + *i);
+	ft_printf("len: %d\n", len);
+	cleanup_exit(mini, EXIT_SUCCESS);
+}
+
+static int	get_token_length(char *input)
+{
+	int	i;
+	int	len;
+	int	in_s_quotes;
+	int	in_d_quotes;
+
+	i = 0;
+	len = 0;
+	in_s_quotes = 0;
+	in_d_quotes = 0;
+	while(input[i])
+	{
+		if (input[i] == '\'' && !in_d_quotes)
+			in_s_quotes = !in_s_quotes;
+		if (input[i] == '"' && !in_s_quotes)
+			in_d_quotes = !in_d_quotes;
+		if (ft_isspace(input[i]) && !in_s_quotes && !in_d_quotes)
+			break ;
+		if (! ((input[i] == '\'' && !in_d_quotes) || (input[i] == '"' && !in_s_quotes)))
+			len++;
+		i++;
+	}
+	if (in_s_quotes || in_d_quotes)
+		return (-1);
+	return (len);
+}
+
+/* void	add_word_token(t_mini *mini, int *i)
 {
 	char		*value;
 	size_t		len;
@@ -25,32 +62,4 @@ void	add_word_token(t_mini *mini, int *i)
 	free(value);
 	(*i) += len;
 }
-
-static size_t	get_token_length(char *input)
-{
-	size_t	i;
-
-	i = 0;
-	if (input[0] == '"')
-	{
-		i++;
-		while (input[i] && input[i] != '"')
-			i++;
-		if (input[i] == '"')
-			i++;
-	}
-	else if (input[0] == '\'')
-	{
-		i++;
-		while (input[i] && input[i] != '\'')
-			i++;
-		if (input[i] == '\'')
-			i++;
-	}
-	else
-	{
-		while (input[i] && !ft_isspace(input[i]))
-			i++;
-	}
-	return (i);
-}
+*/
