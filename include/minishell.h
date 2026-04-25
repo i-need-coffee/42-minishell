@@ -56,6 +56,9 @@ typedef struct s_mini
 ** ================================
 */
 
+/* -- DEBUG -- */
+void	print_tokens(t_token **root);
+
 /* -- GENERAL -- */
 void	cleanup_exit(t_mini *mini, int exit_code);
 void	cleanup(t_mini *mini);
@@ -66,6 +69,5 @@ void	free_tokens(t_token **root);
 int		add_token(t_token **root, t_token_type type,
 			t_quotes quotes, char *value);
 void	add_word_token(t_mini *mini, int *i);
-void	print_tokens(t_token **root);
 
 #endif

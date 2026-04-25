@@ -10,6 +10,7 @@ SRC_DIR			= src
 OBJ_DIR			= obj
 
 SRCS			= \
+	$(SRC_DIR)/debug.c \
 	$(SRC_DIR)/main.c \
 	$(SRC_DIR)/utils.c \
 	$(SRC_DIR)/tokenization/tokenize_input.c \
