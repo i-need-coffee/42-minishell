@@ -25,20 +25,13 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
+	TOKEN,ENV,
 	TOKEN_EOF
 }	t_token_type;
-
-typedef enum e_quotes
-{
-	NO_QUOTES,
-	SINGLE_QUOTES,
-	DOUBLE_QUOTES
-}	t_quotes;
 
 typedef struct s_token
 {
 	t_token_type	type;
-	t_quotes		quotes;
 	char			*value;
 	struct s_token	*prev;
 	struct s_token	*next;
@@ -66,8 +59,7 @@ void	cleanup(t_mini *mini);
 /* -- TOKENIZATION -- */
 void	tokenize_input(t_mini *mini);
 void	free_tokens(t_token **root);
-int		add_token(t_token **root, t_token_type type,
-			t_quotes quotes, char *value);
+int		add_token(t_token **root, t_token_type type, char *value);
 void	add_word_token(t_mini *mini, int *i);
 
 #endif

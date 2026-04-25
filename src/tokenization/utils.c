@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static t_token	*create_token(t_token_type type, t_quotes quotes, char *value);
+static t_token	*create_token(t_token_type type, char *value);
 
 void	free_tokens(t_token **root)
 {
@@ -19,12 +19,12 @@ void	free_tokens(t_token **root)
 	*root = NULL;
 }
 
-int	add_token(t_token **root, t_token_type type, t_quotes quotes, char *value)
+int	add_token(t_token **root, t_token_type type, char *value)
 {
 	t_token	*new_token;
 	t_token	*curr;
 
-	new_token = create_token(type, quotes, value);
+	new_token = create_token(type, value);
 	if (!new_token)
 		return (0);
 	if (!*root)
@@ -40,7 +40,7 @@ int	add_token(t_token **root, t_token_type type, t_quotes quotes, char *value)
 	return (1);
 }
 
-static t_token	*create_token(t_token_type type, t_quotes quotes, char *value)
+static t_token	*create_token(t_token_type type, char *value)
 {
 	t_token	*new_token;
 
@@ -52,7 +52,6 @@ static t_token	*create_token(t_token_type type, t_quotes quotes, char *value)
 	}
 	ft_bzero(new_token, sizeof(t_token));
 	new_token->type = type;
-	new_token->quotes = quotes;
 	if (value != NULL)
 	{
 		new_token->value = ft_strdup(value);

@@ -14,6 +14,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!mini.input)
 			break ;
 		tokenize_input(&mini);
+		print_tokens(&mini.tokens);
 		cleanup(&mini);
 	}
 	return (0);

@@ -8,7 +8,7 @@ void	print_tokens(t_token **root)
 	ft_printf("-- TOKENS START --\n");
 	while (curr->type != TOKEN_EOF)
 	{
-		ft_printf("TYPE: %d, VALUE: %s, QUOTES: %d\n", curr->type, curr->value, curr->quotes);
+		ft_printf("TYPE: %d, VALUE: %s\n", curr->type, curr->value);
 		curr = curr->next;
 	}
 	ft_printf("-- TOKENS END --\n");
