@@ -7,7 +7,7 @@ void	add_word_token(t_mini *mini, int *i)
 	int		len;
 
 	len = get_token_length(mini->input + *i);
-	ft_printf("len: %d\n", len);
+	ft_printf("%d", len);
 	cleanup_exit(mini, EXIT_SUCCESS);
 }
 
@@ -34,8 +34,6 @@ static int	get_token_length(char *input)
 			len++;
 		i++;
 	}
-	if (in_s_quotes || in_d_quotes)
-		return (-1);
 	return (len);
 }
 

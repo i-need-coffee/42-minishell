@@ -13,6 +13,13 @@ int	main(int argc, char **argv, char **envp)
 		mini.input = readline("minishell> ");
 		if (!mini.input)
 			break ;
+		if (has_unclosed_quotes(mini.input))
+		{
+			ft_putstr_fd(mini.input, 2);
+			ft_putstr_fd(": incorrect syntax: unclosed quotes\n", 2);
+			cleanup(&mini);
+			continue ;
+		}
 		tokenize_input(&mini);
 		print_tokens(&mini.tokens);
 		cleanup(&mini);

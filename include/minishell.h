@@ -61,5 +61,6 @@ void	tokenize_input(t_mini *mini);
 void	free_tokens(t_token **root);
 int		add_token(t_token **root, t_token_type type, char *value);
 void	add_word_token(t_mini *mini, int *i);
+int		has_unclosed_quotes(char *input);
 
 #endif
