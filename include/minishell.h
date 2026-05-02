@@ -25,7 +25,7 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
-	TOKEN,ENV,
+	TOKEN_ENV,
 	TOKEN_EOF
 }	t_token_type;
 
