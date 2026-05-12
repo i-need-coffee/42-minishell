@@ -65,3 +65,12 @@ static t_token	*create_token(t_token_type type, t_quotes quotes, char *value)
 	}
 	return (new_token);
 }
+
+void print_node(t_token *node)
+{
+	while(node)
+	{
+		ft_printf("type: %d, value: %s\n", node->type, node->value);
+		node = node->next;
+	}
+}

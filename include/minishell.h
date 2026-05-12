@@ -10,6 +10,8 @@
 # include <libft.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
+# include <stdio.h>
 
 /*
 ** ================================
@@ -66,5 +68,11 @@ void	free_tokens(t_token **root);
 int		add_token(t_token **root, t_token_type type,
 			t_quotes quotes, char *value);
 void	add_word_token(t_mini *mini, int *i);
+
+/* -- SIGNALS -- */
+void	signal_config_sigquit(int signb, void *handler_sigquit);
+void	signal_config_sigint(int signb, void *handler_sigint);
+void	handler_sigint(int signb);
+void	handler_sigquit(int signb);
 
 #endif
