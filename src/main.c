@@ -15,8 +15,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (has_unclosed_quotes(mini.input))
 		{
-			ft_putstr_fd(mini.input, 2);
-			ft_putstr_fd(": incorrect syntax: unclosed quotes\n", 2);
+			print_error(ERR_QUOTES);
 			cleanup(&mini);
 			continue ;
 		}

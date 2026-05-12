@@ -47,7 +47,7 @@ static t_token	*create_token(t_token_type type, char *value)
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 	{
-		perror("error");
+		print_error(ERR_ALLOC);
 		return (NULL);
 	}
 	ft_bzero(new_token, sizeof(t_token));
@@ -57,7 +57,7 @@ static t_token	*create_token(t_token_type type, char *value)
 		new_token->value = ft_strdup(value);
 		if (!new_token->value)
 		{
-			perror("error");
+			print_error(ERR_ALLOC);
 			free(new_token);
 			return (NULL);
 		}

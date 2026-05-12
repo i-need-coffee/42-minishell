@@ -8,6 +8,7 @@
 */
 
 # include <libft.h>
+# include <errors.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -55,6 +56,8 @@ void	print_tokens(t_token **root);
 /* -- GENERAL -- */
 void	cleanup_exit(t_mini *mini, int exit_code);
 void	cleanup(t_mini *mini);
+void	print_error(char *err_msg);
+int		return_error(char *err_msg, int err_code);
 
 /* -- TOKENIZATION -- */
 void	tokenize_input(t_mini *mini);
