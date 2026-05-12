@@ -4,11 +4,29 @@ static int	get_token_length(char *input);
 
 void	add_word_token(t_mini *mini, int *i)
 {
+	char	*value;
 	int		len;
 
 	len = get_token_length(mini->input + *i);
-	ft_printf("%d", len);
-	cleanup_exit(mini, EXIT_SUCCESS);
+	if (mini->input[*i] == '\'' || mini->input[*i] == '"')
+	{
+		value = ft_substr(mini->input, *i + 1, len);
+		len += 2;
+	}
+	else
+		value = ft_substr(mini->input, *i, len);
+	if (!value)
+	{
+		print_error(ERR_ALLOC);
+		cleanup_exit(mini, EXIT_FAILURE);
+	}
+	if (!add_token(&mini->tokens, TOKEN_WORD, value))
+	{
+		free(value);
+		cleanup_exit(mini, EXIT_FAILURE);
+	}
+	free(value);
+	(*i) += len;
 }
 
 static int	get_token_length(char *input)
@@ -36,28 +54,3 @@ static int	get_token_length(char *input)
 	}
 	return (len);
 }
-
-/* void	add_word_token(t_mini *mini, int *i)
-{
-	char		*value;
-	size_t		len;
-
-	len = get_token_length(mini->input + *i);
-	if (mini->input[*i] == '\'' || mini->input[*i] == '"')
-		value = ft_substr(mini->input, *i + 1, len - 2);
-	else
-		value = ft_substr(mini->input, *i, len);
-	if (!value)
-	{
-		perror("error");
-		cleanup_exit(mini, EXIT_FAILURE);
-	}
-	if (!add_token(&mini->tokens, TOKEN_WORD, value))
-	{
-		free(value);
-		cleanup_exit(mini, EXIT_FAILURE);
-	}
-	free(value);
-	(*i) += len;
-}
-*/
