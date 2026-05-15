@@ -12,9 +12,9 @@ OBJ_DIR			= obj
 SRCS			= \
 	$(SRC_DIR)/debug.c \
 	$(SRC_DIR)/main.c \
-	$(SRC_DIR)/utils.c \
-	$(SRC_DIR)/cleanup.c \
-	$(SRC_DIR)/errors.c \
+	$(SRC_DIR)/utils/quotes.c \
+	$(SRC_DIR)/utils/cleanup.c \
+	$(SRC_DIR)/utils/errors.c \
 	$(SRC_DIR)/tokenization/tokenize_input.c \
 	$(SRC_DIR)/tokenization/utils.c \
 	$(SRC_DIR)/tokenization/add_word_token.c \

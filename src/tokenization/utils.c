@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static t_token	*create_token(t_token_type type, char *value);
+static t_token	*create_token(t_token_type type, char *value, int expands);
 
 void	free_tokens(t_token **root)
 {
@@ -19,12 +19,12 @@ void	free_tokens(t_token **root)
 	*root = NULL;
 }
 
-int	add_token(t_token **root, t_token_type type, char *value)
+int	add_token(t_token **root, t_token_type type, char *value, int expands)
 {
 	t_token	*new_token;
 	t_token	*curr;
 
-	new_token = create_token(type, value);
+	new_token = create_token(type, value, expands);
 	if (!new_token)
 		return (0);
 	if (!*root)
@@ -40,7 +40,22 @@ int	add_token(t_token **root, t_token_type type, char *value)
 	return (1);
 }
 
-static t_token	*create_token(t_token_type type, char *value)
+int	has_env_variable(char *value)
+{
+	int	i;
+
+	i = 0;
+	while (value[i])
+	{
+		if (value[i] == '$'
+			&& !ft_isspace(value[i + 1]) && value[i + 1] != '\0')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static t_token	*create_token(t_token_type type, char *value, int expands)
 {
 	t_token	*new_token;
 
@@ -62,5 +77,6 @@ static t_token	*create_token(t_token_type type, char *value)
 			return (NULL);
 		}
 	}
+	new_token->expands = expands;
 	return (new_token);
 }

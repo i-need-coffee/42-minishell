@@ -9,7 +9,7 @@ int	has_unclosed_quotes(char *input)
 	i = 0;
 	in_s_quotes = 0;
 	in_d_quotes = 0;
-	while(input[i])
+	while (input[i])
 	{
 		if (input[i] == '\'' && !in_d_quotes)
 			in_s_quotes = !in_s_quotes;
