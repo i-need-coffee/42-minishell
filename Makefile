@@ -15,7 +15,9 @@ SRCS			= \
 	$(SRC_DIR)/tokenization/tokenize_input.c \
 	$(SRC_DIR)/tokenization/utils.c \
 	$(SRC_DIR)/tokenization/add_word_token.c\
-	$(SRC_DIR)/signals/signal_config.c
+	$(SRC_DIR)/signals/signal_config.c\
+	$(SRC_DIR)/env/environement.c\
+	$(SRC_DIR)/env/utils_node.c
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

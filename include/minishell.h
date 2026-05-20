@@ -52,6 +52,13 @@ typedef struct s_mini
 	t_token	*tokens;
 }	t_mini;
 
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	struct s_env *next;
+}	t_env;
+
 /*
 ** ================================
 **			FUNCTIONS
@@ -74,5 +81,13 @@ void	signal_config_sigquit(int signb, void *handler_sigquit);
 void	signal_config_sigint(int signb, void *handler_sigint);
 void	handler_sigint(int signb);
 void	handler_sigquit(int signb);
+
+/* -- ENVIRONEMENT --*/
+t_env   **build_env(char **envp, t_env **env);
+void print_node_env(t_env *node);
+//int get_key_value_into_node(char *env_line, char *key_buf, char *value_buf, t_env *node);
+void	add_back(t_env **env, t_env *new);
+t_env	*new_node(void);
+int strlen_key(char *envp);
 
 #endif

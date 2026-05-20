@@ -3,10 +3,12 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_mini	mini;
+	t_env	**env;
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
+	env = NULL;
+	env = build_env(envp, env);
 	signal_config_sigquit(SIGQUIT, handler_sigquit); //obligatoire ici pour handle les signaux
 	signal_config_sigint(SIGINT, handler_sigint);
 
