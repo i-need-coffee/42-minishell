@@ -18,6 +18,8 @@ int	main(int argc, char **argv, char **envp)
 		mini.input = readline("minishell> ");
 		if (!mini.input)
 			break ;
+		if (*mini.input)
+			add_history(mini.input);
 		tokenize_input(&mini);
 	//	print_node(mini.tokens);
 		cleanup(&mini);
