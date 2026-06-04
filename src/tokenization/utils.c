@@ -1,30 +1,13 @@
 #include "minishell.h"
 
-static t_token	*create_token(t_token_type type, char *value, int expands);
+static t_token	*create_token(t_token_type type, char *value);
 
-void	free_tokens(t_token **root)
-{
-	t_token	*curr;
-	t_token	*temp;
-
-	curr = *root;
-	while (curr != NULL)
-	{
-		temp = curr;
-		curr = curr->next;
-		if (temp->value)
-			free(temp->value);
-		free(temp);
-	}
-	*root = NULL;
-}
-
-int	add_token(t_token **root, t_token_type type, char *value, int expands)
+int	add_token(t_token **root, t_token_type type, char *value)
 {
 	t_token	*new_token;
 	t_token	*curr;
 
-	new_token = create_token(type, value, expands);
+	new_token = create_token(type, value);
 	if (!new_token)
 		return (0);
 	if (!*root)
@@ -40,43 +23,42 @@ int	add_token(t_token **root, t_token_type type, char *value, int expands)
 	return (1);
 }
 
-int	has_env_variable(char *value)
+void	free_tokens(t_token **root)
 {
-	int	i;
+	t_token	*curr;
+	t_token	*temp;
 
-	i = 0;
-	while (value[i])
+	curr = *root;
+	while (curr != NULL)
 	{
-		if (value[i] == '$'
-			&& !ft_isspace(value[i + 1]) && value[i + 1] != '\0')
-			return (1);
-		i++;
+		temp = curr;
+		curr = curr->next;
+		if (temp->segments)
+			free_segments(&temp->segments);
+		free(temp);
 	}
-	return (0);
+	*root = NULL;
 }
 
-static t_token	*create_token(t_token_type type, char *value, int expands)
+static t_token	*create_token(t_token_type type, char *value)
 {
 	t_token	*new_token;
 
-	new_token = malloc(sizeof(t_token));
+	new_token = ft_calloc(1, sizeof(t_token));
 	if (!new_token)
 	{
 		print_error(ERR_ALLOC);
 		return (NULL);
 	}
-	ft_bzero(new_token, sizeof(t_token));
 	new_token->type = type;
-	if (value != NULL)
+	if (value)
 	{
-		new_token->value = ft_strdup(value);
-		if (!new_token->value)
+		new_token->segments = generate_segments(value);
+		if (!new_token->segments)
 		{
-			print_error(ERR_ALLOC);
 			free(new_token);
 			return (NULL);
 		}
 	}
-	new_token->expands = expands;
 	return (new_token);
 }
