@@ -1,8 +1,10 @@
 #include "minishell.h"
 
-static int	add_segment(t_token_segment **root, char *value,
-				int start, int end, int quote_type);
-static int	add_quoted_segment(t_token_segment **root, char *value, int *i, int *start);
+static int	add_segment(t_token_segment **root, char *value, int quote_type);
+static int	add_quoted_segment(t_token_segment **root,
+				char *value, int *i, int *start);
+static int	add_unquoted_segment(t_token_segment **root,
+				char *value, int *i, int *start);
 
 t_token_segment	*generate_segments(char *value)
 {
@@ -22,10 +24,7 @@ t_token_segment	*generate_segments(char *value)
 		}
 		else
 		{
-			start = i;
-			while (value[i] && value[i] != '\'' && value[i] != '"')
-				i++;
-			if (!add_segment(&root, value, start, i, NONE))
+			if (!add_unquoted_segment(&root, value, &i, &start))
 				return (free_segments(&root), NULL);
 		}
 	}
@@ -49,8 +48,7 @@ void	free_segments(t_token_segment **root)
 	*root = NULL;
 }
 
-static int	add_segment(t_token_segment **root, char *value,
-	int start, int end, int quote_type)
+static int	add_segment(t_token_segment **root, char *value, int quote_type)
 {
 	t_token_segment	*new_segment;
 	t_token_segment	*curr;
@@ -58,7 +56,7 @@ static int	add_segment(t_token_segment **root, char *value,
 	new_segment = ft_calloc(1, sizeof(t_token_segment));
 	if (!new_segment)
 		return (print_error(ERR_ALLOC), 0);
-	new_segment->value = ft_substr(value, start, end - start);
+	new_segment->value = ft_strdup(value);
 	if (!new_segment->value)
 		return (print_error(ERR_ALLOC), free(new_segment), 0);
 	new_segment->quote_type = quote_type;
@@ -74,25 +72,48 @@ static int	add_segment(t_token_segment **root, char *value,
 	return (1);
 }
 
-static int	add_quoted_segment(t_token_segment **root, char *value, int *i, int *start)
+static int	add_quoted_segment(t_token_segment **root,
+	char *value, int *i, int *start)
 {
 	char	quote;
+	char	*substr;
 
 	quote = value[*i];
 	*start = *i + 1;
 	(*i)++;
 	while (value[*i] && value[*i] != quote)
 		(*i)++;
+	substr = ft_substr(value, *start, *i - *start);
+	if (!substr)
+		return (print_error(ERR_ALLOC), 0);
 	if (quote == '\'')
 	{
-		if (!add_segment(root, value, *start, *i, SINGLE))
-			return (0);
+		if (!add_segment(root, substr, SINGLE))
+			return (free(substr), 0);
 	}
 	else if (quote == '"')
 	{
-		if (!add_segment(root, value, *start, *i, DOUBLE))
-			return (0);
+		if (!add_segment(root, substr, DOUBLE))
+			return (free(substr), 0);
 	}
+	free(substr);
 	(*i)++;
+	return (1);
+}
+
+static int	add_unquoted_segment(t_token_segment **root,
+	char *value, int *i, int *start)
+{
+	char	*substr;
+
+	*start = *i;
+	while (value[*i] && value[*i] != '\'' && value[*i] != '"')
+		(*i)++;
+	substr = ft_substr(value, *start, *i - *start);
+	if (!substr)
+		return (print_error(ERR_ALLOC), 0);
+	if (!add_segment(root, substr, NONE))
+		return (free(substr), 0);
+	free(substr);
 	return (1);
 }
