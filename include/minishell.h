@@ -74,6 +74,7 @@ typedef struct s_env
 
 /* -- DEBUG -- */
 void			print_tokens(t_token **root);
+void			print_node_env(t_env *node);
 
 /* -- UTILS -- */
 void			cleanup_exit(t_mini *mini, int exit_code);
@@ -99,7 +100,6 @@ void	handler_sigquit(int signb);
 
 /* -- ENVIRONEMENT --*/
 t_env   **build_env(char **envp, t_env **env);
-void print_node_env(t_env *node);
 //int get_key_value_into_node(char *env_line, char *key_buf, char *value_buf, t_env *node);
 void	add_back(t_env **env, t_env *new);
 t_env	*new_node(void);

@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-
-void print_node_env(t_env *node)
-{
-	while(node)
-	{
-		ft_printf("key: %s, value: %s\n", node->key, node->value);
-		node = node->next;
-	}
-}
-
 int strlen_key(char *envp)
 {
     int i;
