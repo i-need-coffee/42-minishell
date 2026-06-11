@@ -8,9 +8,7 @@ void	signal_config_sigquit(int signb, void *handler_ctrld)
 	sigemptyset(&config.sa_mask);
 	config.sa_flags = 0;
 	if (sigaction(signb, &config, NULL) < 0)
-	{
-		write(2, "sigaction failed\n", 16);
-	}
+		print_error(ERR_SIGACTION);
 }
 void	signal_config_sigint(int signb, void *handler)
 {
@@ -20,9 +18,7 @@ void	signal_config_sigint(int signb, void *handler)
 	sigemptyset(&config.sa_mask);
 	config.sa_flags = 0;
 	if (sigaction(signb, &config, NULL) < 0)
-	{
-		write(2, "sigaction failed\n", 16);
-	}
+		print_error(ERR_SIGACTION);
 }
 
 void handler_sigint(int signb)
