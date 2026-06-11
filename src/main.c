@@ -1,5 +1,24 @@
 #include "minishell.h"
 
+int	process_line(t_mini *mini)
+{
+	ft_bzero(mini, sizeof(t_mini));
+	mini->input = readline("minishell> ");
+	if (!mini->input)
+		return (0);
+	if (*mini->input)
+		add_history(mini->input);
+	if (has_unclosed_quotes(mini->input))
+	{
+		print_error(ERR_QUOTES);
+		cleanup(mini);
+		return (1);
+	}
+	tokenize_input(mini);
+	cleanup(mini);
+	return (1);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_mini	mini;
@@ -9,25 +28,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	env = NULL;
 	env = build_env(envp, env);
-	signal_config_sigquit(SIGQUIT, handler_sigquit); //obligatoire ici pour handle les signaux
+	signal_config_sigquit(SIGQUIT, handler_sigquit);
 	signal_config_sigint(SIGINT, handler_sigint);
-
-	while (1)
-	{
-		ft_bzero(&mini, sizeof(t_mini));
-		mini.input = readline("minishell> ");
-		if (!mini.input)
-			break ;
-		if (*mini.input)
-			add_history(mini.input);
-		if (has_unclosed_quotes(mini.input))
-		{
-			print_error(ERR_QUOTES);
-			cleanup(&mini);
-			continue ;
-		}
-		tokenize_input(&mini);
-		cleanup(&mini);
-	}
+	while (process_line(&mini))
+		;
 	return (0);
 }

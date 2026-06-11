@@ -29,9 +29,9 @@ void	print_tokens(t_token **root)
 	ft_printf("\n-- TOKENS END --\n");
 }
 
-void print_node_env(t_env *node)
+void	print_node_env(t_env *node)
 {
-	while(node)
+	while (node)
 	{
 		ft_printf("key: %s, value: %s\n", node->key, node->value);
 		node = node->next;
