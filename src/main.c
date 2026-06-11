@@ -20,8 +20,13 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (*mini.input)
 			add_history(mini.input);
+		if (has_unclosed_quotes(mini.input))
+		{
+			print_error(ERR_QUOTES);
+			cleanup(&mini);
+			continue ;
+		}
 		tokenize_input(&mini);
-	//	print_node(mini.tokens);
 		cleanup(&mini);
 	}
 	return (0);

@@ -1,30 +1,13 @@
 #include "minishell.h"
 
-static t_token	*create_token(t_token_type type, t_quotes quotes, char *value);
+static t_token	*create_token(t_token_type type, char *value);
 
-void	free_tokens(t_token **root)
-{
-	t_token	*curr;
-	t_token	*temp;
-
-	curr = *root;
-	while (curr != NULL)
-	{
-		temp = curr;
-		curr = curr->next;
-		if (temp->value)
-			free(temp->value);
-		free(temp);
-	}
-	*root = NULL;
-}
-
-int	add_token(t_token **root, t_token_type type, t_quotes quotes, char *value)
+int	add_token(t_token **root, t_token_type type, char *value)
 {
 	t_token	*new_token;
 	t_token	*curr;
 
-	new_token = create_token(type, quotes, value);
+	new_token = create_token(type, value);
 	if (!new_token)
 		return (0);
 	if (!*root)
@@ -40,25 +23,39 @@ int	add_token(t_token **root, t_token_type type, t_quotes quotes, char *value)
 	return (1);
 }
 
-static t_token	*create_token(t_token_type type, t_quotes quotes, char *value)
+void	free_tokens(t_token **root)
+{
+	t_token	*curr;
+	t_token	*temp;
+
+	curr = *root;
+	while (curr != NULL)
+	{
+		temp = curr;
+		curr = curr->next;
+		if (temp->segments)
+			free_segments(&temp->segments);
+		free(temp);
+	}
+	*root = NULL;
+}
+
+static t_token	*create_token(t_token_type type, char *value)
 {
 	t_token	*new_token;
 
-	new_token = malloc(sizeof(t_token));
+	new_token = ft_calloc(1, sizeof(t_token));
 	if (!new_token)
 	{
-		perror("error");
+		print_error(ERR_ALLOC);
 		return (NULL);
 	}
-	ft_bzero(new_token, sizeof(t_token));
 	new_token->type = type;
-	new_token->quotes = quotes;
-	if (value != NULL)
+	if (value)
 	{
-		new_token->value = ft_strdup(value);
-		if (!new_token->value)
+		new_token->segments = generate_segments(value);
+		if (!new_token->segments)
 		{
-			perror("error");
 			free(new_token);
 			return (NULL);
 		}

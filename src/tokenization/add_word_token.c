@@ -1,72 +1,43 @@
 #include "minishell.h"
 
-static t_quotes	get_quotes_type(char *input);
-static size_t	get_token_length(char *input);
+static int	get_substr_len(char *input);
 
 void	add_word_token(t_mini *mini, int *i)
 {
-	char		*value;
-	size_t		len;
-	t_quotes	quotes;
+	int		len;
+	char	*substr;
 
-	quotes = get_quotes_type(mini->input + *i);
-	len = get_token_length(mini->input + *i);
-	if (mini->input[*i] == '\'' || mini->input[*i] == '"')
-		value = ft_substr(mini->input, *i + 1, len - 2);
-	else
-		value = ft_substr(mini->input, *i, len);
-	if (!value)
+	len = get_substr_len(mini->input + *i);
+	substr = ft_substr(mini->input, *i, len);
+	if (!substr)
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+	if (!add_token(&mini->tokens, TOKEN_WORD, substr))
 	{
-		perror("error");
+		free(substr);
 		cleanup_exit(mini, EXIT_FAILURE);
 	}
-	if (!add_token(&mini->tokens, TOKEN_WORD, quotes, value))
-	{
-		free(value);
-		cleanup_exit(mini, EXIT_FAILURE);
-	}
-	free(value);
+	free(substr);
 	(*i) += len;
 }
 
-static t_quotes	get_quotes_type(char *input)
+static int	get_substr_len(char *input)
 {
-	t_quotes	quotes;
+	int	len;
+	int	in_s_quotes;
+	int	in_d_quotes;
 
-	if (input[0] == '\'')
-		quotes = SINGLE_QUOTES;
-	else if (input[0] == '"')
-		quotes = DOUBLE_QUOTES;
-	else
-		quotes = NO_QUOTES;
-	return (quotes);
-}
-
-static size_t	get_token_length(char *input)
-{
-	size_t	i;
-
-	i = 0;
-	if (input[0] == '"')
+	len = 0;
+	in_s_quotes = 0;
+	in_d_quotes = 0;
+	while (input[len])
 	{
-		i++;
-		while (input[i] && input[i] != '"')
-			i++;
-		if (input[i] == '"')
-			i++;
+		if (input[len] == '\'' && !in_d_quotes)
+			in_s_quotes = !in_s_quotes;
+		if (input[len] == '"' && !in_s_quotes)
+			in_d_quotes = !in_d_quotes;
+		if ((ft_isspace(input[len]) && !in_s_quotes && !in_d_quotes))
+			break ;
+		len++;
 	}
-	else if (input[0] == '\'')
-	{
-		i++;
-		while (input[i] && input[i] != '\'')
-			i++;
-		if (input[i] == '\'')
-			i++;
-	}
-	else
-	{
-		while (input[i] && !ft_isspace(input[i]))
-			i++;
-	}
-	return (i);
+	return (len);
 }
