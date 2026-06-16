@@ -1,6 +1,7 @@
 #include "minishell.h"
 
 static int	get_substr_len(char *input);
+static int	isspace_or_isoperator(int c);
 
 void	add_word_token(t_mini *mini, int *i)
 {
@@ -35,9 +36,15 @@ static int	get_substr_len(char *input)
 			in_s_quotes = !in_s_quotes;
 		if (input[len] == '"' && !in_s_quotes)
 			in_d_quotes = !in_d_quotes;
-		if ((ft_isspace(input[len]) && !in_s_quotes && !in_d_quotes))
+		if ((isspace_or_isoperator(input[len]) && !in_s_quotes && !in_d_quotes))
 			break ;
 		len++;
 	}
 	return (len);
+}
+
+static int	isspace_or_isoperator(int c)
+{
+	return (c == ' ' || (c >= 9 && c <= 13)
+		|| c == '|' || c == '<' || c == '>');
 }
