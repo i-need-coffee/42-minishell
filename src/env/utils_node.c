@@ -26,3 +26,22 @@ void	add_back(t_env **env, t_env *new)
 		current = current->next;
 	current->next = new;
 }
+
+void	free_env(t_env **root)
+{
+	t_env	*curr;
+	t_env	*temp;
+
+	curr = *root;
+	while (curr != NULL)
+	{
+		temp = curr;
+		curr = curr->next;
+		if (temp->key)
+			free(temp->key);
+		if (temp->value)
+			free(temp->value);
+		free(temp);
+	}
+	*root = NULL;
+}

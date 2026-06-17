@@ -2,7 +2,6 @@
 
 int	process_line(t_mini *mini)
 {
-	ft_bzero(mini, sizeof(t_mini));
 	mini->input = readline("minishell> ");
 	if (!mini->input)
 		return (0);
@@ -15,6 +14,7 @@ int	process_line(t_mini *mini)
 		return (1);
 	}
 	tokenize_input(mini);
+	print_tokens(&mini->tokens);
 	cleanup(mini);
 	return (1);
 }
@@ -22,15 +22,15 @@ int	process_line(t_mini *mini)
 int	main(int argc, char **argv, char **envp)
 {
 	t_mini	mini;
-	t_env	**env;
 
 	(void)argc;
 	(void)argv;
-	env = NULL;
-	env = build_env(envp, env);
+	ft_bzero(&mini, sizeof(t_mini));
+	build_env(envp, &mini.env);
+	print_node_env(mini.env);
 	signal_config_sigquit(SIGQUIT, handler_sigquit);
 	signal_config_sigint(SIGINT, handler_sigint);
 	while (process_line(&mini))
 		;
-	return (0);
+	cleanup_exit(&mini, 0);
 }

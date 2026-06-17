@@ -53,18 +53,19 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef struct s_mini
-{
-	char	*input;
-	t_token	*tokens;
-}	t_mini;
-
 typedef struct s_env
 {
 	char			*key;
 	char			*value;
 	struct s_env	*next;
 }	t_env;
+
+typedef struct s_mini
+{
+	char	*input;
+	t_token	*tokens;
+	t_env	*env;
+}	t_mini;
 
 /*
 ** ================================
@@ -83,6 +84,7 @@ void			print_error(char *err_msg);
 int				has_unclosed_quotes(char *input);
 void			print_error_and_exit(
 					t_mini *mini, char *err_msg, int exit_code);
+void			free_everthing(t_mini *mini);
 
 /* -- TOKENIZATION -- */
 void			tokenize_input(t_mini *mini);
@@ -103,5 +105,6 @@ t_env			**build_env(char **envp, t_env **env);
 void			add_back(t_env **env, t_env *new);
 t_env			*new_node(void);
 int				strlen_key(char *envp);
+void			free_env(t_env **root);
 
 #endif
