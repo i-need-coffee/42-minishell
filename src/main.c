@@ -18,7 +18,6 @@ int	process_line(t_mini *mini)
 		return (1);
 	}
 	tokenize_input(mini);
-	print_tokens(&mini->tokens);
 	cleanup(mini);
 	return (1);
 }
@@ -36,7 +35,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	ft_bzero(&mini, sizeof(t_mini));
 	build_env(envp, &mini.env);
-	print_node_env(mini.env);
 	signal_config_sigquit(SIGQUIT, handler_sigquit);
 	signal_config_sigint(SIGINT, handler_sigint);
 	while (process_line(&mini))
