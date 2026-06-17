@@ -1,5 +1,9 @@
 #include "minishell.h"
 
+/*
+**	This function is used to check if there are any unclosed
+**	quotes in the user input.
+*/
 int	has_unclosed_quotes(char *input)
 {
 	int	i;

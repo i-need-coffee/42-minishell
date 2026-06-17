@@ -5,6 +5,10 @@ static void	add_redir_token(t_mini *mini, char c, int *i);
 static void	add_append_token(t_mini *mini, int *i);
 static void	add_heredoc_token(t_mini *mini, int *i);
 
+/*
+**	Scans the input string and dispatches each character to the
+**	appropriate token builder. Appends a TOKEN_EOF at the end.
+*/
 void	tokenize_input(t_mini *mini)
 {
 	int	i;
@@ -31,6 +35,9 @@ void	tokenize_input(t_mini *mini)
 		cleanup_exit(mini, EXIT_FAILURE);
 }
 
+/*
+**	Adds a TOKEN_PIPE and advances the index by 1.
+*/
 static void	add_pipe_token(t_mini *mini, int *i)
 {
 	if (!add_token(&mini->tokens, TOKEN_PIPE, "|"))
@@ -38,6 +45,10 @@ static void	add_pipe_token(t_mini *mini, int *i)
 	(*i)++;
 }
 
+/*
+**	Adds a TOKEN_REDIR_IN or TOKEN_REDIR_OUT based on c, and advances
+**	the index by 1.
+*/
 static void	add_redir_token(t_mini *mini, char c, int *i)
 {
 	if (c == '<')
@@ -55,6 +66,9 @@ static void	add_redir_token(t_mini *mini, char c, int *i)
 	(*i)++;
 }
 
+/*
+**	Adds a TOKEN_APPEND (>>) and advances the index by 2.
+*/
 static void	add_append_token(t_mini *mini, int *i)
 {
 	if (!add_token(&mini->tokens, TOKEN_APPEND, ">>"))
@@ -62,6 +76,9 @@ static void	add_append_token(t_mini *mini, int *i)
 	(*i) += 2;
 }
 
+/*
+**	Adds a TOKEN_HEREDOC (<<) and advances the index by 2.
+*/
 static void	add_heredoc_token(t_mini *mini, int *i)
 {
 	if (!add_token(&mini->tokens, TOKEN_HEREDOC, "<<"))

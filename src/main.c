@@ -1,5 +1,9 @@
 #include "minishell.h"
 
+/*
+**	Reads one line of input, validates quotes, tokenizes it, and returns
+**	0 on EOF (Ctrl-D) or 1 to keep the shell loop running.
+*/
 int	process_line(t_mini *mini)
 {
 	mini->input = readline("minishell> ");
@@ -19,6 +23,11 @@ int	process_line(t_mini *mini)
 	return (1);
 }
 
+/*
+**	Entry point: initializes the shell state, builds the env list from
+**	envp, configures signal handlers, then runs the read-tokenize loop
+**	until EOF.
+*/
 int	main(int argc, char **argv, char **envp)
 {
 	t_mini	mini;

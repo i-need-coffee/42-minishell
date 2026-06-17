@@ -3,6 +3,10 @@
 static int	get_substr_len(char *input);
 static int	isspace_or_isoperator(int c);
 
+/*
+**	Extracts the next word from the input and adds it as a TOKEN_WORD.
+**	Advances the index by the length of the extracted word.
+*/
 void	add_word_token(t_mini *mini, int *i)
 {
 	int		len;
@@ -21,6 +25,10 @@ void	add_word_token(t_mini *mini, int *i)
 	(*i) += len;
 }
 
+/*
+**	Returns the length of the next word, stopping at unquoted spaces
+**	or operator characters.
+*/
 static int	get_substr_len(char *input)
 {
 	int	len;
@@ -43,6 +51,9 @@ static int	get_substr_len(char *input)
 	return (len);
 }
 
+/*
+**	Returns 1 if c is a whitespace or an operator character (|, <, >).
+*/
 static int	isspace_or_isoperator(int c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13)

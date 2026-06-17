@@ -2,6 +2,10 @@
 
 static t_token	*create_token(t_token_type type, char *value);
 
+/*
+**	Allocates a new token and appends it to the end of the token list.
+**	Returns 1 on success, 0 on allocation failure.
+*/
 int	add_token(t_token **root, t_token_type type, char *value)
 {
 	t_token	*new_token;
@@ -23,6 +27,9 @@ int	add_token(t_token **root, t_token_type type, char *value)
 	return (1);
 }
 
+/*
+**	Frees all tokens in the list and sets the root pointer to NULL.
+*/
 void	free_tokens(t_token **root)
 {
 	t_token	*curr;
@@ -40,6 +47,10 @@ void	free_tokens(t_token **root)
 	*root = NULL;
 }
 
+/*
+**	Allocates a token with the given type and generates its segment list
+**	from value. Returns NULL on allocation failure.
+*/
 static t_token	*create_token(t_token_type type, char *value)
 {
 	t_token	*new_token;

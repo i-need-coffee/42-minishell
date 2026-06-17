@@ -6,6 +6,10 @@ static int	add_quoted_segment(t_token_segment **root,
 static int	add_unquoted_segment(t_token_segment **root,
 				char *value, int *i, int *start);
 
+/*
+**	Splits a token's value into a linked list of segments, each tagged
+**	with its quote type (NONE, SINGLE, or DOUBLE).
+*/
 t_token_segment	*generate_segments(char *value)
 {
 	t_token_segment	*root;
@@ -31,6 +35,9 @@ t_token_segment	*generate_segments(char *value)
 	return (root);
 }
 
+/*
+**	Frees all segments in the list and sets the root pointer to NULL.
+*/
 void	free_segments(t_token_segment **root)
 {
 	t_token_segment	*curr;
@@ -48,6 +55,10 @@ void	free_segments(t_token_segment **root)
 	*root = NULL;
 }
 
+/*
+**	Allocates a new segment with the given value and quote type,
+**	and appends it to the end of the list.
+*/
 static int	add_segment(t_token_segment **root, char *value, int quote_type)
 {
 	t_token_segment	*new_segment;
@@ -72,6 +83,10 @@ static int	add_segment(t_token_segment **root, char *value, int quote_type)
 	return (1);
 }
 
+/*
+**	Extracts the content inside the current quote pair and adds it
+**	as a SINGLE or DOUBLE segment.
+*/
 static int	add_quoted_segment(t_token_segment **root,
 	char *value, int *i, int *start)
 {
@@ -101,6 +116,10 @@ static int	add_quoted_segment(t_token_segment **root,
 	return (1);
 }
 
+/*
+**	Extracts the plain text up to the next quote and adds it
+**	as a NONE segment.
+*/
 static int	add_unquoted_segment(t_token_segment **root,
 	char *value, int *i, int *start)
 {
