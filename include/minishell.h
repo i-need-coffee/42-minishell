@@ -38,6 +38,14 @@ typedef enum e_quote_type
 	DOUBLE
 }	t_quote_type;
 
+typedef enum e_redirect_type
+{
+	IN,
+	OUT,
+	APPEND,
+	HEREDOC
+}	t_redirect_type;
+
 typedef struct s_token_segment
 {
 	t_quote_type			quote_type;
@@ -60,11 +68,28 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct	s_redirect
+{
+	t_redirect_type		type;
+	char				*file;
+	int					fd;
+	struct s_redirect	*next;
+}	t_redirect;
+
+typedef struct	s_cmd
+{
+	char			*content;
+	t_redirect		*redirects;
+	struct s_cmd	*next;
+}	t_cmd;
+
 typedef struct s_mini
 {
 	char	*input;
 	t_token	*tokens;
 	t_env	*env;
+	int		num_cmds;
+	t_cmd	*cmds;
 }	t_mini;
 
 /*
