@@ -68,7 +68,7 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct	s_redirect
+typedef struct s_redirect
 {
 	t_redirect_type		type;
 	char				*file;
@@ -76,9 +76,13 @@ typedef struct	s_redirect
 	struct s_redirect	*next;
 }	t_redirect;
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
 	char			*content;
+	char			**args;
+	char			*path;
+	int				fd_in;
+	int				fd_out;
 	t_redirect		*redirects;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -88,7 +92,7 @@ typedef struct s_mini
 	char	*input;
 	t_token	*tokens;
 	t_env	*env;
-	int		num_cmds;
+	int		nb_cmds;
 	t_cmd	*cmds;
 }	t_mini;
 
