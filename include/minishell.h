@@ -75,6 +75,7 @@ typedef struct s_pipe_unit
 	t_unit_type			type;
 	char				*value;
 	int					fd;
+	int					cmd_index;
 	struct s_pipe_unit	*next;
 }	t_pipe_unit;
 
