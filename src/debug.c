@@ -37,3 +37,19 @@ void	print_node_env(t_env *node)
 		node = node->next;
 	}
 }
+
+void	print_data(t_mini *mini)
+{
+	t_pipe_unit	*curr;
+	int			i;
+
+	i = 0;
+	curr = mini->units;
+	while(curr)
+	{
+		ft_printf("[%d]type: %d, value: %s, fd: %d, index: %d\n",
+			i, curr->type, curr->value, curr->fd, curr->cmd_index);
+		i++;
+		curr = curr->next;
+	}
+}

@@ -21,7 +21,10 @@ SRCS			= \
 	$(SRC_DIR)/tokenization/add_word_token.c\
 	$(SRC_DIR)/signals/signal_config.c\
 	$(SRC_DIR)/env/environement.c\
-	$(SRC_DIR)/env/utils_node.c
+	$(SRC_DIR)/env/utils_node.c \
+	$(SRC_DIR)/execution/execute_input.c \
+	$(SRC_DIR)/execution/heredoc.c \
+	$(SRC_DIR)/execution/utils.c
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

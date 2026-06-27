@@ -13,6 +13,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <stdio.h>
+# include <errno.h>
 
 /*
 ** ================================
@@ -96,6 +97,7 @@ typedef struct s_mini
 /* -- DEBUG -- */
 void			print_tokens(t_token **root);
 void			print_node_env(t_env *node);
+void			print_data(t_mini *mini);
 
 /* -- UTILS -- */
 void			cleanup_exit(t_mini *mini, int exit_code);
@@ -126,5 +128,10 @@ void			add_back(t_env **env, t_env *new);
 t_env			*new_node(void);
 int				strlen_key(char *envp);
 void			free_env(t_env **root);
+
+/* -- EXECUTION --*/
+int				execute_input(t_mini *mini);
+int				execute_heredocs(t_mini *mini);
+void			free_pipe_units(t_pipe_unit **root);
 
 #endif

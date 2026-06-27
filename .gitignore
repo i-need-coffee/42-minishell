@@ -10,3 +10,4 @@ minishell
 
 # =====  Tester / Debug =====
 .vscode/
+.gdbinit
