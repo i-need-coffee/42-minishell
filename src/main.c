@@ -18,6 +18,8 @@ int	process_line(t_mini *mini)
 		return (1);
 	}
 	tokenize_input(mini);
+	print_tokens(&mini->tokens);
+	parse_tokens(mini);
 	cleanup(mini);
 	return (1);
 }

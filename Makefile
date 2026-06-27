@@ -1,10 +1,22 @@
 NAME			= minishell
 
 CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -g -Iinclude -Ilibft/include
+CFLAGS			= -Wall -Wextra -Werror -g3 -fsanitize=address -Iinclude -Ilibft/include -I/usr/local/Cellar/readline/8.3.3/include
 
 LIBFT_DIR		= libft
-LIBFT			= $(LIBFT_DIR)/libft.a
+LIBFT			= $(LIBFT_DIR)/libft.a -L/usr/local/Cellar/readline/8.3.3/lib -lreadline
+
+
+# CFLAGS			= -g
+
+# INC_FLAGS = -Iinclude -Ilibft/include -I/usr/local/Cellar/readline/8.3.3/include/readline
+
+# LIBFT_DIR		= libft
+# LIBS			= -L$(LIBFT_DIR)/libft.a -L/usr/local/Cellar/readline/8.3.3/lib/libreadline.a -lreadline
+
+# # -I$(brew --prefix readline)/include -Iinclude -Ilibft/include  -L$(brew --prefix readline)/lib -lreadline
+
+# LIBREADLINE = -lreadline
 
 SRC_DIR			= src
 OBJ_DIR			= obj
@@ -21,7 +33,8 @@ SRCS			= \
 	$(SRC_DIR)/tokenization/add_word_token.c\
 	$(SRC_DIR)/signals/signal_config.c\
 	$(SRC_DIR)/env/environement.c\
-	$(SRC_DIR)/env/utils_node.c
+	$(SRC_DIR)/env/utils_node.c\
+	$(SRC_DIR)/parsing/parsing.c
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -40,7 +53,7 @@ $(NAME): $(OBJS) $(LIBFT)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INC_FLAGS) -c $< -o $@
 
 clean:
 	@rm -rf $(OBJ_DIR)

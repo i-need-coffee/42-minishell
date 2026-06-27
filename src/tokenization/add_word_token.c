@@ -1,25 +1,25 @@
 #include "minishell.h"
 
 static int	get_substr_len(char *input);
-static int	isspace_or_isoperator(int c);
+static int	isseparator(int c);
 
 /*
 **	Extracts the next word from the input and adds it as a TOKEN_WORD.
 **	Advances the index by the length of the extracted word.
 */
-void	add_word_token(t_mini *mini, int *i)
+void	add_word_token(t_mini **mini, int *i)
 {
 	int		len;
 	char	*substr;
 
-	len = get_substr_len(mini->input + *i);
-	substr = ft_substr(mini->input, *i, len);
+	len = get_substr_len((*mini)->input + *i);
+	substr = ft_substr((*mini)->input, *i, len);
 	if (!substr)
-		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
-	if (!add_token(&mini->tokens, TOKEN_WORD, substr))
+		print_error_and_exit(*mini, ERR_ALLOC, EXIT_FAILURE);
+	if (!add_token(&(*mini)->tokens, TOKEN_WORD, substr))
 	{
 		free(substr);
-		cleanup_exit(mini, EXIT_FAILURE);
+		cleanup_exit(*mini, EXIT_FAILURE);
 	}
 	free(substr);
 	(*i) += len;
@@ -32,19 +32,12 @@ void	add_word_token(t_mini *mini, int *i)
 static int	get_substr_len(char *input)
 {
 	int	len;
-	int	in_s_quotes;
-	int	in_d_quotes;
 
 	len = 0;
-	in_s_quotes = 0;
-	in_d_quotes = 0;
+
 	while (input[len])
 	{
-		if (input[len] == '\'' && !in_d_quotes)
-			in_s_quotes = !in_s_quotes;
-		if (input[len] == '"' && !in_s_quotes)
-			in_d_quotes = !in_d_quotes;
-		if ((isspace_or_isoperator(input[len]) && !in_s_quotes && !in_d_quotes))
+		if (isseparator(input[len]))
 			break ;
 		len++;
 	}
@@ -54,8 +47,7 @@ static int	get_substr_len(char *input)
 /*
 **	Returns 1 if c is a whitespace or an operator character (|, <, >).
 */
-static int	isspace_or_isoperator(int c)
+static int	isseparator(int c)
 {
-	return (c == ' ' || (c >= 9 && c <= 13)
-		|| c == '|' || c == '<' || c == '>');
+	return (c == '|' || c == '<' || c == '>');
 }

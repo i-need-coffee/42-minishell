@@ -40,8 +40,10 @@ void	free_tokens(t_token **root)
 	{
 		temp = curr;
 		curr = curr->next;
-		if (temp->segments)
-			free_segments(&temp->segments);
+		// if (temp->segments)
+		// 	free_segments(&temp->segments);
+		if (temp->value)
+			free(temp->value);
 		free(temp);
 	}
 	*root = NULL;
@@ -64,9 +66,16 @@ static t_token	*create_token(t_token_type type, char *value)
 	new_token->type = type;
 	if (value)
 	{
-		new_token->segments = generate_segments(value);
-		if (!new_token->segments)
+		// new_token->segments = generate_segments(value);
+		// if (!new_token->segments)
+		// {
+		// 	free(new_token);
+		// 	return (NULL);
+		// }
+		new_token->value = ft_strdup(value);
+		if (!new_token->value)
 		{
+			// free_segments(&new_token->segments);
 			free(new_token);
 			return (NULL);
 		}

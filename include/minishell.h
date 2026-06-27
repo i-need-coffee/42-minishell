@@ -13,6 +13,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <stdio.h>
+# include "/usr/local/Cellar/readline/8.3.3/include/readline/readline.h"
 
 /*
 ** ================================
@@ -43,7 +44,6 @@ typedef enum e_unit_type
 	CMD,
 	REDIR_IN,
 	REDIR_OUT,
-	PIPE,
 	APPEND,
 	HEREDOC
 }	t_unit_type;
@@ -58,7 +58,8 @@ typedef struct s_token_segment
 typedef struct s_token
 {
 	t_token_type	type;
-	t_token_segment	*segments;
+	char			*value;
+	// t_token_segment	*segments;
 	struct s_token	*prev;
 	struct s_token	*next;
 }	t_token;
@@ -70,18 +71,26 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_args
+{
+	char *arg;
+	t_args *next;
+} t_args;
+
 typedef struct s_pipe_unit
 {
 	t_unit_type			type;
-	char				*value;
-	int					fd;
-	int					cmd_index;
+	t_args				*args;
+	char				*file;
+	int					fd; // laisse a -1
+	int					cmd_index; // most important MTF
 	struct s_pipe_unit	*next;
 }	t_pipe_unit;
 
 typedef struct s_mini
 {
 	char		*input;
+	int			pipe_nb; //pipe nb a incrementer.
 	t_token		*tokens;
 	t_env		*env;
 	t_pipe_unit	*units;
@@ -110,7 +119,7 @@ void			free_everthing(t_mini *mini);
 void			tokenize_input(t_mini *mini);
 t_token_segment	*generate_segments(char *value);
 int				add_token(t_token **root, t_token_type type, char *value);
-void			add_word_token(t_mini *mini, int *i);
+void			add_word_token(t_mini **mini, int *i);
 void			free_tokens(t_token **root);
 void			free_segments(t_token_segment **root);
 
@@ -126,5 +135,7 @@ void			add_back(t_env **env, t_env *new);
 t_env			*new_node(void);
 int				strlen_key(char *envp);
 void			free_env(t_env **root);
+
+void	parse_tokens(t_mini *mini);
 
 #endif

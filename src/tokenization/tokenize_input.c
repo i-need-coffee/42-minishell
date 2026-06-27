@@ -29,7 +29,7 @@ void	tokenize_input(t_mini *mini)
 		else if (mini->input[i] == '<' && mini->input[i + 1] == '<')
 			add_heredoc_token(mini, &i);
 		else
-			add_word_token(mini, &i);
+			add_word_token(&mini, &i);
 	}
 	if (!add_token(&mini->tokens, TOKEN_EOF, NULL))
 		cleanup_exit(mini, EXIT_FAILURE);

@@ -3,7 +3,6 @@
 void	print_tokens(t_token **root)
 {
 	t_token			*curr;
-	t_token_segment	*seg;
 	int				i;
 
 	curr = *root;
@@ -13,16 +12,7 @@ void	print_tokens(t_token **root)
 	{
 		ft_printf("\nTOKEN[%d]\n", i);
 		ft_printf("  TYPE: %d\n", curr->type);
-		if (curr->segments)
-		{
-			seg = curr->segments;
-			while (seg)
-			{
-				ft_printf("  SEG[quote: %d, value: %s]\n",
-					seg->quote_type, seg->value);
-				seg = seg->next;
-			}
-		}
+		ft_printf("  VALUE: %s\n", curr->value);
 		i++;
 		curr = curr->next;
 	}
