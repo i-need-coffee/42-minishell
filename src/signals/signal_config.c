@@ -1,16 +1,7 @@
 #include "minishell.h"
 
-void	signal_config_sigquit(int signb, void *handler_ctrld)
-{
-	struct sigaction	config;
 
-	config.sa_handler = handler_ctrld;
-	sigemptyset(&config.sa_mask);
-	config.sa_flags = 0;
-	if (sigaction(signb, &config, NULL) < 0)
-		print_error(ERR_SIGACTION);
-}
-void	signal_config_sigint(int signb, void *handler)
+void	signal_config(int signb, void *handler)
 {
 	struct sigaction	config;
 
@@ -36,4 +27,8 @@ void	handler_sigquit(int signb)
 
 	rl_on_new_line();
 	rl_redisplay();
+}
+void	set_global_var(int signb)
+{
+	g_sig = signb;
 }

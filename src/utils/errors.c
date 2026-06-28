@@ -18,3 +18,9 @@ void	print_error_and_exit(t_mini *mini, char *err_msg, int exit_code)
 	print_error(err_msg);
 	cleanup_exit(mini, exit_code);
 }
+
+void	ft_abort(char *msg)
+{
+	perror(msg);
+	exit(1);
+}

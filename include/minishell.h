@@ -13,13 +13,14 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <stdio.h>
-# include "/usr/local/Cellar/readline/8.3.3/include/readline/readline.h"
 
 /*
 ** ================================
 **		ENUMS & STRUCTS
 ** ================================
 */
+
+extern int	g_sig;
 
 typedef enum e_token_type
 {
@@ -71,16 +72,10 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_args
-{
-	char *arg;
-	t_args *next;
-} t_args;
-
 typedef struct s_pipe_unit
 {
 	t_unit_type			type;
-	t_args				*args;
+	t_list				*args;
 	char				*file;
 	int					fd; // laisse a -1
 	int					cmd_index; // most important MTF
@@ -114,6 +109,8 @@ int				has_unclosed_quotes(char *input);
 void			print_error_and_exit(
 					t_mini *mini, char *err_msg, int exit_code);
 void			free_everthing(t_mini *mini);
+void	ft_abort(char *msg);
+
 
 /* -- TOKENIZATION -- */
 void			tokenize_input(t_mini *mini);
@@ -124,18 +121,28 @@ void			free_tokens(t_token **root);
 void			free_segments(t_token_segment **root);
 
 /* -- SIGNALS -- */
-void			signal_config_sigquit(int signb, void *handler_sigquit);
-void			signal_config_sigint(int signb, void *handler_sigint);
+void			signal_config(int signb, void *handler);
 void			handler_sigint(int signb);
 void			handler_sigquit(int signb);
-
+void			set_global_var(int signb);
 /* -- ENVIRONEMENT --*/
 t_env			**build_env(char **envp, t_env **env);
 void			add_back(t_env **env, t_env *new);
 t_env			*new_node(void);
 int				strlen_key(char *envp);
 void			free_env(t_env **root);
+/* -- PARSING --*/
+int	parse_tokens(t_mini *mini, t_pipe_unit **head);
+int	parse_word_token(t_pipe_unit **head, char *str, int cmdi, t_env *env);
+int add_arg(char *str, int i, t_pipe_unit *unit);
+void    print_lst(void* str);
+int    handle_dollard(char *str, int i, t_env *env, char **buffer);
+int handle_quote(char *str, int i, t_env *env, t_pipe_unit *unit);
+void    create_or_update_buffer(char **buffer, char *str, int start, int end);
+ void    create_or_update_lst(t_pipe_unit *unit, char *buffer);
+t_pipe_unit	*create_or_update_unit_struct(t_pipe_unit **head, int cmdi,
+		t_unit_type type);
 
-void	parse_tokens(t_mini *mini);
+
 
 #endif

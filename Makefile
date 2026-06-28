@@ -1,7 +1,19 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jturrel <jturrel@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/06/28 18:50:42 by jturrel        #  #+#    #+#              #
+#    Updated: 2026/06/28 21:00:07 by jturrel          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME			= minishell
 
 CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -g3 -fsanitize=address -Iinclude -Ilibft/include -I/usr/local/Cellar/readline/8.3.3/include
+CFLAGS			= -Wall -Wextra -Werror -Iinclude -g -fsanitize=address -Ilibft/include -I/usr/local/Cellar/readline/8.3.3/include
 
 LIBFT_DIR		= libft
 LIBFT			= $(LIBFT_DIR)/libft.a -L/usr/local/Cellar/readline/8.3.3/lib -lreadline
@@ -34,7 +46,14 @@ SRCS			= \
 	$(SRC_DIR)/signals/signal_config.c\
 	$(SRC_DIR)/env/environement.c\
 	$(SRC_DIR)/env/utils_node.c\
-	$(SRC_DIR)/parsing/parsing.c
+	$(SRC_DIR)/parsing/parsing.c \
+	$(SRC_DIR)/parsing/parsing_utils.c \
+	$(SRC_DIR)/parsing/handle_literal.c \
+	$(SRC_DIR)/parsing/parsing_word_token.c \
+	$(SRC_DIR)/parsing/expension.c\
+	$(SRC_DIR)/parsing/handle_quote.c
+	
+
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
