@@ -14,6 +14,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include <errno.h>
+# include <fcntl.h>
 
 /*
 ** ================================
@@ -44,7 +45,6 @@ typedef enum e_unit_type
 	CMD,
 	REDIR_IN,
 	REDIR_OUT,
-	PIPE,
 	APPEND,
 	HEREDOC
 }	t_unit_type;
@@ -74,7 +74,8 @@ typedef struct s_env
 typedef struct s_pipe_unit
 {
 	t_unit_type			type;
-	char				*value;
+	char				**args;
+	char				*file;
 	int					fd;
 	int					cmd_index;
 	struct s_pipe_unit	*next;
@@ -83,6 +84,7 @@ typedef struct s_pipe_unit
 typedef struct s_mini
 {
 	char		*input;
+	int			pipe_nb;
 	t_token		*tokens;
 	t_env		*env;
 	t_pipe_unit	*units;
@@ -97,7 +99,6 @@ typedef struct s_mini
 /* -- DEBUG -- */
 void			print_tokens(t_token **root);
 void			print_node_env(t_env *node);
-void			print_data(t_mini *mini);
 
 /* -- UTILS -- */
 void			cleanup_exit(t_mini *mini, int exit_code);
@@ -133,5 +134,6 @@ void			free_env(t_env **root);
 int				execute_input(t_mini *mini);
 int				execute_heredocs(t_mini *mini);
 void			free_pipe_units(t_pipe_unit **root);
+void			open_files(t_pipe_unit *units);
 
 #endif

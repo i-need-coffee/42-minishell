@@ -27,7 +27,7 @@ static int	handle_heredoc(t_pipe_unit *unit)
 
 	if (pipe(fds) == -1)
 	{
-		perror("error");
+		perror(ERR_PIPE);
 		return (0);
 	}
 	while (1)
@@ -36,7 +36,7 @@ static int	handle_heredoc(t_pipe_unit *unit)
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
-		if (is_limiter(line, unit->value))
+		if (is_limiter(line, unit->file))
 		{
 			free(line);
 			break ;
