@@ -110,6 +110,8 @@ int	execute_input(t_mini *mini)
 	print_data(mini);
 	if (mini->pipe_nb && !create_pipes(mini))
 		return (0);
+	if (!create_children(mini))
+		return (0);
 	return (1);
 }
 

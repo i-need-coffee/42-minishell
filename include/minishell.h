@@ -90,6 +90,8 @@ typedef struct s_mini
 	t_pipe_unit	*units;
 	int			**pipes;
 	pid_t		**pids;
+	int			fd_in;
+	int			fd_out;
 }	t_mini;
 
 /*
