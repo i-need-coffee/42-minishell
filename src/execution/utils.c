@@ -20,6 +20,27 @@ void	free_pipe_units(t_pipe_unit **root)
 	*root = NULL;
 }
 
+void	free_and_close_pipes(t_mini *mini)
+{
+	int	i;
+
+	if (!mini->pipes)
+		return ;
+	i = 0;
+	while (i < mini->pipe_nb)
+	{
+		if (mini->pipes[i])
+		{
+			safe_close(&mini->pipes[i][0]);
+			safe_close(&mini->pipes[i][1]);
+			free(mini->pipes[i]);
+		}
+		i++;
+	}
+	free(mini->pipes);
+	mini->pipes = NULL;
+}
+
 void	open_files(t_pipe_unit *units)
 {
 	while (units)

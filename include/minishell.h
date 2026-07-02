@@ -88,6 +88,8 @@ typedef struct s_mini
 	t_token		*tokens;
 	t_env		*env;
 	t_pipe_unit	*units;
+	int			**pipes;
+	pid_t		**pids;
 }	t_mini;
 
 /*
@@ -135,5 +137,6 @@ int				execute_input(t_mini *mini);
 int				execute_heredocs(t_mini *mini);
 void			free_pipe_units(t_pipe_unit **root);
 void			open_files(t_pipe_unit *units);
+void			free_and_close_pipes(t_mini *mini);
 
 #endif

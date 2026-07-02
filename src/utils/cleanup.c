@@ -11,6 +11,8 @@ void	cleanup(t_mini *mini)
 		free(mini->input);
 	if (mini->units)
 		free_pipe_units(&mini->units);
+	if (mini->pipes)
+		free_and_close_pipes(mini);
 }
 
 /*

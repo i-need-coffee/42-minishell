@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+static int	create_pipes(t_mini *mini);
+
 void	init_data(t_mini *mini)
 {
 	// < infile cat | grep "error" | sort -u << EOF >> outfile
@@ -106,5 +108,32 @@ int	execute_input(t_mini *mini)
 		return (0);
 	open_files(mini->units);
 	print_data(mini);
+	if (mini->pipe_nb && !create_pipes(mini))
+		return (0);
+	return (1);
+}
+
+static int	create_pipes(t_mini *mini)
+{
+	int	i;
+
+	mini->pipes = malloc(mini->pipe_nb * sizeof(int *));
+	if (!mini->pipes)
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+	i = 0;
+	while (i < mini->pipe_nb)
+	{
+		mini->pipes[i] = malloc(2 * sizeof(int));
+		if (!mini->pipes[i])
+			print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+		i++;
+	}
+	i = 0;
+	while (i < mini->pipe_nb)
+	{
+		if (pipe(mini->pipes[i]) == -1)
+			return (perror(ERR_PIPE), 0);
+		i++;
+	}
 	return (1);
 }
