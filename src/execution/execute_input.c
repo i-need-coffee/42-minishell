@@ -101,41 +101,41 @@ void	print_data(t_mini *mini)
 	ft_printf("─────────────────────────────────────────\n");
 }
 
+/*void	open_files(t_pipe_unit *units)
+{
+	while (units)
+	{
+		if (units->type == REDIR_IN)
+		{
+			units->fd = open(units->file, O_RDONLY);
+			if (units->fd == -1)
+				perror(units->file);
+		}
+		else if (units->type == REDIR_OUT)
+		{
+			units->fd = open(units->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (units->fd == -1)
+				perror(units->file);
+		}
+		else if (units->type == APPEND)
+		{
+			units->fd = open(units->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (units->fd == -1)
+				perror(units->file);
+		}
+		units = units->next;
+	}
+}*/
+
 int	execute_input(t_mini *mini)
 {
 	init_data(mini);
 	if (!execute_heredocs(mini))
 		return (0);
-	open_files(mini->units);
+	if (!create_pipes(mini))
+		return (0);
 	print_data(mini);
-	if (mini->pipe_nb && !create_pipes(mini))
-		return (0);
-	if (!create_children(mini))
-		return (0);
-	return (1);
-}
-
-static int	create_pipes(t_mini *mini)
-{
-	int	i;
-
-	mini->pipes = malloc(mini->pipe_nb * sizeof(int *));
-	if (!mini->pipes)
-		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
-	i = 0;
-	while (i < mini->pipe_nb)
-	{
-		mini->pipes[i] = malloc(2 * sizeof(int));
-		if (!mini->pipes[i])
-			print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
-		i++;
-	}
-	i = 0;
-	while (i < mini->pipe_nb)
-	{
-		if (pipe(mini->pipes[i]) == -1)
-			return (perror(ERR_PIPE), 0);
-		i++;
-	}
+	/*if (!create_children(mini))
+		return (0);*/
 	return (1);
 }

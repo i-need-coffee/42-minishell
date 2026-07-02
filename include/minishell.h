@@ -46,7 +46,9 @@ typedef enum e_unit_type
 	REDIR_IN,
 	REDIR_OUT,
 	APPEND,
-	HEREDOC
+	HEREDOC,
+	PIPE_OUT,
+	PIPE_IN
 }	t_unit_type;
 
 typedef struct s_token_segment
@@ -88,10 +90,7 @@ typedef struct s_mini
 	t_token		*tokens;
 	t_env		*env;
 	t_pipe_unit	*units;
-	int			**pipes;
 	pid_t		**pids;
-	int			fd_in;
-	int			fd_out;
 }	t_mini;
 
 /*

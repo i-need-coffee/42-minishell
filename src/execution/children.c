@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	run_child_process(t_mini *mini);
+static int	run_child_process(t_mini *mini, int i);
 
 int	create_children(t_mini *mini)
 {
@@ -26,9 +26,12 @@ int	create_children(t_mini *mini)
 
 static int	run_child_process(t_mini *mini, int i)
 {
-	while (mini->units)
-	{
+	t_pipe_unit *curr;
 
+	curr = mini->units;
+	while (curr)
+	{
+		curr = curr->next;
 	}
 	return (1);
 }
