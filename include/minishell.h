@@ -137,7 +137,6 @@ void			free_env(t_env **root);
 int				execute_input(t_mini *mini);
 int				execute_heredocs(t_mini *mini);
 void			free_pipe_units(t_pipe_unit **root);
-void			open_files(t_pipe_unit *units);
-void			free_and_close_pipes(t_mini *mini);
+int				create_pipes(t_mini *mini);
 
 #endif
