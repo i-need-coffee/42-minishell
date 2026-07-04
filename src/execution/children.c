@@ -28,11 +28,11 @@ int	create_children(t_mini *mini)
 static void	run_child_process(t_mini *mini, int i)
 {
 	if (!open_files(mini->units, i))
-		cleanup_exit(mini, 1);
+		cleanup_exit(mini, EXIT_FAILURE);
 	if (mini->pipe_nb && !dup_pipes(mini->units, i))
-		cleanup_exit(mini, 1);
+		cleanup_exit(mini, EXIT_FAILURE);
 	if (!dup_redirects(mini->units, i))
-		cleanup_exit(mini, 1);
+		cleanup_exit(mini, EXIT_FAILURE);
 	close_all_fds(mini->units);
 }
 
