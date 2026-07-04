@@ -87,6 +87,7 @@ typedef struct s_mini
 {
 	char		*input;
 	int			pipe_nb;
+	int			cmd_nb;
 	t_token		*tokens;
 	t_env		*env;
 	t_pipe_unit	*units;

@@ -11,6 +11,8 @@ void	cleanup(t_mini *mini)
 		free(mini->input);
 	if (mini->units)
 		free_pipe_units(&mini->units);
+	if (mini->pids)
+		free_int_tab(mini->pids, mini->cmd_nb);
 }
 
 /*

@@ -146,6 +146,7 @@ void	print_data(t_mini *mini)
 
 int	execute_input(t_mini *mini)
 {
+	mini->cmd_nb = mini->pipe_nb + 1;
 	init_data(mini);
 	if (!execute_heredocs(mini))
 		return (0);

@@ -7,14 +7,12 @@ static int	dup_redirects(t_pipe_unit *units, int i);
 int	create_children(t_mini *mini)
 {
 	int	i;
-	int	num_cmds;
 
-	num_cmds = mini->pipe_nb + 1;
-	mini->pids = malloc(num_cmds * sizeof(pid_t));
+	mini->pids = malloc(mini->cmd_nb * sizeof(pid_t));
 	if (!mini->pids)
 		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	i = 0;
-	while (i < num_cmds)
+	while (i < mini->cmd_nb)
 	{
 		mini->pids[i] = fork();
 		if (mini->pids[i] == -1)
