@@ -118,32 +118,6 @@ void	print_data(t_mini *mini)
 	ft_printf("─────────────────────────────────────────\n");
 }
 
-/*void	open_files(t_pipe_unit *units)
-{
-	while (units)
-	{
-		if (units->type == REDIR_IN)
-		{
-			units->fd = open(units->file, O_RDONLY);
-			if (units->fd == -1)
-				perror(units->file);
-		}
-		else if (units->type == REDIR_OUT)
-		{
-			units->fd = open(units->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (units->fd == -1)
-				perror(units->file);
-		}
-		else if (units->type == APPEND)
-		{
-			units->fd = open(units->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (units->fd == -1)
-				perror(units->file);
-		}
-		units = units->next;
-	}
-}*/
-
 int	execute_input(t_mini *mini)
 {
 	mini->cmd_nb = mini->pipe_nb + 1;
@@ -153,5 +127,7 @@ int	execute_input(t_mini *mini)
 	if (mini->pipe_nb && !create_pipes(mini))
 		return (0);
 	print_data(mini);
+	if (!create_children(mini))
+		return (0);
 	return (1);
 }

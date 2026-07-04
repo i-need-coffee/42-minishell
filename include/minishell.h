@@ -91,7 +91,7 @@ typedef struct s_mini
 	t_token		*tokens;
 	t_env		*env;
 	t_pipe_unit	*units;
-	pid_t		**pids;
+	pid_t		*pids;
 }	t_mini;
 
 /*

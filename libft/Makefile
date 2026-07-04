@@ -54,7 +54,7 @@ SRCS	= \
 	$(SRC_DIR)/get_next_line_utils.c \
 	$(SRC_DIR)/ft_atol.c \
 	$(SRC_DIR)/ft_isspace.c \
-	$(SRC_DIR)/ft_free.c \
+	$(SRC_DIR)/ft_char_free.c \
 	$(SRC_DIR)/safe_close.c
 
 OBJ_DIR	= obj
