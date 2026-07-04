@@ -139,5 +139,7 @@ int				execute_input(t_mini *mini);
 int				execute_heredocs(t_mini *mini);
 void			free_pipe_units(t_pipe_unit **root);
 int				create_pipes(t_mini *mini);
+int				open_files(t_pipe_unit *units, int i);
+int				create_children(t_mini *mini);
 
 #endif
