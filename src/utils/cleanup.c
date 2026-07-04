@@ -16,6 +16,11 @@ void	cleanup(t_mini *mini)
 		free(mini->pids);
 		mini->pids = NULL;
 	}
+	if (mini->envp)
+	{
+		free_char_tab(mini->envp);
+		mini->envp = NULL;
+	}
 }
 
 /*

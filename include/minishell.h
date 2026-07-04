@@ -90,6 +90,7 @@ typedef struct s_mini
 	int			cmd_nb;
 	t_token		*tokens;
 	t_env		*env;
+	char		**envp;
 	t_pipe_unit	*units;
 	pid_t		*pids;
 }	t_mini;
@@ -133,6 +134,8 @@ void			add_back(t_env **env, t_env *new);
 t_env			*new_node(void);
 int				strlen_key(char *envp);
 void			free_env(t_env **root);
+char			*get_value_with_key(t_env *env, char *key);
+int				count_env_nodes(t_env *env);
 
 /* -- EXECUTION --*/
 int				execute_input(t_mini *mini);
@@ -141,5 +144,6 @@ void			free_pipe_units(t_pipe_unit **root);
 int				create_pipes(t_mini *mini);
 int				open_files(t_pipe_unit *units, int i);
 int				create_children(t_mini *mini);
+void			execute_cmd(t_mini *mini);
 
 #endif

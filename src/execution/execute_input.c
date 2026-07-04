@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+static char **build_envp_tab(t_env *env);
+
 void	init_data(t_mini *mini)
 {
 	// < infile cat | grep "error" | sort -u << EOF >> outfile
@@ -121,13 +123,44 @@ void	print_data(t_mini *mini)
 int	execute_input(t_mini *mini)
 {
 	mini->cmd_nb = mini->pipe_nb + 1;
+	mini->envp = build_envp_tab(mini->env);
+	if (!mini->envp)
+		print_error_and_exit(mini, ERR_ALLOC, 1);
 	init_data(mini);
 	if (!execute_heredocs(mini))
 		return (0);
 	if (mini->pipe_nb && !create_pipes(mini))
 		return (0);
-	print_data(mini);
-	if (!create_children(mini))
-		return (0);
+/* 	if (!create_children(mini))
+		return (0); */
+	execute_cmd(mini);
 	return (1);
+}
+
+static char **build_envp_tab(t_env *env)
+{
+	char	**envp;
+	char	*temp;
+	int		i;
+	int		env_nodes;
+
+	env_nodes = count_env_nodes(env);
+	envp = malloc((env_nodes + 1) * sizeof(char *));
+	if (!envp)
+		return (NULL);
+	i = 0;
+	while (env)
+	{
+		temp = ft_strjoin(env->key, "=");
+		if (!temp)
+			return (free_char_tab(envp), NULL);
+		envp[i] = ft_strjoin(temp, env->value);
+		free(temp);
+		if (!envp[i])
+			return (free_char_tab(envp), NULL);
+		i++;
+		env = env->next;
+	}
+	envp[i] = NULL;
+	return (envp);
 }

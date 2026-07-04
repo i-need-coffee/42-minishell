@@ -27,7 +27,8 @@ SRCS			= \
 	$(SRC_DIR)/execution/utils.c \
 	$(SRC_DIR)/execution/pipes.c \
 	$(SRC_DIR)/execution/children.c \
-	$(SRC_DIR)/execution/files.c
+	$(SRC_DIR)/execution/files.c \
+	$(SRC_DIR)/execution/exec.c
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

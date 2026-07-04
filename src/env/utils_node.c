@@ -45,3 +45,16 @@ void	free_env(t_env **root)
 	}
 	*root = NULL;
 }
+
+int	count_env_nodes(t_env *env)
+{
+	int	count;
+
+	count = 0;
+	while (env)
+	{
+		count++;
+		env = env->next;
+	}
+	return (count);
+}
