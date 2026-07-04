@@ -3,6 +3,7 @@
 static void	run_child_process(t_mini *mini, int i);
 static int	dup_pipes(t_pipe_unit *units, int i);
 static int	dup_redirects(t_pipe_unit *units, int i);
+static void	close_all_fds(t_pipe_unit *units);
 
 int	create_children(t_mini *mini)
 {
@@ -32,6 +33,7 @@ static void	run_child_process(t_mini *mini, int i)
 		cleanup_exit(mini, 1);
 	if (!dup_redirects(mini->units, i))
 		cleanup_exit(mini, 1);
+	close_all_fds(mini->units);
 }
 
 static int	dup_pipes(t_pipe_unit *units, int i)
@@ -76,4 +78,13 @@ static int	dup_redirects(t_pipe_unit *units, int i)
 		units = units->next;
 	}
 	return (1);
+}
+
+static void	close_all_fds(t_pipe_unit *units)
+{
+	while (units)
+	{
+		safe_close(&units->fd);
+		units = units->next;
+	}
 }
