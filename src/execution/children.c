@@ -1,6 +1,8 @@
 #include "minishell.h"
 
-static int	run_child_process(t_mini *mini, int i);
+static void	run_child_process(t_mini *mini, int i);
+static int	dup_pipes(t_pipe_unit *units, int i);
+static int	dup_redirects(t_pipe_unit *units, int i);
 
 int	create_children(t_mini *mini)
 {
@@ -17,21 +19,61 @@ int	create_children(t_mini *mini)
 		mini->pids[i] = fork();
 		if (mini->pids[i] == -1)
 			return (perror(ERR_FORK), 0);
-		if (mini->pids[i] == 0 && !run_child_process(mini, i))
-			return (0);
+		if (mini->pids[i] == 0)
+			run_child_process(mini, i);
 		i++;
 	}
 	return (1);
 }
 
-static int	run_child_process(t_mini *mini, int i)
+static void	run_child_process(t_mini *mini, int i)
 {
-	t_pipe_unit *curr;
+	if (mini->pipe_nb && !dup_pipes(mini->units, i))
+		cleanup_exit(mini, 1);
+	if (!dup_redirects(mini->units, i))
+		cleanup_exit(mini, 1);
+}
 
-	curr = mini->units;
-	while (curr)
+static int	dup_pipes(t_pipe_unit *units, int i)
+{
+	while (units)
 	{
-		curr = curr->next;
+		if (units->cmd_index == i)
+		{
+			if (units->type == PIPE_IN)
+			{
+				if (dup2(units->fd, STDIN_FILENO) == -1)
+					return (perror(ERR_DUP2), 0);
+			}
+			if (units->type == PIPE_OUT)
+			{
+				if (dup2(units->fd, STDOUT_FILENO) == -1)
+					return (perror(ERR_DUP2), 0);
+			}
+		}
+		units = units->next;
+	}
+	return (1);
+}
+
+static int	dup_redirects(t_pipe_unit *units, int i)
+{
+	while (units)
+	{
+		if (units->cmd_index == i)
+		{
+			if (units->type == REDIR_IN || units->type == HEREDOC)
+			{
+				if (dup2(units->fd, STDIN_FILENO) == -1)
+					return (perror(ERR_DUP2), 0);
+			}
+			if (units->type == REDIR_OUT || units->type == APPEND)
+			{
+				if (dup2(units->fd, STDOUT_FILENO) == -1)
+					return (perror(ERR_DUP2), 0);
+			}
+		}
+		units = units->next;
 	}
 	return (1);
 }
