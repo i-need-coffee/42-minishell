@@ -15,6 +15,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 
 /*
 ** ================================
@@ -145,5 +146,7 @@ int				create_pipes(t_mini *mini);
 int				open_files(t_pipe_unit *units, int i);
 int				create_children(t_mini *mini);
 int				execute_cmd(t_mini *mini, int i);
+int				wait_children(t_mini *mini);
+void			close_all_fds(t_pipe_unit *units);
 
 #endif

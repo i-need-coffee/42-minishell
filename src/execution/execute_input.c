@@ -8,8 +8,8 @@ void	init_data(t_mini *mini)
 
 	// ── CMD 1 : < infile cat ─────────────────────────────────────────────
 	t_pipe_unit *u1 = calloc(1, sizeof(t_pipe_unit));
-	u1->type = REDIR_IN;
-	u1->file = ft_strdup("infile");
+	u1->type = HEREDOC;
+	u1->file = ft_strdup("EOF");
 	u1->fd = -1;
 	u1->cmd_index = 0;
 
@@ -72,6 +72,8 @@ int	execute_input(t_mini *mini)
 	if (mini->pipe_nb && !create_pipes(mini))
 		return (0);
 	if (!create_children(mini))
+		return (0);
+	if (!wait_children(mini))
 		return (0);
 	return (1);
 }

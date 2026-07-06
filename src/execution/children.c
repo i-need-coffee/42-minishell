@@ -3,7 +3,6 @@
 static void	run_child_process(t_mini *mini, int i);
 static int	dup_pipes(t_pipe_unit *units, int i);
 static int	dup_redirects(t_pipe_unit *units, int i);
-static void	close_all_fds(t_pipe_unit *units);
 
 int	create_children(t_mini *mini)
 {
@@ -20,6 +19,20 @@ int	create_children(t_mini *mini)
 			return (perror(ERR_FORK), 0);
 		if (mini->pids[i] == 0)
 			run_child_process(mini, i);
+		i++;
+	}
+	return (1);
+}
+
+int	wait_children(t_mini *mini)
+{
+	int	i;
+
+	i = 0;
+	while (i < mini->cmd_nb)
+	{
+		if (waitpid(mini->pids[i], NULL, 0) == -1)
+			return (perror(ERR_WAITPID), 0);
 		i++;
 	}
 	return (1);
@@ -78,13 +91,4 @@ static int	dup_redirects(t_pipe_unit *units, int i)
 		units = units->next;
 	}
 	return (1);
-}
-
-static void	close_all_fds(t_pipe_unit *units)
-{
-	while (units)
-	{
-		safe_close(&units->fd);
-		units = units->next;
-	}
 }

@@ -19,3 +19,12 @@ void	free_pipe_units(t_pipe_unit **root)
 	}
 	*root = NULL;
 }
+
+void	close_all_fds(t_pipe_unit *units)
+{
+	while (units)
+	{
+		safe_close(&units->fd);
+		units = units->next;
+	}
+}

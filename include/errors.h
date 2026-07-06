@@ -8,5 +8,6 @@
 # define ERR_FORK		"error: fork failed"
 # define ERR_DUP2		"error: dup2 failed"
 # define ERR_EXECVE		"error: execve failed"
+# define ERR_WAITPID	"error: waitpid failed"
 
 #endif
