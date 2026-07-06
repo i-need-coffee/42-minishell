@@ -4,13 +4,12 @@ static int	open_file(t_pipe_unit *unit);
 
 int	open_files(t_pipe_unit *units, int i)
 {
-	while (units)
+	while (units && units->cmd_index != i)
+		units = units->next;
+	while (units && units->cmd_index == i)
 	{
-		if (units->cmd_index == i)
-		{
-			if (!open_file(units))
-				return (0);
-		}
+		if (!open_file(units))
+			return (0);
 		units = units->next;
 	}
 	return (1);

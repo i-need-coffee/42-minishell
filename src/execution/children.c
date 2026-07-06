@@ -38,20 +38,19 @@ static void	run_child_process(t_mini *mini, int i)
 
 static int	dup_pipes(t_pipe_unit *units, int i)
 {
-	while (units)
+	while (units && units->cmd_index != i)
+		units = units->next;
+	while (units && units->cmd_index == i)
 	{
-		if (units->cmd_index == i)
+		if (units->type == PIPE_IN)
 		{
-			if (units->type == PIPE_IN)
-			{
-				if (dup2(units->fd, STDIN_FILENO) == -1)
-					return (perror(ERR_DUP2), 0);
-			}
-			if (units->type == PIPE_OUT)
-			{
-				if (dup2(units->fd, STDOUT_FILENO) == -1)
-					return (perror(ERR_DUP2), 0);
-			}
+			if (dup2(units->fd, STDIN_FILENO) == -1)
+				return (perror(ERR_DUP2), 0);
+		}
+		if (units->type == PIPE_OUT)
+		{
+			if (dup2(units->fd, STDOUT_FILENO) == -1)
+				return (perror(ERR_DUP2), 0);
 		}
 		units = units->next;
 	}
@@ -60,20 +59,19 @@ static int	dup_pipes(t_pipe_unit *units, int i)
 
 static int	dup_redirects(t_pipe_unit *units, int i)
 {
-	while (units)
+	while (units && units->cmd_index != i)
+		units = units->next;
+	while (units && units->cmd_index == i)
 	{
-		if (units->cmd_index == i)
+		if (units->type == REDIR_IN || units->type == HEREDOC)
 		{
-			if (units->type == REDIR_IN || units->type == HEREDOC)
-			{
-				if (dup2(units->fd, STDIN_FILENO) == -1)
-					return (perror(ERR_DUP2), 0);
-			}
-			if (units->type == REDIR_OUT || units->type == APPEND)
-			{
-				if (dup2(units->fd, STDOUT_FILENO) == -1)
-					return (perror(ERR_DUP2), 0);
-			}
+			if (dup2(units->fd, STDIN_FILENO) == -1)
+				return (perror(ERR_DUP2), 0);
+		}
+		if (units->type == REDIR_OUT || units->type == APPEND)
+		{
+			if (dup2(units->fd, STDOUT_FILENO) == -1)
+				return (perror(ERR_DUP2), 0);
 		}
 		units = units->next;
 	}
