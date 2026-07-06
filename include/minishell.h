@@ -144,6 +144,6 @@ void			free_pipe_units(t_pipe_unit **root);
 int				create_pipes(t_mini *mini);
 int				open_files(t_pipe_unit *units, int i);
 int				create_children(t_mini *mini);
-void			execute_cmd(t_mini *mini);
+int				execute_cmd(t_mini *mini, int i);
 
 #endif

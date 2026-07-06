@@ -34,6 +34,8 @@ static void	run_child_process(t_mini *mini, int i)
 	if (!dup_redirects(mini->units, i))
 		cleanup_exit(mini, EXIT_FAILURE);
 	close_all_fds(mini->units);
+	if (!execute_cmd(mini, i))
+		cleanup_exit(mini, EXIT_FAILURE);
 }
 
 static int	dup_pipes(t_pipe_unit *units, int i)
