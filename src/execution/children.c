@@ -21,6 +21,7 @@ int	create_children(t_mini *mini)
 			run_child_process(mini, i);
 		i++;
 	}
+	close_all_fds(mini->units);
 	return (1);
 }
 
