@@ -4,10 +4,10 @@ static int	init_pipe(t_pipe_unit *p_out, t_pipe_unit *p_in);
 
 int	create_pipes(t_mini *mini)
 {
-	t_pipe_unit *curr;
+	t_pipe_unit	*curr;
 
 	curr = mini->units;
-	while(curr)
+	while (curr)
 	{
 		if (curr->type == PIPE_OUT)
 		{

@@ -8,7 +8,7 @@ int	execute_heredocs(t_mini *mini)
 	t_pipe_unit	*curr;
 
 	curr = mini->units;
-	while(curr)
+	while (curr)
 	{
 		if (curr->type == HEREDOC)
 		{

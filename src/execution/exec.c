@@ -11,7 +11,7 @@ int	execute_cmd(t_mini *mini, int i)
 	char		*cmd_path;
 
 	cmd = get_cmd_unit(mini->units, i);
-	if (!cmd) // TODO: check what happens if no cmd is found
+	if (!cmd)
 		return (1);
 	env_path = get_value_with_key(mini->env, "PATH");
 	if (!env_path || !env_path[0])

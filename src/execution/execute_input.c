@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-static char **build_envp_tab(t_env *env);
+static char	**build_envp_tab(t_env *env);
 
-void	init_data(t_mini *mini)
+/* void	init_data(t_mini *mini)
 {
 	// < infile cat | cat > outfile
 
@@ -88,6 +88,7 @@ void	print_data(t_mini *mini)
 	}
 	ft_printf("─────────────────────────────────────────\n");
 }
+ */
 
 int	execute_input(t_mini *mini)
 {
@@ -107,7 +108,7 @@ int	execute_input(t_mini *mini)
 	return (1);
 }
 
-static char **build_envp_tab(t_env *env)
+static char	**build_envp_tab(t_env *env)
 {
 	char	**envp;
 	char	*temp;
