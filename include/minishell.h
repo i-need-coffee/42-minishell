@@ -94,6 +94,7 @@ typedef struct s_mini
 	char		**envp;
 	t_pipe_unit	*units;
 	pid_t		*pids;
+	int			err_num;
 }	t_mini;
 
 /*

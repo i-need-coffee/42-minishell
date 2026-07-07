@@ -2,14 +2,14 @@
 
 static char	**build_envp_tab(t_env *env);
 
-/* void	init_data(t_mini *mini)
+void	init_data(t_mini *mini)
 {
 	// < infile cat | cat > outfile
 
 	// ── CMD 0 : < infile cat | ────────────────────────────────────────────
 	t_pipe_unit *u1 = calloc(1, sizeof(t_pipe_unit));
-	u1->type = REDIR_IN;
-	u1->file = ft_strdup("infile");
+	u1->type = HEREDOC;
+	u1->file = ft_strdup("EOF");
 	u1->fd = -1;
 	u1->cmd_index = 0;
 
@@ -88,7 +88,6 @@ void	print_data(t_mini *mini)
 	}
 	ft_printf("─────────────────────────────────────────\n");
 }
- */
 
 int	execute_input(t_mini *mini)
 {

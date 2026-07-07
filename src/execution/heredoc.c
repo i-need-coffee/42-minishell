@@ -13,7 +13,10 @@ int	execute_heredocs(t_mini *mini)
 		if (curr->type == HEREDOC)
 		{
 			if (!handle_heredoc(curr))
+			{
+				mini->err_num = 1;
 				return (0);
+			}
 		}
 		curr = curr->next;
 	}
