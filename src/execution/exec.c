@@ -26,6 +26,7 @@ int	execute_cmd(t_mini *mini, int i)
 		return (perror(ERR_ALLOC), 1);
 	if (execve(cmd_path, cmd->args, mini->envp) == -1)
 	{
+		free(cmd_path);
 		exit_code = print_exec_error(cmd->args[0], errno);
 		return (exit_code);
 	}
@@ -70,7 +71,7 @@ static char	*get_cmd_path(char *env_path, char *cmd_arg)
 			return (free(cmd), free_char_tab(paths), cmd_path);
 		i++;
 	}
-	return (free(cmd), free_char_tab(paths), cmd_arg);
+	return (free(cmd), free_char_tab(paths), cmd_path);
 }
 
 static int	print_exec_error(char *cmd, int error)
