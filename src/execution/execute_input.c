@@ -4,36 +4,78 @@ static char	**build_envp_tab(t_env *env);
 
 void	init_data(t_mini *mini)
 {
-	// < infile /usr/bin/cat > outfile
+	t_pipe_unit *u1, *u2, *u3, *u4, *u5, *u6, *u7, *u8, *u9;
 
-	// ── CMD 0 : < infile cat | ────────────────────────────────────────────
-	t_pipe_unit *u1 = calloc(1, sizeof(t_pipe_unit));
+	u1 = calloc(1, sizeof(t_pipe_unit));
 	u1->type = REDIR_IN;
 	u1->file = ft_strdup("infile");
 	u1->fd = -1;
 	u1->cmd_index = 0;
 
-	t_pipe_unit *u2 = calloc(1, sizeof(t_pipe_unit));
+	u2 = calloc(1, sizeof(t_pipe_unit));
 	u2->type = CMD;
-	u2->args = malloc(2 * sizeof(char *));
-	u2->args[0] = ft_strdup("/usr/bin/cat");
-	u2->args[1] = NULL;
+	u2->args = malloc(sizeof(char *) * 3);
+	u2->args[0] = ft_strdup("grep");
+	u2->args[1] = ft_strdup("foo");
+	u2->args[2] = NULL;
 	u2->fd = -1;
 	u2->cmd_index = 0;
 
-	t_pipe_unit *u3 = calloc(1, sizeof(t_pipe_unit));
-	u3->type = REDIR_OUT;
-	u3->file = ft_strdup("outfile");
+	u3 = calloc(1, sizeof(t_pipe_unit));
+	u3->type = PIPE_OUT;
 	u3->fd = -1;
 	u3->cmd_index = 0;
 
-	// ── Chain ────────────────────────────────────────────────────────────
+	u4 = calloc(1, sizeof(t_pipe_unit));
+	u4->type = PIPE_IN;
+	u4->fd = -1;
+	u4->cmd_index = 1;
+
+	u5 = calloc(1, sizeof(t_pipe_unit));
+	u5->type = CMD;
+	u5->args = malloc(sizeof(char *) * 2);
+	u5->args[0] = ft_strdup("/usr/bin/sort");
+	u5->args[1] = NULL;
+	u5->fd = -1;
+	u5->cmd_index = 1;
+
+	u6 = calloc(1, sizeof(t_pipe_unit));
+	u6->type = PIPE_OUT;
+	u6->fd = -1;
+	u6->cmd_index = 1;
+
+	u7 = calloc(1, sizeof(t_pipe_unit));
+	u7->type = PIPE_IN;
+	u7->fd = -1;
+	u7->cmd_index = 2;
+
+	u8 = calloc(1, sizeof(t_pipe_unit));
+	u8->type = CMD;
+	u8->args = malloc(sizeof(char *) * 3);
+	u8->args[0] = ft_strdup("wcc");
+	u8->args[1] = ft_strdup("-l");
+	u8->args[2] = NULL;
+	u8->fd = -1;
+	u8->cmd_index = 2;
+
+	u9 = calloc(1, sizeof(t_pipe_unit));
+	u9->type = APPEND;
+	u9->file = ft_strdup("outfile");
+	u9->fd = -1;
+	u9->cmd_index = 2;
+
 	u1->next = u2;
 	u2->next = u3;
-	u3->next = NULL;
+	u3->next = u4;
+	u4->next = u5;
+	u5->next = u6;
+	u6->next = u7;
+	u7->next = u8;
+	u8->next = u9;
+	u9->next = NULL;
 
 	mini->units = u1;
-	mini->pipe_nb = 0;
+	mini->pipe_nb = 2;
 }
 
 void	print_data(t_mini *mini)
