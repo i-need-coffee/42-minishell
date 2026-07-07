@@ -1,6 +1,7 @@
 #include "minishell.h"
 
 static t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i);
+static int			has_slash(char *cmd);
 static char			*get_cmd_path(char *env_path, char *cmd);
 static int			is_path_valid(char *path, char *cmd);
 
@@ -11,13 +12,11 @@ int	execute_cmd(t_mini *mini, int i)
 	char		*cmd_path;
 
 	cmd = get_cmd_unit(mini->units, i);
-	if (!cmd)
-		return (1);
 	env_path = get_value_with_key(mini->env, "PATH");
-	if (!env_path || !env_path[0])
+	if (!env_path || !env_path[0] || has_slash(cmd->args[0]))
 	{
 		if (execve(cmd->args[0], cmd->args, mini->envp) == -1)
-			return (perror(ERR_EXECVE), 0);
+			return (print_perror(cmd->args[0], errno), 0);
 	}
 	cmd_path = get_cmd_path(env_path, cmd->args[0]);
 	if (!cmd_path)
@@ -25,7 +24,7 @@ int	execute_cmd(t_mini *mini, int i)
 	if (!is_path_valid(cmd_path, cmd->args[0]))
 		return (free(cmd_path), 0);
 	if (execve(cmd_path, cmd->args, mini->envp) == -1)
-		return (free(cmd_path), perror(ERR_EXECVE), 0);
+		return (print_perror(cmd->args[0], errno), 0);
 	return (1);
 }
 
@@ -40,6 +39,20 @@ static t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i)
 		units = units->next;
 	}
 	return (NULL);
+}
+
+static int	has_slash(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == '/')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 static char	*get_cmd_path(char *env_path, char *cmd_arg)
@@ -74,15 +87,17 @@ static int	is_path_valid(char *path, char *cmd)
 {
 	if (access(path, F_OK) == -1)
 	{
-		write(2, "error: command not found: ", 26);
+		write(2, "error: ", 7);
 		write(2, cmd, ft_strlen(cmd));
+		write(2, ": Command not found", 19);
 		write(2, "\n", 1);
 		return (0);
 	}
 	if (access(path, X_OK) == -1)
 	{
-		write(2, "error: permission denied: ", 26);
+		write(2, "error: ", 7);
 		write(2, cmd, ft_strlen(cmd));
+		write(2, ": Permission denied", 19);
 		write(2, "\n", 1);
 		return (0);
 	}

@@ -1,7 +1,6 @@
 #include "minishell.h"
 
 static int	open_file(t_pipe_unit *unit);
-static void	print_file_error(char *filename, int errnum);
 
 int	open_files(t_pipe_unit *units, int i)
 {
@@ -31,17 +30,8 @@ static int	open_file(t_pipe_unit *unit)
 		error = errno;
 	if (error)
 	{
-		print_file_error(unit->file, error);
+		print_perror(unit->file, error);
 		return (0);
 	}
 	return (1);
-}
-
-static void	print_file_error(char *filename, int errnum)
-{
-	write(2, "error: ", 7);
-	write(2, filename, ft_strlen(filename));
-	write(2, ": ", 2);
-	write(2, strerror(errnum), ft_strlen(strerror(errnum)));
-	write(2, "\n", 1);
 }

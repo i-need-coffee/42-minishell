@@ -4,58 +4,36 @@ static char	**build_envp_tab(t_env *env);
 
 void	init_data(t_mini *mini)
 {
-	// < infile cat | cat > outfile
+	// < infile /usr/bin/cat > outfile
 
 	// ── CMD 0 : < infile cat | ────────────────────────────────────────────
 	t_pipe_unit *u1 = calloc(1, sizeof(t_pipe_unit));
-	u1->type = HEREDOC;
-	u1->file = ft_strdup("EOF");
+	u1->type = REDIR_IN;
+	u1->file = ft_strdup("infile");
 	u1->fd = -1;
 	u1->cmd_index = 0;
 
 	t_pipe_unit *u2 = calloc(1, sizeof(t_pipe_unit));
 	u2->type = CMD;
 	u2->args = malloc(2 * sizeof(char *));
-	u2->args[0] = ft_strdup("cat");
+	u2->args[0] = ft_strdup("catt");
 	u2->args[1] = NULL;
 	u2->fd = -1;
 	u2->cmd_index = 0;
 
 	t_pipe_unit *u3 = calloc(1, sizeof(t_pipe_unit));
-	u3->type = PIPE_OUT;
+	u3->type = REDIR_OUT;
+	u3->file = ft_strdup("outfile");
 	u3->fd = -1;
 	u3->cmd_index = 0;
-
-	// ── CMD 1 : cat > outfile ──────────────────────────────────────────────
-	t_pipe_unit *u4 = calloc(1, sizeof(t_pipe_unit));
-	u4->type = PIPE_IN;
-	u4->fd = -1;
-	u4->cmd_index = 1;
-
-	t_pipe_unit *u5 = calloc(1, sizeof(t_pipe_unit));
-	u5->type = CMD;
-	u5->args = malloc(2 * sizeof(char *));
-	u5->args[0] = ft_strdup("cat");
-	u5->args[1] = NULL;
-	u5->fd = -1;
-	u5->cmd_index = 1;
-
-	t_pipe_unit *u6 = calloc(1, sizeof(t_pipe_unit));
-	u6->type = REDIR_OUT;
-	u6->file = ft_strdup("outfile");
-	u6->fd = -1;
-	u6->cmd_index = 1;
 
 	// ── Chain ────────────────────────────────────────────────────────────
 	u1->next = u2;
 	u2->next = u3;
-	u3->next = u4;
-	u4->next = u5;
-	u5->next = u6;
-	u6->next = NULL;
+	u3->next = NULL;
 
 	mini->units = u1;
-	mini->pipe_nb = 1;
+	mini->pipe_nb = 0;
 }
 
 void	print_data(t_mini *mini)
