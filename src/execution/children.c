@@ -30,32 +30,37 @@ int	create_children(t_mini *mini)
 
 int	wait_children(t_mini *mini)
 {
-	int	i;
+	int		status;
+	int		i;
 
 	i = 0;
 	while (i < mini->cmd_nb)
 	{
-		if (waitpid(mini->pids[i], NULL, 0) == -1)
-		{
-			mini->err_num = 1;
+		if (waitpid(mini->pids[i], &status, 0) == -1)
 			return (perror(ERR_WAITPID), 0);
-		}
 		i++;
 	}
+	if (WIFEXITED(status))
+		mini->err_num = WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
+		mini->err_num = 128 + WTERMSIG(status);
 	return (1);
 }
 
 static void	run_child_process(t_mini *mini, int i)
 {
+	int	exec_error;
+
 	if (!open_files(mini->units, i))
-		cleanup_exit(mini, EXIT_FAILURE);
+		cleanup_exit(mini, 1);
 	if (mini->pipe_nb && !dup_pipes(mini->units, i))
-		cleanup_exit(mini, EXIT_FAILURE);
+		cleanup_exit(mini, 1);
 	if (!dup_redirects(mini->units, i))
-		cleanup_exit(mini, EXIT_FAILURE);
+		cleanup_exit(mini, 1);
 	close_all_fds(mini->units);
-	if (!execute_cmd(mini, i))
-		cleanup_exit(mini, EXIT_FAILURE);
+	exec_error = execute_cmd(mini, i);
+	if (exec_error != 0)
+		cleanup_exit(mini, exec_error);
 }
 
 static int	dup_pipes(t_pipe_unit *units, int i)

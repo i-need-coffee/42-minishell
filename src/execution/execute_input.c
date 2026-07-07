@@ -16,7 +16,7 @@ void	init_data(t_mini *mini)
 	t_pipe_unit *u2 = calloc(1, sizeof(t_pipe_unit));
 	u2->type = CMD;
 	u2->args = malloc(2 * sizeof(char *));
-	u2->args[0] = ft_strdup("catt");
+	u2->args[0] = ft_strdup("/usr/bin/cat");
 	u2->args[1] = NULL;
 	u2->fd = -1;
 	u2->cmd_index = 0;

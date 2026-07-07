@@ -1,31 +1,35 @@
 #include "minishell.h"
 
 static t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i);
-static int			has_slash(char *cmd);
 static char			*get_cmd_path(char *env_path, char *cmd);
-static int			is_path_valid(char *path, char *cmd);
+static int			print_exec_error(char *cmd, int error);
 
 int	execute_cmd(t_mini *mini, int i)
 {
 	t_pipe_unit	*cmd;
 	char		*env_path;
 	char		*cmd_path;
+	int			exit_code;
 
 	cmd = get_cmd_unit(mini->units, i);
 	env_path = get_value_with_key(mini->env, "PATH");
-	if (!env_path || !env_path[0] || has_slash(cmd->args[0]))
+	if (!env_path || !env_path[0] || ft_strchr(cmd->args[0], '/'))
 	{
 		if (execve(cmd->args[0], cmd->args, mini->envp) == -1)
-			return (print_perror(cmd->args[0], errno), 0);
+		{
+			exit_code = print_exec_error(cmd->args[0], errno);
+			return (exit_code);
+		}
 	}
 	cmd_path = get_cmd_path(env_path, cmd->args[0]);
 	if (!cmd_path)
-		return (perror(ERR_ALLOC), 0);
-	if (!is_path_valid(cmd_path, cmd->args[0]))
-		return (free(cmd_path), 0);
+		return (perror(ERR_ALLOC), 1);
 	if (execve(cmd_path, cmd->args, mini->envp) == -1)
-		return (print_perror(cmd->args[0], errno), 0);
-	return (1);
+	{
+		exit_code = print_exec_error(cmd->args[0], errno);
+		return (exit_code);
+	}
+	return (0);
 }
 
 static t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i)
@@ -39,20 +43,6 @@ static t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i)
 		units = units->next;
 	}
 	return (NULL);
-}
-
-static int	has_slash(char *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] == '/')
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 static char	*get_cmd_path(char *env_path, char *cmd_arg)
@@ -80,26 +70,27 @@ static char	*get_cmd_path(char *env_path, char *cmd_arg)
 			return (free(cmd), free_char_tab(paths), cmd_path);
 		i++;
 	}
-	return (free(cmd), free_char_tab(paths), cmd_path);
+	return (free(cmd), free_char_tab(paths), cmd_arg);
 }
 
-static int	is_path_valid(char *path, char *cmd)
+static int	print_exec_error(char *cmd, int error)
 {
-	if (access(path, F_OK) == -1)
+	if (error == ENOENT && !ft_strchr(cmd, '/'))
 	{
 		write(2, "error: ", 7);
 		write(2, cmd, ft_strlen(cmd));
-		write(2, ": Command not found", 19);
-		write(2, "\n", 1);
-		return (0);
+		write(2, ": Command not found\n", 20);
 	}
-	if (access(path, X_OK) == -1)
+	else if (error == EACCES && cmd[0] == '/')
 	{
 		write(2, "error: ", 7);
 		write(2, cmd, ft_strlen(cmd));
-		write(2, ": Permission denied", 19);
-		write(2, "\n", 1);
-		return (0);
+		write(2, ": Is a directory\n", 17);
 	}
-	return (1);
+	else
+		print_perror(cmd, error);
+	if (error == ENOENT)
+		return (127);
+	else
+		return (126);
 }
