@@ -16,7 +16,10 @@ int	create_children(t_mini *mini)
 	{
 		mini->pids[i] = fork();
 		if (mini->pids[i] == -1)
+		{
+			mini->err_num = 1;
 			return (perror(ERR_FORK), 0);
+		}
 		if (mini->pids[i] == 0)
 			run_child_process(mini, i);
 		i++;
@@ -33,7 +36,10 @@ int	wait_children(t_mini *mini)
 	while (i < mini->cmd_nb)
 	{
 		if (waitpid(mini->pids[i], NULL, 0) == -1)
+		{
+			mini->err_num = 1;
 			return (perror(ERR_WAITPID), 0);
+		}
 		i++;
 	}
 	return (1);

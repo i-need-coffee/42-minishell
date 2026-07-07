@@ -95,7 +95,7 @@ int	execute_input(t_mini *mini)
 	mini->cmd_nb = mini->pipe_nb + 1;
 	mini->envp = build_envp_tab(mini->env);
 	if (!mini->envp)
-		print_error_and_exit(mini, ERR_ALLOC, 1);
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	if (!execute_heredocs(mini))
 		return (0);
 	if (mini->pipe_nb && !create_pipes(mini))

@@ -12,7 +12,10 @@ int	create_pipes(t_mini *mini)
 		if (curr->type == PIPE_OUT)
 		{
 			if (!init_pipe(curr, curr->next))
+			{
+				mini->err_num = 1;
 				return (0);
+			}
 		}
 		curr = curr->next;
 	}
