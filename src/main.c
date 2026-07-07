@@ -14,9 +14,8 @@ int	process_line(t_mini *mini)
 		add_history(mini->input);
 	if (has_unclosed_quotes(mini->input))
 	{
-		print_error(ERR_QUOTES);
-		cleanup(mini);
-		return (1);
+		mini->err_num = 2;
+		return (print_error(ERR_QUOTES), cleanup(mini), 1);
 	}
 	tokenize_input(mini);
 	if (!execute_input(mini))
