@@ -150,5 +150,10 @@ int				create_children(t_mini *mini);
 int				execute_cmd(t_mini *mini, int i);
 int				wait_children(t_mini *mini);
 void			close_all_fds(t_pipe_unit *units);
+t_pipe_unit		*get_cmd_unit(t_pipe_unit *units, int i);
+
+/* -- BUILT-IN --*/
+int				execute_built_in(t_mini *mini, int i);
+void			ft_echo(char **args);
 
 #endif

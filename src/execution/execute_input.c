@@ -4,23 +4,33 @@ static char	**build_envp_tab(t_env *env);
 
 void	init_data(t_mini *mini)
 {
-	t_pipe_unit *u1, *u2, *u3, *u4, *u5, *u6, *u7, *u8, *u9;
+	t_pipe_unit	*u1;
+	t_pipe_unit	*u2;
+	t_pipe_unit	*u3;
+	t_pipe_unit	*u4;
+	t_pipe_unit	*u5;
+	t_pipe_unit	*u6;
+	t_pipe_unit	*u7;
+	t_pipe_unit	*u8;
+	t_pipe_unit	*u9;
 
+	// cat
 	u1 = calloc(1, sizeof(t_pipe_unit));
-	u1->type = REDIR_IN;
-	u1->file = ft_strdup("infile");
+	u1->type = CMD;
+	u1->args = malloc(sizeof(char *) * 2);
+	u1->args[0] = ft_strdup("cat");
+	u1->args[1] = NULL;
 	u1->fd = -1;
 	u1->cmd_index = 0;
 
+	// < infile
 	u2 = calloc(1, sizeof(t_pipe_unit));
-	u2->type = CMD;
-	u2->args = malloc(sizeof(char *) * 3);
-	u2->args[0] = ft_strdup("grep");
-	u2->args[1] = ft_strdup("foo");
-	u2->args[2] = NULL;
+	u2->type = REDIR_IN;
+	u2->file = ft_strdup("infile");
 	u2->fd = -1;
 	u2->cmd_index = 0;
 
+	// |
 	u3 = calloc(1, sizeof(t_pipe_unit));
 	u3->type = PIPE_OUT;
 	u3->fd = -1;
@@ -31,14 +41,17 @@ void	init_data(t_mini *mini)
 	u4->fd = -1;
 	u4->cmd_index = 1;
 
+	// echo hello
 	u5 = calloc(1, sizeof(t_pipe_unit));
 	u5->type = CMD;
-	u5->args = malloc(sizeof(char *) * 2);
-	u5->args[0] = ft_strdup("/usr/bin/sort");
-	u5->args[1] = NULL;
+	u5->args = malloc(sizeof(char *) * 3);
+	u5->args[0] = ft_strdup("grep");
+	u5->args[1] = ft_strdup("hello");
+	u5->args[2] = NULL;
 	u5->fd = -1;
 	u5->cmd_index = 1;
 
+	// |
 	u6 = calloc(1, sizeof(t_pipe_unit));
 	u6->type = PIPE_OUT;
 	u6->fd = -1;
@@ -49,17 +62,18 @@ void	init_data(t_mini *mini)
 	u7->fd = -1;
 	u7->cmd_index = 2;
 
+	// cat
 	u8 = calloc(1, sizeof(t_pipe_unit));
 	u8->type = CMD;
-	u8->args = malloc(sizeof(char *) * 3);
-	u8->args[0] = ft_strdup("wcc");
-	u8->args[1] = ft_strdup("-l");
-	u8->args[2] = NULL;
+	u8->args = malloc(sizeof(char *) * 2);
+	u8->args[0] = ft_strdup("cat");
+	u8->args[1] = NULL;
 	u8->fd = -1;
 	u8->cmd_index = 2;
 
+	// > outfile
 	u9 = calloc(1, sizeof(t_pipe_unit));
-	u9->type = APPEND;
+	u9->type = REDIR_OUT;
 	u9->file = ft_strdup("outfile");
 	u9->fd = -1;
 	u9->cmd_index = 2;

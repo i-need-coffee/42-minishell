@@ -28,3 +28,16 @@ void	close_all_fds(t_pipe_unit *units)
 		units = units->next;
 	}
 }
+
+t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i)
+{
+	while (units && units->cmd_index != i)
+		units = units->next;
+	while (units && units->cmd_index == i)
+	{
+		if (units->type == CMD)
+			return (units);
+		units = units->next;
+	}
+	return (NULL);
+}

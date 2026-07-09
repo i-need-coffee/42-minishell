@@ -58,6 +58,8 @@ static void	run_child_process(t_mini *mini, int i)
 	if (!dup_redirects(mini->units, i))
 		cleanup_exit(mini, 1);
 	close_all_fds(mini->units);
+	if (execute_built_in(mini, i))
+		cleanup_exit(mini, 0);
 	exec_error = execute_cmd(mini, i);
 	if (exec_error != 0)
 		cleanup_exit(mini, exec_error);

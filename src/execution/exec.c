@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-static t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i);
 static char			*get_cmd_path(char *env_path, char *cmd);
 static int			print_exec_error(char *cmd, int error);
 
@@ -31,19 +30,6 @@ int	execute_cmd(t_mini *mini, int i)
 		return (exit_code);
 	}
 	return (0);
-}
-
-static t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i)
-{
-	while (units && units->cmd_index != i)
-		units = units->next;
-	while (units && units->cmd_index == i)
-	{
-		if (units->type == CMD)
-			return (units);
-		units = units->next;
-	}
-	return (NULL);
 }
 
 static char	*get_cmd_path(char *env_path, char *cmd_arg)
