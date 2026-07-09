@@ -22,10 +22,12 @@ static int	open_file(t_pipe_unit *unit)
 	error = 0;
 	if (unit->type == REDIR_IN)
 		unit->fd = open(unit->file, O_RDONLY);
-	if (unit->type == REDIR_OUT)
+	else if (unit->type == REDIR_OUT)
 		unit->fd = open(unit->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (unit->type == APPEND)
+	else if (unit->type == APPEND)
 		unit->fd = open(unit->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else
+		return (1);
 	if (unit->fd == -1)
 		error = errno;
 	if (error)

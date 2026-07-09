@@ -13,8 +13,17 @@ void	init_data(t_mini *mini)
 	t_pipe_unit	*u7;
 	t_pipe_unit	*u8;
 	t_pipe_unit	*u9;
+	t_pipe_unit	*u10;
+	t_pipe_unit	*u11;
+	t_pipe_unit	*u12;
+	t_pipe_unit	*u13;
+	t_pipe_unit	*u14;
+	t_pipe_unit	*u15;
+	t_pipe_unit	*u16;
+	t_pipe_unit	*u17;
+	t_pipe_unit	*u18;
 
-	// cat
+	// cat < infile
 	u1 = calloc(1, sizeof(t_pipe_unit));
 	u1->type = CMD;
 	u1->args = malloc(sizeof(char *) * 2);
@@ -23,14 +32,13 @@ void	init_data(t_mini *mini)
 	u1->fd = -1;
 	u1->cmd_index = 0;
 
-	// < infile
 	u2 = calloc(1, sizeof(t_pipe_unit));
 	u2->type = REDIR_IN;
 	u2->file = ft_strdup("infile");
 	u2->fd = -1;
 	u2->cmd_index = 0;
 
-	// |
+	// pipe 0
 	u3 = calloc(1, sizeof(t_pipe_unit));
 	u3->type = PIPE_OUT;
 	u3->fd = -1;
@@ -41,17 +49,16 @@ void	init_data(t_mini *mini)
 	u4->fd = -1;
 	u4->cmd_index = 1;
 
-	// echo hello
+	// cat
 	u5 = calloc(1, sizeof(t_pipe_unit));
 	u5->type = CMD;
-	u5->args = malloc(sizeof(char *) * 3);
-	u5->args[0] = ft_strdup("grep");
-	u5->args[1] = ft_strdup("hello");
-	u5->args[2] = NULL;
+	u5->args = malloc(sizeof(char *) * 2);
+	u5->args[0] = ft_strdup("cat");
+	u5->args[1] = NULL;
 	u5->fd = -1;
 	u5->cmd_index = 1;
 
-	// |
+	// pipe 1
 	u6 = calloc(1, sizeof(t_pipe_unit));
 	u6->type = PIPE_OUT;
 	u6->fd = -1;
@@ -71,13 +78,73 @@ void	init_data(t_mini *mini)
 	u8->fd = -1;
 	u8->cmd_index = 2;
 
-	// > outfile
+	// pipe 2
 	u9 = calloc(1, sizeof(t_pipe_unit));
-	u9->type = REDIR_OUT;
-	u9->file = ft_strdup("outfile");
+	u9->type = PIPE_OUT;
 	u9->fd = -1;
 	u9->cmd_index = 2;
 
+	u10 = calloc(1, sizeof(t_pipe_unit));
+	u10->type = PIPE_IN;
+	u10->fd = -1;
+	u10->cmd_index = 3;
+
+	// cat
+	u11 = calloc(1, sizeof(t_pipe_unit));
+	u11->type = CMD;
+	u11->args = malloc(sizeof(char *) * 2);
+	u11->args[0] = ft_strdup("cat");
+	u11->args[1] = NULL;
+	u11->fd = -1;
+	u11->cmd_index = 3;
+
+	// pipe 3
+	u12 = calloc(1, sizeof(t_pipe_unit));
+	u12->type = PIPE_OUT;
+	u12->fd = -1;
+	u12->cmd_index = 3;
+
+	u13 = calloc(1, sizeof(t_pipe_unit));
+	u13->type = PIPE_IN;
+	u13->fd = -1;
+	u13->cmd_index = 4;
+
+	// cat
+	u14 = calloc(1, sizeof(t_pipe_unit));
+	u14->type = CMD;
+	u14->args = malloc(sizeof(char *) * 2);
+	u14->args[0] = ft_strdup("cat");
+	u14->args[1] = NULL;
+	u14->fd = -1;
+	u14->cmd_index = 4;
+
+	// pipe 4
+	u15 = calloc(1, sizeof(t_pipe_unit));
+	u15->type = PIPE_OUT;
+	u15->fd = -1;
+	u15->cmd_index = 4;
+
+	u16 = calloc(1, sizeof(t_pipe_unit));
+	u16->type = PIPE_IN;
+	u16->fd = -1;
+	u16->cmd_index = 5;
+
+	// final cat > outfile
+	u17 = calloc(1, sizeof(t_pipe_unit));
+	u17->type = CMD;
+	u17->args = malloc(sizeof(char *) * 2);
+	u17->args[0] = ft_strdup("cat");
+	u17->args[1] = NULL;
+	u17->fd = -1;
+	u17->cmd_index = 5;
+
+	u18 = calloc(1, sizeof(t_pipe_unit));
+	u18->type = REDIR_OUT;
+	u18->file = ft_strdup("outfile");
+	u18->fd = -1;
+	u18->cmd_index = 5;
+
+	// chain
 	u1->next = u2;
 	u2->next = u3;
 	u3->next = u4;
@@ -86,10 +153,19 @@ void	init_data(t_mini *mini)
 	u6->next = u7;
 	u7->next = u8;
 	u8->next = u9;
-	u9->next = NULL;
+	u9->next = u10;
+	u10->next = u11;
+	u11->next = u12;
+	u12->next = u13;
+	u13->next = u14;
+	u14->next = u15;
+	u15->next = u16;
+	u16->next = u17;
+	u17->next = u18;
+	u18->next = NULL;
 
 	mini->units = u1;
-	mini->pipe_nb = 2;
+	mini->pipe_nb = 5;
 }
 
 void	print_data(t_mini *mini)
