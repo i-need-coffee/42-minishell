@@ -46,7 +46,9 @@ typedef enum e_unit_type
 	REDIR_IN,
 	REDIR_OUT,
 	APPEND,
-	HEREDOC
+	HEREDOC,
+	PIPE_OUT, // des qu on voit un pipe, on ajoute 2 nodes, d abords un PIPE_OUT, puis un PIPE_IN
+	PIPE_IN // pour PIPE_OUT, le cmd_index est le meme que le node precedent, puis on arrive sur PIPE_IN on incremente le cmd_index
 }	t_unit_type;
 
 typedef struct s_token_segment
@@ -136,12 +138,14 @@ int	parse_tokens(t_mini *mini, t_pipe_unit **head);
 int	parse_word_token(t_pipe_unit **head, char *str, int cmdi, t_env *env);
 int add_arg(char *str, int i, t_pipe_unit *unit);
 void    print_lst(void* str);
-int    handle_dollard(char *str, int i, t_env *env, char **buffer);
+int    expension(char *str, int i, t_env *env, char **buffer);
 int handle_quote(char *str, int i, t_env *env, t_pipe_unit *unit);
 void    create_or_update_buffer(char **buffer, char *str, int start, int end);
  void    create_or_update_lst(t_pipe_unit *unit, char *buffer);
 t_pipe_unit	*create_or_update_unit_struct(t_pipe_unit **head, int cmdi,
 		t_unit_type type);
+int	handle_dollar(char *str, int i, t_env *env, t_pipe_unit *unit);
+
 
 
 

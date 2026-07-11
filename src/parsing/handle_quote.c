@@ -18,10 +18,10 @@ int	handle_double_quote(char *str, int i, t_env *env, t_pipe_unit *unit)
 {
 	int		start;
 	int		end;
-	char	*buffer;
+	char	*buffer_t_list_args;
 
 	start = i;
-	buffer = NULL;
+	buffer_t_list_args = NULL;
 	end = check_quote_sanity(str, i, '\"');// error message to add
 	if (end == -1)
 		return (-1);
@@ -29,8 +29,9 @@ int	handle_double_quote(char *str, int i, t_env *env, t_pipe_unit *unit)
 	{
 		if (str[i] == '$')
 		{
-			create_or_update_buffer(&buffer, str, start, i);
-			i = handle_dollard(str, i, env, &buffer);
+			create_or_update_buffer(&buffer_t_list_args
+		, str, start, i);
+			i = expension(str, i, env, &buffer_t_list_args);
 			start = i;
 			if (i == end)
 				start++;
@@ -38,8 +39,8 @@ int	handle_double_quote(char *str, int i, t_env *env, t_pipe_unit *unit)
 		i++;
 	}
 	if (start < i)
-		create_or_update_buffer(&buffer, str, start, i);
-	create_or_update_lst(unit, buffer);
+		create_or_update_buffer(&buffer_t_list_args, str, start, i);
+	create_or_update_lst(unit, buffer_t_list_args);
 	return (end + 1);
 }
 
@@ -60,9 +61,6 @@ int	handle_single_quote(char *str, int i, t_pipe_unit *unit)
 
 int	handle_quote(char *str, int i, t_env *env, t_pipe_unit *unit)
 {
-	(void)str;
-	(void)i;
-
 	if (str[i] == '\"')
 	{
 		i = handle_double_quote(str, i + 1, env, unit);

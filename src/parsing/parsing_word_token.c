@@ -1,27 +1,29 @@
 #include "minishell.h"
 
-
+// This function parse only word token:
+// Start create or add a node in the struct to give back for execution
+//
 
 int    parse_word_token(t_pipe_unit **head, char *str, int cmdi, t_env *env)
 {
     int i;
+    int start;
     t_pipe_unit *new_token;
 
     create_or_update_unit_struct(head, cmdi, CMD);
     new_token = *head;
     i = 0;
+    start = i;
     while(str[i])
     {
         if (str[i] == '\'' || str[i] == '\"')
-        {
             i = handle_quote(str, i, env, new_token);
-            if (i == -1)
-                return (-1);
-        }
-        // else if (str[i] == '$')
-            // handle_dollard_withou_quote()
+        else if (str[i] == '$')
+             i = handle_dollar(str, i, env,new_token);
         else
             i = add_arg(str, i, new_token);
+        if (i == -1)
+                return (-1);
         while(str[i] == ' ')
             i++;
     }
