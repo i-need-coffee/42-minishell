@@ -12,6 +12,8 @@ int    parse_word_token(t_pipe_unit **head, char *str, int cmdi, t_env *env)
 
     create_or_update_unit_struct(head, cmdi, CMD);
     new_token = *head;
+    while (new_token->next)
+        new_token = new_token->next;
     i = 0;
     start = i;
     while(str[i])

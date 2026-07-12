@@ -6,3 +6,14 @@ $ export 1=two
 bash: export: `1=two': not a valid identifier
 ```
 [] Des tests de parsing pour [", ', $]
+
+[] Pour les redirections, les commandes peuvent commencer par une redirection.
+Example of bash:
+```bash
+$ > blabla
+hello
+ctrl+D
+$ cat blabla
+hello
+```
+Lu sur STDIN

@@ -51,8 +51,11 @@ SRCS			= \
 	$(SRC_DIR)/parsing/handle_literal.c \
 	$(SRC_DIR)/parsing/parsing_word_token.c \
 	$(SRC_DIR)/parsing/expension.c\
-	$(SRC_DIR)/parsing/handle_quote.c
-	
+	$(SRC_DIR)/parsing/handle_quote.c\
+	$(SRC_DIR)/parsing/parse_pipe_token.c\
+	$(SRC_DIR)/parsing/parse_redirection_token.c\
+	$(SRC_DIR)/parsing/redirection_utils/parsing_heredoc.c
+
 
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

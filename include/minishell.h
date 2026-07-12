@@ -141,12 +141,13 @@ void    print_lst(void* str);
 int    expension(char *str, int i, t_env *env, char **buffer);
 int handle_quote(char *str, int i, t_env *env, t_pipe_unit *unit);
 void    create_or_update_buffer(char **buffer, char *str, int start, int end);
- void    create_or_update_lst(t_pipe_unit *unit, char *buffer);
+void    create_or_update_lst(t_pipe_unit *unit, char *buffer);
+int	check_quote_sanity(char *str, int end, char c);
 t_pipe_unit	*create_or_update_unit_struct(t_pipe_unit **head, int cmdi,
 		t_unit_type type);
 int	handle_dollar(char *str, int i, t_env *env, t_pipe_unit *unit);
-
-
-
+int parse_pipe_token(t_pipe_unit **unit, t_token *current);
+int	parse_redirection_token(t_pipe_unit **unit, t_token *current);
+int uptade_unit_struct_heredoc(t_pipe_unit **unit, t_token *current);
 
 #endif

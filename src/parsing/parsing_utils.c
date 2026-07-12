@@ -58,7 +58,7 @@ t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)
 	new_token->next = NULL;
 	return (new_token);
 }
-
+// inicialise une node et l'ajoute a la chaine
 // TODO: return re-type and handle error
 t_pipe_unit	*create_or_update_unit_struct(t_pipe_unit **head, int cmdi,
 		t_unit_type type)

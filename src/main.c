@@ -9,6 +9,10 @@ void	clean_unit_struct(t_pipe_unit *unit)
 		tmp = unit;
 		unit = unit->next;
 		ft_lstdelone(tmp->args, free);
+		if (tmp->file) {
+			free(tmp->file);
+			tmp->file = NULL;
+		}
 		free(tmp);
 		tmp = NULL;
 	}
