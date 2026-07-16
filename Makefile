@@ -29,6 +29,7 @@ SRCS			= \
 	$(SRC_DIR)/execution/children.c \
 	$(SRC_DIR)/execution/files.c \
 	$(SRC_DIR)/execution/exec.c \
+	$(SRC_DIR)/execution/dup.c \
 	$(SRC_DIR)/built-in/exec.c \
 	$(SRC_DIR)/built-in/echo.c
 

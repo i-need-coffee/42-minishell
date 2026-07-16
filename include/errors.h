@@ -7,6 +7,7 @@
 # define ERR_PIPE		"error: pipe failed"
 # define ERR_FORK		"error: fork failed"
 # define ERR_DUP2		"error: dup2 failed"
+# define ERR_DUP		"error: dup failed"
 # define ERR_WAITPID	"error: waitpid failed"
 
 #endif

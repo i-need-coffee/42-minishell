@@ -1,171 +1,27 @@
 #include "minishell.h"
 
-static char	**build_envp_tab(t_env *env);
+static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd);
+static int	set_exec_error(t_mini *mini);
+static void	close_saved_fds(int stdin, int stdout);
+
 
 void	init_data(t_mini *mini)
 {
 	t_pipe_unit	*u1;
-	t_pipe_unit	*u2;
-	t_pipe_unit	*u3;
-	t_pipe_unit	*u4;
-	t_pipe_unit	*u5;
-	t_pipe_unit	*u6;
-	t_pipe_unit	*u7;
-	t_pipe_unit	*u8;
-	t_pipe_unit	*u9;
-	t_pipe_unit	*u10;
-	t_pipe_unit	*u11;
-	t_pipe_unit	*u12;
-	t_pipe_unit	*u13;
-	t_pipe_unit	*u14;
-	t_pipe_unit	*u15;
-	t_pipe_unit	*u16;
-	t_pipe_unit	*u17;
-	t_pipe_unit	*u18;
 
-	// cat < infile
+	// echo "hello, world!"
 	u1 = calloc(1, sizeof(t_pipe_unit));
 	u1->type = CMD;
-	u1->args = malloc(sizeof(char *) * 2);
-	u1->args[0] = ft_strdup("cat");
-	u1->args[1] = NULL;
+	u1->args = malloc(sizeof(char *) * 3);
+	u1->args[0] = ft_strdup("echo");
+	u1->args[1] = ft_strdup("hello, world!");
+	u1->args[2] = NULL;
 	u1->fd = -1;
 	u1->cmd_index = 0;
-
-	u2 = calloc(1, sizeof(t_pipe_unit));
-	u2->type = REDIR_IN;
-	u2->file = ft_strdup("infile");
-	u2->fd = -1;
-	u2->cmd_index = 0;
-
-	// pipe 0
-	u3 = calloc(1, sizeof(t_pipe_unit));
-	u3->type = PIPE_OUT;
-	u3->fd = -1;
-	u3->cmd_index = 0;
-
-	u4 = calloc(1, sizeof(t_pipe_unit));
-	u4->type = PIPE_IN;
-	u4->fd = -1;
-	u4->cmd_index = 1;
-
-	// cat
-	u5 = calloc(1, sizeof(t_pipe_unit));
-	u5->type = CMD;
-	u5->args = malloc(sizeof(char *) * 2);
-	u5->args[0] = ft_strdup("cat");
-	u5->args[1] = NULL;
-	u5->fd = -1;
-	u5->cmd_index = 1;
-
-	// pipe 1
-	u6 = calloc(1, sizeof(t_pipe_unit));
-	u6->type = PIPE_OUT;
-	u6->fd = -1;
-	u6->cmd_index = 1;
-
-	u7 = calloc(1, sizeof(t_pipe_unit));
-	u7->type = PIPE_IN;
-	u7->fd = -1;
-	u7->cmd_index = 2;
-
-	// cat
-	u8 = calloc(1, sizeof(t_pipe_unit));
-	u8->type = CMD;
-	u8->args = malloc(sizeof(char *) * 2);
-	u8->args[0] = ft_strdup("cat");
-	u8->args[1] = NULL;
-	u8->fd = -1;
-	u8->cmd_index = 2;
-
-	// pipe 2
-	u9 = calloc(1, sizeof(t_pipe_unit));
-	u9->type = PIPE_OUT;
-	u9->fd = -1;
-	u9->cmd_index = 2;
-
-	u10 = calloc(1, sizeof(t_pipe_unit));
-	u10->type = PIPE_IN;
-	u10->fd = -1;
-	u10->cmd_index = 3;
-
-	// cat
-	u11 = calloc(1, sizeof(t_pipe_unit));
-	u11->type = CMD;
-	u11->args = malloc(sizeof(char *) * 2);
-	u11->args[0] = ft_strdup("cat");
-	u11->args[1] = NULL;
-	u11->fd = -1;
-	u11->cmd_index = 3;
-
-	// pipe 3
-	u12 = calloc(1, sizeof(t_pipe_unit));
-	u12->type = PIPE_OUT;
-	u12->fd = -1;
-	u12->cmd_index = 3;
-
-	u13 = calloc(1, sizeof(t_pipe_unit));
-	u13->type = PIPE_IN;
-	u13->fd = -1;
-	u13->cmd_index = 4;
-
-	// cat
-	u14 = calloc(1, sizeof(t_pipe_unit));
-	u14->type = CMD;
-	u14->args = malloc(sizeof(char *) * 2);
-	u14->args[0] = ft_strdup("cat");
-	u14->args[1] = NULL;
-	u14->fd = -1;
-	u14->cmd_index = 4;
-
-	// pipe 4
-	u15 = calloc(1, sizeof(t_pipe_unit));
-	u15->type = PIPE_OUT;
-	u15->fd = -1;
-	u15->cmd_index = 4;
-
-	u16 = calloc(1, sizeof(t_pipe_unit));
-	u16->type = PIPE_IN;
-	u16->fd = -1;
-	u16->cmd_index = 5;
-
-	// final cat > outfile
-	u17 = calloc(1, sizeof(t_pipe_unit));
-	u17->type = CMD;
-	u17->args = malloc(sizeof(char *) * 2);
-	u17->args[0] = ft_strdup("cat");
-	u17->args[1] = NULL;
-	u17->fd = -1;
-	u17->cmd_index = 5;
-
-	u18 = calloc(1, sizeof(t_pipe_unit));
-	u18->type = REDIR_OUT;
-	u18->file = ft_strdup("outfile");
-	u18->fd = -1;
-	u18->cmd_index = 5;
-
-	// chain
-	u1->next = u2;
-	u2->next = u3;
-	u3->next = u4;
-	u4->next = u5;
-	u5->next = u6;
-	u6->next = u7;
-	u7->next = u8;
-	u8->next = u9;
-	u9->next = u10;
-	u10->next = u11;
-	u11->next = u12;
-	u12->next = u13;
-	u13->next = u14;
-	u14->next = u15;
-	u15->next = u16;
-	u16->next = u17;
-	u17->next = u18;
-	u18->next = NULL;
+	u1->next = NULL;
 
 	mini->units = u1;
-	mini->pipe_nb = 5;
+	mini->pipe_nb = 0;
 }
 
 void	print_data(t_mini *mini)
@@ -201,6 +57,8 @@ void	print_data(t_mini *mini)
 
 int	execute_input(t_mini *mini)
 {
+	t_pipe_unit	*cmd;
+
 	init_data(mini);
 	mini->cmd_nb = mini->pipe_nb + 1;
 	mini->envp = build_envp_tab(mini->env);
@@ -210,6 +68,9 @@ int	execute_input(t_mini *mini)
 		return (0);
 	if (mini->pipe_nb && !create_pipes(mini))
 		return (0);
+	cmd = get_cmd_unit(mini->units, 0);
+	if (mini->cmd_nb == 1 && is_built_in(cmd))
+		return (exec_in_parent(mini, cmd));
 	if (!create_children(mini))
 		return (0);
 	if (!wait_children(mini))
@@ -217,30 +78,38 @@ int	execute_input(t_mini *mini)
 	return (1);
 }
 
-static char	**build_envp_tab(t_env *env)
+static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd)
 {
-	char	**envp;
-	char	*temp;
-	int		i;
-	int		env_nodes;
+	int	stdin;
+	int	stdout;
 
-	env_nodes = count_env_nodes(env);
-	envp = malloc((env_nodes + 1) * sizeof(char *));
-	if (!envp)
-		return (NULL);
-	i = 0;
-	while (env)
-	{
-		temp = ft_strjoin(env->key, "=");
-		if (!temp)
-			return (free_char_tab(envp), NULL);
-		envp[i] = ft_strjoin(temp, env->value);
-		free(temp);
-		if (!envp[i])
-			return (free_char_tab(envp), NULL);
-		i++;
-		env = env->next;
-	}
-	envp[i] = NULL;
-	return (envp);
+	stdin = dup(STDIN_FILENO);
+	stdout = dup(STDOUT_FILENO);
+	if (stdin == -1 || stdout == -1)
+		return (perror(ERR_DUP), set_exec_error(mini));
+	if (!open_files(mini->units, 0))
+		return (close_saved_fds(stdin, stdout), 0);
+	if (mini->pipe_nb && !dup_pipes(mini->units, 0))
+		return (close_saved_fds(stdin, stdout), set_exec_error(mini));
+	if (!dup_redirects(mini->units, 0))
+		return (close_saved_fds(stdin, stdout), set_exec_error(mini));
+	close_all_fds(mini->units);
+	execute_built_in(cmd);
+	if (!dup_saved_fds(stdin, stdout))
+		return (close_saved_fds(stdin, stdout), set_exec_error(mini));
+	close_saved_fds(stdin, stdout);
+	mini->err_num = 0;
+	return (1);
+}
+
+static int	set_exec_error(t_mini *mini)
+{
+	mini->err_num = 1;
+	return (0);
+}
+
+static void	close_saved_fds(int stdin, int stdout)
+{
+	safe_close(&stdin);
+	safe_close(&stdout);
 }

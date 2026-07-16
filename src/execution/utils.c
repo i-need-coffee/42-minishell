@@ -41,3 +41,31 @@ t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i)
 	}
 	return (NULL);
 }
+
+char	**build_envp_tab(t_env *env)
+{
+	char	**envp;
+	char	*temp;
+	int		i;
+	int		env_nodes;
+
+	env_nodes = count_env_nodes(env);
+	envp = malloc((env_nodes + 1) * sizeof(char *));
+	if (!envp)
+		return (NULL);
+	i = 0;
+	while (env)
+	{
+		temp = ft_strjoin(env->key, "=");
+		if (!temp)
+			return (free_char_tab(envp), NULL);
+		envp[i] = ft_strjoin(temp, env->value);
+		free(temp);
+		if (!envp[i])
+			return (free_char_tab(envp), NULL);
+		i++;
+		env = env->next;
+	}
+	envp[i] = NULL;
+	return (envp);
+}

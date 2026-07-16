@@ -3,14 +3,12 @@
 static char			*get_cmd_path(char *env_path, char *cmd);
 static int			print_exec_error(char *cmd, int error);
 
-int	execute_cmd(t_mini *mini, int i)
+int	execute_cmd(t_mini *mini, t_pipe_unit *cmd)
 {
-	t_pipe_unit	*cmd;
 	char		*env_path;
 	char		*cmd_path;
 	int			exit_code;
 
-	cmd = get_cmd_unit(mini->units, i);
 	env_path = get_value_with_key(mini->env, "PATH");
 	if (!env_path || !env_path[0] || ft_strchr(cmd->args[0], '/'))
 	{

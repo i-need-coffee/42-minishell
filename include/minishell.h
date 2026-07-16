@@ -147,13 +147,18 @@ void			free_pipe_units(t_pipe_unit **root);
 int				create_pipes(t_mini *mini);
 int				open_files(t_pipe_unit *units, int i);
 int				create_children(t_mini *mini);
-int				execute_cmd(t_mini *mini, int i);
+int				execute_cmd(t_mini *mini, t_pipe_unit *cmd);
 int				wait_children(t_mini *mini);
 void			close_all_fds(t_pipe_unit *units);
 t_pipe_unit		*get_cmd_unit(t_pipe_unit *units, int i);
+char			**build_envp_tab(t_env *env);
+int				dup_pipes(t_pipe_unit *units, int i);
+int				dup_redirects(t_pipe_unit *units, int i);
+int				dup_saved_fds(int stdin, int stdout);
 
 /* -- BUILT-IN --*/
-int				execute_built_in(t_mini *mini, int i);
+int				is_built_in(t_pipe_unit *cmd);
+void			execute_built_in(t_pipe_unit *cmd);
 void			echo(char **args);
 
 #endif
