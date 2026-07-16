@@ -4,7 +4,6 @@ static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd);
 static int	set_exec_error(t_mini *mini);
 static void	close_saved_fds(int stdin, int stdout);
 
-
 void	init_data(t_mini *mini)
 {
 	t_pipe_unit	*u1;
@@ -12,10 +11,13 @@ void	init_data(t_mini *mini)
 	// echo "hello, world!"
 	u1 = calloc(1, sizeof(t_pipe_unit));
 	u1->type = CMD;
-	u1->args = malloc(sizeof(char *) * 3);
+	u1->args = malloc(sizeof(char *) * 6);
 	u1->args[0] = ft_strdup("echo");
-	u1->args[1] = ft_strdup("hello, world!");
-	u1->args[2] = NULL;
+	u1->args[1] = ft_strdup("-nnn");
+	u1->args[2] = ft_strdup("-na");
+	u1->args[3] = ft_strdup("-n");
+	u1->args[4] = ft_strdup("hello, world!");
+	u1->args[5] = NULL;
 	u1->fd = -1;
 	u1->cmd_index = 0;
 	u1->next = NULL;
