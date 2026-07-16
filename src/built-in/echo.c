@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	ft_echo(char **args)
+void	echo(char **args)
 {
 	int	has_newline;
 	int	i;

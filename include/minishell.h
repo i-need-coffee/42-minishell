@@ -154,6 +154,6 @@ t_pipe_unit		*get_cmd_unit(t_pipe_unit *units, int i);
 
 /* -- BUILT-IN --*/
 int				execute_built_in(t_mini *mini, int i);
-void			ft_echo(char **args);
+void			echo(char **args);
 
 #endif

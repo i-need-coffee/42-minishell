@@ -9,7 +9,7 @@ int	execute_built_in(t_mini *mini, int i)
 		return (0);
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 	{
-		ft_echo(cmd->args);
+		echo(cmd->args);
 		return (1);
 	}
 	return (0);
