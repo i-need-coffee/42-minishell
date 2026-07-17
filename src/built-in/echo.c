@@ -1,33 +1,47 @@
 #include "minishell.h"
 
+static void	set_data(int *has_newline, int *i, int *last_arg, char **args);
 static int	is_n_flag(char *arg);
 static int	count_args(char **args);
 
-void	echo(char **args)
+int	echo(char **args)
 {
 	int	has_newline;
 	int	i;
 	int	last_arg;
 
-	has_newline = 1;
-	i = 1;
-	if (args[1] && is_n_flag(args[1]))
-	{
-		has_newline = 0;
-		i = 2;
-	}
+	set_data(&has_newline, &i, &last_arg, args);
 	while (args[i] && is_n_flag(args[i]))
 		i++;
-	last_arg = count_args(args) - 1;
 	while (args[i])
 	{
-		write(STDOUT_FILENO, args[i], ft_strlen(args[i]));
+		if (write(STDOUT_FILENO, args[i], ft_strlen(args[i])) == -1)
+			return (perror(ERR_WRITE), 0);
 		if (i != last_arg)
-			write(STDOUT_FILENO, " ", 1);
+		{
+			if (write(STDOUT_FILENO, " ", 1) == -1)
+				return (perror(ERR_WRITE), 0);
+		}
 		i++;
 	}
 	if (has_newline)
-		write(STDOUT_FILENO, "\n", 1);
+	{
+		if (write(STDOUT_FILENO, "\n", 1) == -1)
+			return (perror(ERR_WRITE), 0);
+	}
+	return (1);
+}
+
+static void	set_data(int *has_newline, int *i, int *last_arg, char **args)
+{
+	*has_newline = 1;
+	*i = 1;
+	if (args[1] && is_n_flag(args[1]))
+	{
+		*has_newline = 0;
+		*i = 2;
+	}
+	*last_arg = count_args(args) - 1;
 }
 
 static int	is_n_flag(char *arg)

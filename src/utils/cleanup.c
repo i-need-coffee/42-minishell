@@ -21,6 +21,8 @@ void	cleanup(t_mini *mini)
 		free_char_tab(mini->envp);
 		mini->envp = NULL;
 	}
+	safe_close(mini->saved_stdin);
+	safe_close(mini->saved_stdout);
 }
 
 /*

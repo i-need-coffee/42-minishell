@@ -7,8 +7,12 @@ int	is_built_in(t_pipe_unit *cmd)
 	return (0);
 }
 
-void	execute_built_in(t_pipe_unit *cmd)
+int	execute_built_in(t_pipe_unit *cmd)
 {
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
-		echo(cmd->args);
+	{
+		if (!echo(cmd->args))
+			return (1);
+	}
+	return (0);
 }

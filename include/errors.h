@@ -9,5 +9,6 @@
 # define ERR_DUP2		"error: dup2 failed"
 # define ERR_DUP		"error: dup failed"
 # define ERR_WAITPID	"error: waitpid failed"
+# define ERR_WRITE		"error: write failed"
 
 #endif
