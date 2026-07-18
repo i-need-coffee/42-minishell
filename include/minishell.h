@@ -81,6 +81,7 @@ typedef struct s_pipe_unit
 	char				*file;
 	int					fd; // laisse a -1
 	int					cmd_index; // most important MTF
+	struct s_pipe_unit	*prev;
 	struct s_pipe_unit	*next;
 }	t_pipe_unit;
 
@@ -146,8 +147,11 @@ int	check_quote_sanity(char *str, int end, char c);
 t_pipe_unit	*create_or_update_unit_struct(t_pipe_unit **head, int cmdi,
 		t_unit_type type);
 int	handle_dollar(char *str, int i, t_env *env, t_pipe_unit *unit);
-int parse_pipe_token(t_pipe_unit **unit, t_token *current, int cmdi);
-int	parse_redirection_token(t_pipe_unit **unit, t_token *current);
-int uptade_unit_struct_heredoc(t_pipe_unit **unit, t_token *current);
+int parse_pipe_token(t_pipe_unit **unit, t_token *current, int *cmdi);
+int	parse_redirection_token(t_pipe_unit **unit, t_token *current, t_env *env);
+int handle_single_argument(t_pipe_unit **unit, t_token *next);
+int  handle_literal_argument(t_pipe_unit **unit, t_token *next);
+void clean_str(char *str);
+int put_value_in_prev_args(t_pipe_unit *cnode, t_token *current, t_env *env);
 
 #endif

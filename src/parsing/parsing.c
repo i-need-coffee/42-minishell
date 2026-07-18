@@ -9,7 +9,6 @@ int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
 	t_token	*current;
 	int		cmdi;
 
-	// t_pipe_unit *unit;
 	cmdi = 0;
 	current = mini->tokens;
 
@@ -25,22 +24,18 @@ int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
 		}
 		else if (current->type == TOKEN_PIPE)
 		{
-			if(parse_pipe_token(unit, current, cmdi))
+			if(parse_pipe_token(unit, current, &cmdi))
 				return (-1);
-			cmdi++;
+			// cmdi++;
 		}
 		else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
 				  || current->type == TOKEN_APPEND  || current->type == TOKEN_HEREDOC)
 		{
-			if (parse_redirection_token(unit, current))
-			{
+			if (parse_redirection_token(unit, current, mini->env))
 				return (-1);
-			}
 		}
 		if (*unit == NULL)
-		{
 			return (-1); // todo: handle error
-		}
 		current = current->next;
 	}
 	if (*unit && (*unit)->args)

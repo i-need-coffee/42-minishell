@@ -73,6 +73,7 @@ t_pipe_unit	*create_or_update_unit_struct(t_pipe_unit **head, int cmdi,
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new_unit_node(cmdi, type);
+		tmp->next->prev = tmp;
 	}
     return (NULL);
 }

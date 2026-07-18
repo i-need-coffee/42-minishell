@@ -22,7 +22,7 @@ int	handle_double_quote(char *str, int i, t_env *env, t_pipe_unit *unit)
 
 	start = i;
 	buffer_t_list_args = NULL;
-	end = check_quote_sanity(str, i, '\"');// error message to add
+	end = check_quote_sanity(str, i, '\"');
 	if (end == -1)
 		return (-1);
 	while (str[i] && !(i > end || i == end))
@@ -51,7 +51,7 @@ int	handle_single_quote(char *str, int i, t_pipe_unit *unit)
 
 	i++;
 	end = check_quote_sanity(str, i, '\'');
-	if (end == -1) // error message to add
+	if (end == -1)
 		return (-1);
 	substr = ft_substr(str, i, end - i);
     create_or_update_lst(unit, substr);
@@ -62,9 +62,7 @@ int	handle_single_quote(char *str, int i, t_pipe_unit *unit)
 int	handle_quote(char *str, int i, t_env *env, t_pipe_unit *unit)
 {
 	if (str[i] == '\"')
-	{
 		i = handle_double_quote(str, i + 1, env, unit);
-	}
 	else
 		i = handle_single_quote(str, i, unit);
 	if (i == -1)

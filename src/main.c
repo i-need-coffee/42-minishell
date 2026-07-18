@@ -22,7 +22,6 @@ void	clean_unit_struct(t_pipe_unit *unit)
 **	Reads one line of input, validates quotes, tokenizes it, and returns
 **	0 on EOF (Ctrl-D) or 1 to keep the shell loop running.
 */
-// on n'inicialise pas unit ?
 int	process_line(t_mini *mini)
 {
 	t_pipe_unit *unit;

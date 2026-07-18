@@ -16,8 +16,6 @@ int	handle_dollar(char *str, int i, t_env *env, t_pipe_unit *new_token)
 	return (i);
 }
 
-
-
 int	expension(char *str, int i, t_env *env, char **buffer)
 {
 	int		end;
