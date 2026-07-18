@@ -31,7 +31,8 @@ SRCS			= \
 	$(SRC_DIR)/execution/exec.c \
 	$(SRC_DIR)/execution/dup.c \
 	$(SRC_DIR)/built-in/exec.c \
-	$(SRC_DIR)/built-in/echo.c
+	$(SRC_DIR)/built-in/echo.c \
+	$(SRC_DIR)/built-in/pwd.c
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

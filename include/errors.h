@@ -11,5 +11,6 @@
 # define ERR_WAITPID		"error: waitpid failed"
 # define ERR_WRITE			"error: write failed"
 # define ERR_RESTORE_FDS	"impossible to restore original STDIN and STDOUT"
+# define ERR_PWD			"error: could not get current directory path"
 
 #endif

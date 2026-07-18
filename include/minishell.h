@@ -161,5 +161,6 @@ void			restore_fds(t_mini *mini, int saved_stdin, int saved_stdout);
 int				is_built_in(t_pipe_unit *cmd);
 int				execute_built_in(t_pipe_unit *cmd);
 int				echo(char **args);
+int				pwd(void);
 
 #endif
