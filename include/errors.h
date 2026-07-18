@@ -1,16 +1,16 @@
 #ifndef ERRORS_H
 # define ERRORS_H
 
-# define ERR_ALLOC			"memory allocation failed"
-# define ERR_QUOTES			"incorrect syntax: unclosed quotes"
-# define ERR_SIGACTION		"sigaction failed"
-# define ERR_PIPE			"error: pipe failed"
-# define ERR_FORK			"error: fork failed"
-# define ERR_DUP2			"error: dup2 failed"
-# define ERR_DUP			"error: dup failed"
-# define ERR_WAITPID		"error: waitpid failed"
-# define ERR_WRITE			"error: write failed"
-# define ERR_RESTORE_FDS	"impossible to restore original STDIN and STDOUT"
-# define ERR_PWD			"error: could not get current directory path"
+# define ERR_ALLOC			"minishell: memory allocation failed"
+# define ERR_QUOTES			"minishell: incorrect syntax: unclosed quotes"
+# define ERR_SIGACTION		"minishell: sigaction failed"
+# define ERR_PIPE			"minishell: pipe failed"
+# define ERR_FORK			"minishell: fork failed"
+# define ERR_DUP2			"minishell: dup2 failed"
+# define ERR_DUP			"minishell: dup failed"
+# define ERR_WAITPID		"minishell: waitpid failed"
+# define ERR_WRITE			"minishell: write failed"
+# define ERR_RESTORE_FDS	"minishell: impossible to restore original STDIN and STDOUT"
+# define ERR_PWD			"minishell: could not get current directory path"
 
 #endif
