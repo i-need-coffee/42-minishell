@@ -141,14 +141,14 @@ char			*get_value_with_key(t_env *env, char *key);
 int				count_env_nodes(t_env *env);
 
 /* -- EXECUTION --*/
-int				execute_input(t_mini *mini);
+void			execute_input(t_mini *mini);
 int				execute_heredocs(t_mini *mini);
 void			free_pipe_units(t_pipe_unit **root);
 int				create_pipes(t_mini *mini);
 int				open_files(t_pipe_unit *units, int i);
 int				create_children(t_mini *mini);
 int				execute_cmd(t_mini *mini, t_pipe_unit *cmd);
-int				wait_children(t_mini *mini);
+void			wait_children(t_mini *mini);
 void			close_all_fds(t_pipe_unit *units);
 t_pipe_unit		*get_cmd_unit(t_pipe_unit *units, int i);
 char			**build_envp_tab(t_env *env);

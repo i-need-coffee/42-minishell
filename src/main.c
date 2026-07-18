@@ -18,8 +18,7 @@ int	process_line(t_mini *mini)
 		return (print_error(ERR_QUOTES), cleanup(mini), 1);
 	}
 	tokenize_input(mini);
-	if (!execute_input(mini))
-		return (cleanup(mini), 1);
+	execute_input(mini);
 	cleanup(mini);
 	return (1);
 }

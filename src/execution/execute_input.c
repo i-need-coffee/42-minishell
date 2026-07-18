@@ -53,7 +53,7 @@ void	print_data(t_mini *mini)
 	ft_printf("─────────────────────────────────────────\n");
 }
 
-int	execute_input(t_mini *mini)
+void	execute_input(t_mini *mini)
 {
 	t_pipe_unit	*cmd;
 
@@ -63,23 +63,18 @@ int	execute_input(t_mini *mini)
 	if (!mini->envp)
 		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	if (!execute_heredocs(mini))
-		return (0);
+		return ;
 	if (mini->pipe_nb && !create_pipes(mini))
-		return (0);
+		return ;
 	cmd = get_cmd_unit(mini->units, 0);
 	if (mini->cmd_nb == 1 && is_built_in(cmd))
 	{
 		mini->err_num = exec_in_parent(mini, cmd);
-		if (mini->err_num == 0)
-			return (1);
-		else
-			return (0);
+		return ;
 	}
 	if (!create_children(mini))
-		return (0);
-	if (!wait_children(mini))
-		return (0);
-	return (1);
+		return ;
+	wait_children(mini);
 }
 
 static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd)

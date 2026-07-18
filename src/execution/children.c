@@ -25,8 +25,7 @@ int	create_children(t_mini *mini)
 	close_all_fds(mini->units);
 	return (1);
 }
-
-int	wait_children(t_mini *mini)
+void	wait_children(t_mini *mini)
 {
 	int		status;
 	int		i;
@@ -35,14 +34,16 @@ int	wait_children(t_mini *mini)
 	while (i < mini->cmd_nb)
 	{
 		if (waitpid(mini->pids[i], &status, 0) == -1)
-			return (perror(ERR_WAITPID), 0);
+		{
+			perror(ERR_WAITPID);
+			return ;
+		}
 		i++;
 	}
 	if (WIFEXITED(status))
 		mini->err_num = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
 		mini->err_num = 128 + WTERMSIG(status);
-	return (1);
 }
 
 static void	run_child_process(t_mini *mini, int i)
