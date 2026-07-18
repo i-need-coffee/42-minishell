@@ -135,7 +135,7 @@ int				strlen_key(char *envp);
 void			free_env(t_env **root);
 /* -- PARSING --*/
 int	parse_tokens(t_mini *mini, t_pipe_unit **head);
-int	parse_word_token(t_pipe_unit **head, char *str, int cmdi, t_env *env);
+int	parse_word_token(t_pipe_unit **head, t_token *tkn, t_env *env);
 int add_arg(char *str, int i, t_pipe_unit *unit);
 void    print_lst(void* str);
 int    expension(char *str, int i, t_env *env, char **buffer);
@@ -146,7 +146,7 @@ int	check_quote_sanity(char *str, int end, char c);
 t_pipe_unit	*create_or_update_unit_struct(t_pipe_unit **head, int cmdi,
 		t_unit_type type);
 int	handle_dollar(char *str, int i, t_env *env, t_pipe_unit *unit);
-int parse_pipe_token(t_pipe_unit **unit, t_token *current);
+int parse_pipe_token(t_pipe_unit **unit, t_token *current, int cmdi);
 int	parse_redirection_token(t_pipe_unit **unit, t_token *current);
 int uptade_unit_struct_heredoc(t_pipe_unit **unit, t_token *current);
 

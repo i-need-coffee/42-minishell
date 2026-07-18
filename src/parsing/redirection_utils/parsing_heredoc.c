@@ -32,12 +32,16 @@ static int handle_single_argument(t_pipe_unit **unit, t_token *next) {
     int end;
     char    *buffer;
     char    *tmp;
+    t_pipe_unit *tmp_unit;
 
+    tmp_unit = *unit;
+    while (tmp_unit->next)
+        tmp_unit = tmp_unit->next;
     end = 0;
     while (next->value[end] && next->value[end] != ' ')
         end++;
     //TODO: gerer le cas ou != ' '. genre "infile".txt
-    (*unit)->file = ft_substr(next->value, 0, end);
+    tmp_unit->file = ft_substr(next->value, 0, end);
     buffer = ft_substr(next->value, end + 1, ft_strlen(next->value) - end);
     tmp = ft_strtrim(buffer, " ");
     free(next->value);

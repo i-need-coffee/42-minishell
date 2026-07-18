@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int parse_pipe_token(t_pipe_unit **unit, t_token *current)
+int parse_pipe_token(t_pipe_unit **unit, t_token *current, int cmdi)
 {
     if (current->prev == NULL || current->next == NULL )
     {
@@ -12,7 +12,8 @@ int parse_pipe_token(t_pipe_unit **unit, t_token *current)
         ft_printf (ERR_UNEXPECTED_TOKEN_PIPE);
         return (-1);
     }
-    create_or_update_unit_struct(unit, 0, PIPE_OUT);
-    create_or_update_unit_struct(unit, 0, PIPE_IN);
+    create_or_update_unit_struct(unit, cmdi, PIPE_OUT);
+    cmdi++;
+    create_or_update_unit_struct(unit, cmdi, PIPE_IN);
     return (0);
 }
