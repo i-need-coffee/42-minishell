@@ -1,8 +1,6 @@
 #include "minishell.h"
 
 static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd);
-static int	set_exec_error(t_mini *mini);
-static void	close_saved_fds(int stdin, int stdout);
 
 void	init_data(t_mini *mini)
 {
@@ -11,10 +9,11 @@ void	init_data(t_mini *mini)
 	// echo "hello, world!"
 	u1 = calloc(1, sizeof(t_pipe_unit));
 	u1->type = CMD;
-	u1->args = malloc(sizeof(char *) * 3);
+	u1->args = malloc(sizeof(char *) * 4);
 	u1->args[0] = ft_strdup("echo");
-	u1->args[1] = ft_strdup("bonjour l ami");
-	u1->args[2] = NULL;
+	u1->args[1] = ft_strdup("-nnnnnnn");
+	u1->args[2] = ft_strdup("bonjour l ami");
+	u1->args[3] = NULL;
 	u1->fd = -1;
 	u1->cmd_index = 0;
 	u1->next = NULL;
@@ -69,7 +68,13 @@ int	execute_input(t_mini *mini)
 		return (0);
 	cmd = get_cmd_unit(mini->units, 0);
 	if (mini->cmd_nb == 1 && is_built_in(cmd))
-		return (exec_in_parent(mini, cmd));
+	{
+		mini->err_num = exec_in_parent(mini, cmd);
+		if (mini->err_num == 0)
+			return (1);
+		else
+			return (0);
+	}
 	if (!create_children(mini))
 		return (0);
 	if (!wait_children(mini))
@@ -79,42 +84,21 @@ int	execute_input(t_mini *mini)
 
 static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd)
 {
-	
-}
+	int	saved_stdin;
+	int	saved_stdout;
+	int	exec_result;
 
-/*
-static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd)
-{
-	int	stdin;
-	int	stdout;
-
-	stdin = dup(STDIN_FILENO);
-	stdout = dup(STDOUT_FILENO);
-	if (stdin == -1 || stdout == -1)
-		return (perror(ERR_DUP), set_exec_error(mini));
+	saved_stdin = -1;
+	saved_stdout = -1;
 	if (!open_files(mini->units, 0))
-		return (close_saved_fds(stdin, stdout), 0);
+		return (0);
+	if (!dup_saved_fds(&saved_stdin, &saved_stdout))
+		return (1);
 	if (mini->pipe_nb && !dup_pipes(mini->units, 0))
-		return (close_saved_fds(stdin, stdout), set_exec_error(mini));
+		return (restore_fds(mini, saved_stdin, saved_stdout), 1);
 	if (!dup_redirects(mini->units, 0))
-		return (close_saved_fds(stdin, stdout), set_exec_error(mini));
-	close_all_fds(mini->units);
-	execute_built_in(cmd);
-	close_saved_fds(stdin, stdout);
-	mini->err_num = 0;
-	return (1);
-}
-*/
-
-static int	set_exec_error(t_mini *mini)
-{
-	mini->err_num = 1;
-	return (0);
-}
-
-static void	close_saved_fds(int stdin, int stdout)
-{
-	dup_saved_fds(stdin, stdout);
-	safe_close(&stdin);
-	safe_close(&stdout);
+		return (restore_fds(mini, saved_stdin, saved_stdout), 1);
+	exec_result = execute_built_in(cmd);
+	restore_fds(mini, saved_stdin, saved_stdout);
+	return (exec_result);
 }

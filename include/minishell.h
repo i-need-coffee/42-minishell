@@ -95,8 +95,6 @@ typedef struct s_mini
 	t_pipe_unit	*units;
 	pid_t		*pids;
 	int			err_num;
-	int			saved_stdin;
-	int			saved_stdout;
 }	t_mini;
 
 /*
@@ -156,7 +154,8 @@ t_pipe_unit		*get_cmd_unit(t_pipe_unit *units, int i);
 char			**build_envp_tab(t_env *env);
 int				dup_pipes(t_pipe_unit *units, int i);
 int				dup_redirects(t_pipe_unit *units, int i);
-int				dup_saved_fds(int stdin, int stdout);
+int				dup_saved_fds(int *saved_stdin, int *saved_stdout);
+void			restore_fds(t_mini *mini, int saved_stdin, int saved_stdout);
 
 /* -- BUILT-IN --*/
 int				is_built_in(t_pipe_unit *cmd);
