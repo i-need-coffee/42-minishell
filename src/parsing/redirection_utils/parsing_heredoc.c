@@ -14,12 +14,16 @@ static int  handle_literal_argument(t_pipe_unit **unit, t_token *next) {
     int end;
     char    *buffer;
     char    *tmp;
+    t_pipe_unit *tmp_unit;
 
+    tmp_unit = *unit;
+    while (tmp_unit->next)
+        tmp_unit = tmp_unit->next;
     end = internal_check_quote_sanity(next->value, 1, '\"');
     if (end == -1 )
         return (-1);
     //TODO: gerer le cas ou != ' '. genre "infile".txt
-    (*unit)->file = ft_substr(next->value, 1, end - 1);
+    tmp_unit->file = ft_substr(next->value, 1, end - 1);
     buffer = ft_substr(next->value, end + 1, ft_strlen(next->value) - end);
     tmp = ft_strtrim(buffer, " ");
     free(next->value);
