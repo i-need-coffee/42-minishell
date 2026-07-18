@@ -15,7 +15,7 @@ int	pwd(void)
 			free(buffer);
 			return (1);
 		}
-		size *= 2;
+		size += 1024;
 		free(buffer);
 		buffer = malloc(size * sizeof(char));
 	}
