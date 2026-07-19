@@ -2,7 +2,6 @@
 
 static void	set_data(int *has_newline, int *i, int *last_arg, char **args);
 static int	is_n_flag(char *arg);
-static int	count_args(char **args);
 
 int	echo(char **args)
 {
@@ -60,14 +59,4 @@ static int	is_n_flag(char *arg)
 		i++;
 	}
 	return (1);
-}
-
-static int	count_args(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
 }
