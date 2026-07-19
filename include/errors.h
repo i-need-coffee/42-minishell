@@ -11,6 +11,6 @@
 # define ERR_WAITPID		"minishell: waitpid failed"
 # define ERR_WRITE			"minishell: write failed"
 # define ERR_RESTORE_FDS	"minishell: impossible to restore original STDIN and STDOUT"
-# define ERR_PWD			"minishell: could not get current directory path"
+# define ERR_PWD			"minishell: pwd"
 
 #endif
