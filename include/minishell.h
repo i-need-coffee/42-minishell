@@ -71,6 +71,7 @@ typedef struct s_env
 {
 	char			*key;
 	char			*value;
+	struct s_env	*prev;
 	struct s_env	*next;
 }	t_env;
 
@@ -165,5 +166,6 @@ int				pwd(void);
 int				cd(char **args);
 int				count_args(char **args);
 int				env(char **envp, char **args);
+int				unset(t_env **root, char **args);
 
 #endif

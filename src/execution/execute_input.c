@@ -5,44 +5,21 @@ static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd);
 void	init_data(t_mini *mini)
 {
 	t_pipe_unit	*u1;
-	t_pipe_unit	*u2;
-	t_pipe_unit	*u3;
-	t_pipe_unit	*u4;
 
-	// echo hello | env
+	// unset USER
 	u1 = calloc(1, sizeof(t_pipe_unit));
 	u1->type = CMD;
-	u1->args = malloc(sizeof(char *) * 3);
-	u1->args[0] = ft_strdup("echo");
-	u1->args[1] = ft_strdup("hello");
-	u1->args[2] = NULL;
+	u1->args = malloc(sizeof(char *) * 4);
+	u1->args[0] = ft_strdup("unset");
+	u1->args[1] = ft_strdup("USER");
+	u1->args[2] = ft_strdup("WT_PROFILE_ID");
+	u1->args[3] = NULL;
 	u1->fd = -1;
 	u1->cmd_index = 0;
+	u1->next = NULL;
 
-	u2 = calloc(1, sizeof(t_pipe_unit));
-	u2->type = PIPE_OUT;
-	u2->fd = -1;
-	u2->cmd_index = 0;
-
-	u3 = calloc(1, sizeof(t_pipe_unit));
-	u3->type = PIPE_IN;
-	u3->fd = -1;
-	u3->cmd_index = 1;
-
-	u4 = calloc(1, sizeof(t_pipe_unit));
-	u4->type = CMD;
-	u4->args = malloc(sizeof(char *) * 2);
-	u4->args[0] = ft_strdup("env");
-	u4->args[1] = NULL;
-	u4->fd = -1;
-	u4->cmd_index = 1;
-	u4->next = NULL;
-
-	u1->next = u2;
-	u2->next = u3;
-	u3->next = u4;
 	mini->units = u1;
-	mini->pipe_nb = 1;
+	mini->pipe_nb = 0;
 }
 
 void	print_data(t_mini *mini)
@@ -92,7 +69,12 @@ void	execute_input(t_mini *mini)
 	cmd = get_cmd_unit(mini->units, 0);
 	if (cmd && mini->cmd_nb == 1 && is_built_in(cmd))
 	{
+		printf("\n--BEFORE--\n\n");
+		print_node_env(mini->env);
 		mini->err_num = exec_in_parent(mini, cmd);
+		printf("\n\n--NOW--\n\n");
+		print_node_env(mini->env);
+		printf("\n\n");
 		return ;
 	}
 	if (!create_children(mini))
