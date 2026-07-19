@@ -12,5 +12,6 @@
 # define ERR_WRITE			"minishell: write failed"
 # define ERR_RESTORE_FDS	"minishell: impossible to restore original STDIN and STDOUT"
 # define ERR_PWD			"minishell: pwd"
+# define ERR_ECHO			"minishell: echo"
 
 #endif

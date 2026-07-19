@@ -16,18 +16,18 @@ int	echo(char **args)
 	while (args[i])
 	{
 		if (write(STDOUT_FILENO, args[i], ft_strlen(args[i])) == -1)
-			return (perror(ERR_WRITE), 1);
+			return (perror(ERR_ECHO), 1);
 		if (i != last_arg)
 		{
 			if (write(STDOUT_FILENO, " ", 1) == -1)
-				return (perror(ERR_WRITE), 1);
+				return (perror(ERR_ECHO), 1);
 		}
 		i++;
 	}
 	if (has_newline)
 	{
 		if (write(STDOUT_FILENO, "\n", 1) == -1)
-			return (perror(ERR_WRITE), 1);
+			return (perror(ERR_ECHO), 1);
 	}
 	return (0);
 }
