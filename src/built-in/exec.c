@@ -8,11 +8,13 @@ int	is_built_in(t_pipe_unit *cmd)
 		return (1);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 		return (1);
+	else if (ft_strcmp(cmd->args[0], "env") == 0)
+		return (1);
 	else
 		return (0);
 }
 
-int	execute_built_in(t_pipe_unit *cmd)
+int	execute_built_in(t_mini *mini, t_pipe_unit *cmd)
 {
 	int	exec_result;
 
@@ -23,5 +25,7 @@ int	execute_built_in(t_pipe_unit *cmd)
 		exec_result = pwd();
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 		exec_result = cd(cmd->args);
+	else if (ft_strcmp(cmd->args[0], "env") == 0)
+		exec_result = env(mini->envp, cmd->args);
 	return (exec_result);
 }

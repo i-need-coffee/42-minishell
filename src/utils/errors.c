@@ -20,6 +20,7 @@ void	print_error_and_exit(t_mini *mini, char *err_msg, int exit_code)
 
 void	print_perror(char *err_msg, int errnum)
 {
+	write(2, "minishell: ", 11);
 	write(2, err_msg, ft_strlen(err_msg));
 	write(2, ": ", 2);
 	write(2, strerror(errnum), ft_strlen(strerror(errnum)));
