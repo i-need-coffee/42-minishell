@@ -86,11 +86,9 @@ static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd)
 	saved_stdin = -1;
 	saved_stdout = -1;
 	if (!open_files(mini->units, 0))
-		return (0);
+		return (1);
 	if (!dup_saved_fds(&saved_stdin, &saved_stdout))
 		return (1);
-	if (mini->pipe_nb && !dup_pipes(mini->units, 0))
-		return (restore_fds(mini, saved_stdin, saved_stdout), 1);
 	if (!dup_redirects(mini->units, 0))
 		return (restore_fds(mini, saved_stdin, saved_stdout), 1);
 	exec_result = execute_built_in(cmd);
