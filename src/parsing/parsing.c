@@ -26,7 +26,6 @@ int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
 		{
 			if(parse_pipe_token(unit, current, &cmdi))
 				return (-1);
-			// cmdi++;
 		}
 		else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
 				  || current->type == TOKEN_APPEND  || current->type == TOKEN_HEREDOC)

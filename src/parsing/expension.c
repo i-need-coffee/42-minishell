@@ -1,18 +1,17 @@
 #include "minishell.h"
 
-int	handle_dollar(char *str, int i, t_env *env, t_pipe_unit *new_token)
+int	handle_dollar(char *str, int i, t_env *env, char **b)
 {
 	char *buffer;
-	char *tmp;
-
-	tmp = NULL;
+	// char *tmp;
+	// tmp = NULL;
 	buffer = NULL;
 	create_or_update_buffer(&buffer, str, i, i);
 	i = expension(str, i, env, &buffer);
-	tmp = ft_strdup(buffer);
+	*b = ft_strdup(buffer);
 	free(buffer);
 	buffer = NULL;
-	create_or_update_lst(new_token, tmp);
+	// create_or_update_lst(new_token, tmp);
 	return (i);
 }
 

@@ -14,7 +14,7 @@ int	check_quote_sanity(char *str, int end, char c)
 	return (end);
 }
 
-int	handle_double_quote(char *str, int i, t_env *env, t_pipe_unit *unit)
+int	handle_double_quote(char *str, int i, t_env *env, char** b)
 {
 	int		start;
 	int		end;
@@ -40,11 +40,12 @@ int	handle_double_quote(char *str, int i, t_env *env, t_pipe_unit *unit)
 	}
 	if (start < i)
 		create_or_update_buffer(&buffer_t_list_args, str, start, i);
-	create_or_update_lst(unit, buffer_t_list_args);
+	// create_or_update_lst(unit, buffer_t_list_args);
+	*b = buffer_t_list_args;
 	return (end + 1);
 }
 
-int	handle_single_quote(char *str, int i, t_pipe_unit *unit)
+int	handle_single_quote(char *str, int i, char **b)
 {
 	int		end;
 	char	*substr;
@@ -54,17 +55,18 @@ int	handle_single_quote(char *str, int i, t_pipe_unit *unit)
 	if (end == -1)
 		return (-1);
 	substr = ft_substr(str, i, end - i);
-    create_or_update_lst(unit, substr);
+    // create_or_update_lst(unit, substr);
+	*b = substr;
 	end += 1;
 	return (end);
 }
 
-int	handle_quote(char *str, int i, t_env *env, t_pipe_unit *unit)
+int	handle_quote(char *str, int i, t_env *env, char **b)
 {
 	if (str[i] == '\"')
-		i = handle_double_quote(str, i + 1, env, unit);
+		i = handle_double_quote(str, i + 1, env, b);
 	else
-		i = handle_single_quote(str, i, unit);
+		i = handle_single_quote(str, i, b);
 	if (i == -1)
 		return (-1);
 	return (i);

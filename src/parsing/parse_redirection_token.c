@@ -4,35 +4,78 @@ int uptade_unit_struct_heredoc(t_pipe_unit **unit, t_token *current) {
     create_or_update_unit_struct(unit, 0, HEREDOC);
     if (current->next->value[0] == '"')
     {
-        if (handle_literal_argument(unit, current->next))
-        {
-            ft_printf(ERR_SYNTAX_TOKEN_REDIRECTION);
-            return (-1);
-        }
+        // TODO: look at `uptade_unit_struct_redir_out`
+        return 0;
     }
-    else
-        handle_single_argument(unit, current->next);
     return (0);
+}
+
+char *get_file_name( t_env *env, char **next_value, char *str) {
+    int i;
+    int ret;
+    int start;
+    int replace_start;
+    char *substr;
+    char *tmp;
+
+    start = 0;
+    i = 0;
+    while (str[i] != '\0' && str[i] != ' ') {
+        if (str[i] == '\'' || str[i] == '\"') {
+            replace_start = i;
+            substr = ft_substr(str,start ,i - start );
+            ret = handle_quote(str, i, env, &tmp);
+            if (ret == -1)
+                return (NULL);
+            if (str[i] == '\'') {
+                i = check_quote_sanity(str, i + 1, '\'');
+            }
+            else {
+                i = check_quote_sanity(str, i + 1, '\"');
+            }
+            i = replace_str(&str, tmp, replace_start, i + 1);
+            continue;
+        }
+        if (str[i] == '$') {
+            replace_start = i;
+            i = handle_dollar(str, i, env, &tmp);
+            i = replace_str(&str, tmp, replace_start, i);
+            continue;
+        }
+        i++;
+    }
+    substr = ft_substr(str, start, i - start);
+    free(*next_value);
+    *next_value = NULL;
+    *next_value = ft_substr(str, i, ft_strlen(str) - i);
+    return (substr);
 }
 
 int uptade_unit_struct_redir_out(t_pipe_unit **head, t_token *current, t_env *env, t_unit_type type) {
     create_or_update_unit_struct(head, 0, type);
     t_pipe_unit *current_node;
+    t_pipe_unit *tmp_prev;
+    char *str = current->next->value;
+    char *file_name;
 
     current_node = *head;
+    tmp_prev = current_node->prev;
     while (current_node->next)
         current_node = current_node->next;
-    if (current->next->value[0] == '"') {
-        if (handle_literal_argument(head, current->next))
-        {
-            ft_printf(ERR_SYNTAX_TOKEN_REDIRECTION);
-            return (-1);
-        }
-    }
-    else
-        handle_single_argument(head, current->next);
+    file_name = get_file_name(env, &current->next->value, str);
+
+    if (!file_name)
+        return (-1);
+    create_redirection_node(head, current->next, file_name);
     if (ft_strlen(current->next->value) != 0) {
-        put_value_in_prev_args(current_node->prev, current->next, env);
+        if (!tmp_prev) {
+            tmp_prev = new_unit_node(0, CMD);
+            tmp_prev->prev = NULL;
+            tmp_prev->next = current_node;
+            current_node->prev = tmp_prev;
+            *head = tmp_prev;
+        }
+        put_value_in_prev_args(tmp_prev, current->next, env);
         clean_str(current->next->value);
     }
     return (0);

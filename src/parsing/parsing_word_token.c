@@ -13,7 +13,7 @@ int    parse_word_token(t_pipe_unit **head, t_token *current, t_env *env)
     int i;
     int start;
     t_pipe_unit *new_token;
-    char *str;
+    char *str;//todo enlever le str et remplacer par current->value dans les args.
 
     str = current->value;
     create_or_update_unit_struct(head, 0, CMD);
@@ -24,12 +24,7 @@ int    parse_word_token(t_pipe_unit **head, t_token *current, t_env *env)
     start = i;
     while(str[i])
     {
-        if (str[i] == '\'' || str[i] == '\"')
-            i = handle_quote(str, i, env, new_token);
-        else if (str[i] == '$')
-             i = handle_dollar(str, i, env,new_token);
-        else
-            i = add_arg(str, i, new_token);
+        i = add_arg(&str, i, new_token, env);
         if (i == -1)
                 return (-1);
         while(str[i] == ' ')

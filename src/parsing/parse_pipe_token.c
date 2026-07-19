@@ -13,7 +13,7 @@ int parse_pipe_token(t_pipe_unit **unit, t_token *current, int *cmdi)
         return (-1);
     }
     create_or_update_unit_struct(unit, *cmdi, PIPE_OUT);
-    *cmdi++;
+    // *cmdi++;
     create_or_update_unit_struct(unit, *cmdi, PIPE_IN);
     return (0);
 }
