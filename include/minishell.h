@@ -167,5 +167,6 @@ int				cd(char **args);
 int				count_args(char **args);
 int				env(char **envp, char **args);
 int				unset(t_env **root, char **args);
+int				export(t_mini *mini, char **args);
 
 #endif

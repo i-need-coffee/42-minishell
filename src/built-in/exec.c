@@ -12,6 +12,8 @@ int	is_built_in(t_pipe_unit *cmd)
 		return (1);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		return (1);
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
+		return (1);
 	else
 		return (0);
 }
@@ -31,5 +33,7 @@ int	execute_built_in(t_mini *mini, t_pipe_unit *cmd)
 		exec_result = env(mini->envp, cmd->args);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		exec_result = unset(&mini->env, cmd->args);
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
+		exec_result = export(mini, cmd->args);
 	return (exec_result);
 }

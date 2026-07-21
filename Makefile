@@ -36,7 +36,8 @@ SRCS			= \
 	$(SRC_DIR)/built-in/cd.c \
 	$(SRC_DIR)/built-in/utils.c \
 	$(SRC_DIR)/built-in/env.c \
-	$(SRC_DIR)/built-in/unset.c
+	$(SRC_DIR)/built-in/unset.c \
+	$(SRC_DIR)/built-in/export.c
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
