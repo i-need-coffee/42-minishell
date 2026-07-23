@@ -12,27 +12,25 @@ int uptade_unit_struct_heredoc(t_pipe_unit **unit, t_token *current) {
 
 char *get_file_name( t_env *env, char **next_value, char *str) {
     int i;
-    int ret;
     int start;
     int replace_start;
     char *substr;
     char *tmp;
+    char *rest;
 
+    rest = NULL;
     start = 0;
     i = 0;
     while (str[i] != '\0' && str[i] != ' ') {
         if (str[i] == '\'' || str[i] == '\"') {
             replace_start = i;
             substr = ft_substr(str,start ,i - start );
-            ret = handle_quote(str, i, env, &tmp);
-            if (ret == -1)
+            if ((handle_quote(str, i, env, &tmp)) == -1) // changement, effacement de ret
                 return (NULL);
-            if (str[i] == '\'') {
+            if (str[i] == '\'')
                 i = check_quote_sanity(str, i + 1, '\'');
-            }
-            else {
+            else
                 i = check_quote_sanity(str, i + 1, '\"');
-            }
             i = replace_str(&str, tmp, replace_start, i + 1);
             continue;
         }
@@ -45,13 +43,14 @@ char *get_file_name( t_env *env, char **next_value, char *str) {
         i++;
     }
     substr = ft_substr(str, start, i - start);
+    rest = ft_substr(str, i, ft_strlen(str) - i);
     free(*next_value);
     *next_value = NULL;
-    *next_value = ft_substr(str, i, ft_strlen(str) - i);
+    *next_value = rest;
     return (substr);
 }
 
-int uptade_unit_struct_redir_out(t_pipe_unit **head, t_token *current, t_env *env, t_unit_type type) {
+int uptade_unit_struct_redir(t_pipe_unit **head, t_token *current, t_env *env, t_unit_type type) {
     create_or_update_unit_struct(head, 0, type);
     t_pipe_unit *current_node;
     t_pipe_unit *tmp_prev;
@@ -59,11 +58,10 @@ int uptade_unit_struct_redir_out(t_pipe_unit **head, t_token *current, t_env *en
     char *file_name;
 
     current_node = *head;
-    tmp_prev = current_node->prev;
     while (current_node->next)
         current_node = current_node->next;
+    tmp_prev = current_node->prev;
     file_name = get_file_name(env, &current->next->value, str);
-
     if (!file_name)
         return (-1);
     create_redirection_node(head, current->next, file_name);
@@ -94,14 +92,14 @@ int	parse_redirection_token(t_pipe_unit **unit, t_token *current, t_env *env)
     if (ft_strncmp(current->value, ">>", 2) == 0) {
         // if (current->value[3] == '>' )
             // TODO: bash: syntax error near unexpected token `>>'
-            return(uptade_unit_struct_redir_out(unit, current, env, APPEND));
+            return(uptade_unit_struct_redir(unit, current, env, APPEND));
     }
     else if (ft_strncmp(current->value, "<<", 2) == 0)
-        return(uptade_unit_struct_heredoc(unit, current));
+        return(uptade_unit_struct_redir(unit, current,env, HEREDOC));
     else if (current->value[0] == '>')
-        return(uptade_unit_struct_redir_out(unit, current, env, REDIR_OUT));
+        return(uptade_unit_struct_redir(unit, current, env, REDIR_OUT));
     else if (current->value[0] == '<')
-        return(uptade_unit_struct_redir_out(unit, current, env, REDIR_IN));
+        return(uptade_unit_struct_redir(unit, current, env, REDIR_IN));
     else
         return (-1);
     return (0);
