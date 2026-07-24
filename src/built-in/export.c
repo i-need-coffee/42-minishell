@@ -3,16 +3,26 @@
 static void	sort_nodes(t_env **root);
 static void	swap_nodes(t_env *curr, t_env *next);
 static void	print_nodes(t_mini *mini);
+static int	add_node_to_env(t_mini *mini, char *arg);
+static int	is_key_valid(char *key);
+static void	print_export_error(char *arg);
 
 int	export(t_mini *mini, char **args)
 {
-	int	arg_count;
+	int	i;
 
-	arg_count = count_args(args);
-	if (arg_count == 1)
+	if (count_args(args) == 1)
 	{
 		sort_nodes(&mini->env);
 		print_nodes(mini);
+		return (0);
+	}
+	i = 1;
+	while (args[i])
+	{
+		if (!add_node_to_env(mini, args[i]))
+			return (1);
+		i++;
 	}
 	return (0);
 }
@@ -79,4 +89,46 @@ static void	print_nodes(t_mini *mini)
 		free_and_null(&temp2);
 		mini->env = mini->env->next;
 	}
+}
+
+static int	add_node_to_env(t_mini *mini, char *arg)
+{
+	char	*key;
+	char	*value;
+
+	if (!ft_strchr(arg, '='))
+	{
+		key = ft_strdup(arg);
+		value = ft_strdup("\0");
+	}
+	else
+		set_values(&key, &value);
+	if (!key || !value)
+	{
+		
+	}
+	return (1);
+}
+
+static int	is_key_valid(char *key)
+{
+	int	i;
+
+	if (! (key[0] == '_' || ft_isalpha(key[0])))
+		return (0);
+	i = 0;
+	while (key[i])
+	{
+		if (! (ft_isalnum(key[i]) || key[i] == '_'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static void	print_export_error(char *arg)
+{
+	write(2, "minishell: export: `", 21);
+	write(2, arg, ft_strlen(arg));
+	write(2, "': not a valid identifier\n", 26);
 }
