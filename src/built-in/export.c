@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 static void	sort_nodes(t_env **root);
-static void	swap_nodes(t_env **root, t_env *curr, t_env *next);
+static void	swap_nodes(t_env *curr, t_env *next);
 static void	print_nodes(t_mini *mini);
 
 int	export(t_mini *mini, char **args)
@@ -24,40 +24,33 @@ static void	sort_nodes(t_env **root)
 	int		j;
 	int		count;
 
-	node = *root;
-	count = count_env_nodes(node);
 	i = 0;
-	while (i < (count - 1))
+	count = count_env_nodes(*root);
+	while (i < count - 1)
 	{
+		node = *root;
 		j = 0;
 		while (j < (count - i - 1))
 		{
-			if (node->next && node->key > node->next->key)
-				swap_nodes(root, node, node->next);
+			if (node && node->next && ft_strcmp(node->key, node->next->key) > 0)
+				swap_nodes(node, node->next);
+			node = node->next;
 			j++;
 		}
 		i++;
-		node = node->next;
 	}
 }
 
-static void	swap_nodes(t_env **root, t_env *curr, t_env *next)
+static void	swap_nodes(t_env *curr, t_env *next)
 {
-	if (curr == *root)
-	{
-		curr->prev = next;
-		curr->next = next->next;
-		next->prev = NULL;
-		next->next = curr;
-		next = *root;
-	}
-	else
-	{
-		curr->prev = next;
-		curr->next = next->next;
-		next->prev = curr->prev;
-		next->next = curr;
-	}
+	char	*temp;
+
+	temp = curr->key;
+	curr->key = next->key;
+	next->key = temp;
+	temp = curr->value;
+	curr->value = next->value;
+	next->value = temp;
 }
 
 static void	print_nodes(t_mini *mini)
