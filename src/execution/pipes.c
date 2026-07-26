@@ -2,6 +2,10 @@
 
 static int	init_pipe(t_pipe_unit *p_out, t_pipe_unit *p_in);
 
+/*
+**	Creates a pipe for each PIPE_OUT unit in the pipeline, linking it
+**	to the following PIPE_IN unit.
+*/
 int	create_pipes(t_mini *mini)
 {
 	t_pipe_unit	*curr;
@@ -22,6 +26,10 @@ int	create_pipes(t_mini *mini)
 	return (1);
 }
 
+/*
+**	Opens one pipe and assigns its write end to p_out and its read
+**	end to p_in.
+*/
 static int	init_pipe(t_pipe_unit *p_out, t_pipe_unit *p_in)
 {
 	int	fds[2];

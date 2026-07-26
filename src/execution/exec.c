@@ -3,6 +3,10 @@
 static char			*get_cmd_path(char *env_path, char *cmd);
 static int			print_exec_error(char *cmd, int error);
 
+/*
+**	Executes an external command: runs it directly if it contains a
+**	'/' or PATH is unusable, otherwise resolves it through PATH first.
+*/
 int	execute_cmd(t_mini *mini, t_pipe_unit *cmd)
 {
 	char		*env_path;
@@ -30,6 +34,10 @@ int	execute_cmd(t_mini *mini, t_pipe_unit *cmd)
 	return (0);
 }
 
+/*
+**	Searches each directory in env_path for an executable named
+**	cmd_arg and returns its full path, or NULL if none is found.
+*/
 static char	*get_cmd_path(char *env_path, char *cmd_arg)
 {
 	char	*cmd_path;
@@ -58,6 +66,10 @@ static char	*get_cmd_path(char *env_path, char *cmd_arg)
 	return (free(cmd), free_char_tab(paths), cmd_path);
 }
 
+/*
+**	Prints the appropriate error message for a failed execve() and
+**	returns the matching shell exit code (127 or 126).
+*/
 static int	print_exec_error(char *cmd, int error)
 {
 	if (error == ENOENT && !ft_strchr(cmd, '/'))

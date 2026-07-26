@@ -14,7 +14,6 @@ void	init_data(t_mini *mini)
 	u1->fd = -1;
 	u1->cmd_index = 0;
 	u1->next = NULL;
-
 	mini->units = u1;
 	mini->pipe_nb = 0;
 }
@@ -50,6 +49,10 @@ void	print_data(t_mini *mini)
 	ft_printf("─────────────────────────────────────────\n");
 }
 
+/*
+**	Runs the parsed pipeline: sets up heredocs and pipes, then either
+**	executes a single built-in in the parent or forks children.
+*/
 void	execute_input(t_mini *mini)
 {
 	t_pipe_unit	*cmd;
@@ -74,6 +77,10 @@ void	execute_input(t_mini *mini)
 	wait_children(mini);
 }
 
+/*
+**	Runs a lone built-in in the parent shell (so state like cd/export
+**	persists) with fds redirected, then restores the original fds.
+*/
 static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd)
 {
 	int	saved_stdin;

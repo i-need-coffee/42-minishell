@@ -2,6 +2,10 @@
 
 static int	open_file(t_pipe_unit *unit);
 
+/*
+**	Opens every redirection file belonging to command i, storing each
+**	resulting fd on its unit.
+*/
 int	open_files(t_pipe_unit *units, int i)
 {
 	while (units && units->cmd_index != i)
@@ -15,6 +19,10 @@ int	open_files(t_pipe_unit *units, int i)
 	return (1);
 }
 
+/*
+**	Opens unit's file with the flags matching its redirection type
+**	(REDIR_IN/REDIR_OUT/APPEND) and stores the fd on the unit.
+*/
 static int	open_file(t_pipe_unit *unit)
 {
 	int	error;

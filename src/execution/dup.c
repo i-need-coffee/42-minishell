@@ -1,5 +1,8 @@
 #include "minishell.h"
 
+/*
+**	Duplicates command i's pipe fds onto stdin/stdout (PIPE_IN/PIPE_OUT).
+*/
 int	dup_pipes(t_pipe_unit *units, int i)
 {
 	while (units && units->cmd_index != i)
@@ -21,6 +24,10 @@ int	dup_pipes(t_pipe_unit *units, int i)
 	return (1);
 }
 
+/*
+**	Duplicates command i's redirection fds onto stdin/stdout
+**	(REDIR_IN/HEREDOC onto stdin, REDIR_OUT/APPEND onto stdout).
+*/
 int	dup_redirects(t_pipe_unit *units, int i)
 {
 	while (units && units->cmd_index != i)
@@ -42,6 +49,10 @@ int	dup_redirects(t_pipe_unit *units, int i)
 	return (1);
 }
 
+/*
+**	Saves the current stdin/stdout fds via dup() so they can be
+**	restored later after temporary redirections.
+*/
 int	dup_saved_fds(int *saved_stdin, int *saved_stdout)
 {
 	*saved_stdin = dup(STDIN_FILENO);
@@ -57,12 +68,16 @@ int	dup_saved_fds(int *saved_stdin, int *saved_stdout)
 	return (1);
 }
 
+/*
+**	Restores stdin/stdout from the previously saved fds, retrying on
+**	EINTR, and closes the saved copies once done.
+*/
 void	restore_fds(t_mini *mini, int saved_stdin, int saved_stdout)
 {
 	while (dup2(saved_stdin, STDIN_FILENO) == -1)
 	{
 		if (errno != EINTR)
-			break;
+			break ;
 	}
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 	{
@@ -74,7 +89,7 @@ void	restore_fds(t_mini *mini, int saved_stdin, int saved_stdout)
 	while (dup2(saved_stdout, STDOUT_FILENO) == -1)
 	{
 		if (errno != EINTR)
-			break;
+			break ;
 	}
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 	{

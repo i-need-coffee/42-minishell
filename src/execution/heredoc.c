@@ -3,6 +3,10 @@
 static int	handle_heredoc(t_pipe_unit *unit);
 static int	is_limiter(char *line, char *limiter);
 
+/*
+**	Processes every HEREDOC unit in the pipeline, reading its content
+**	from stdin before the commands are executed.
+*/
 int	execute_heredocs(t_mini *mini)
 {
 	t_pipe_unit	*curr;
@@ -23,6 +27,10 @@ int	execute_heredocs(t_mini *mini)
 	return (1);
 }
 
+/*
+**	Reads lines from stdin into a pipe until the limiter is seen,
+**	then stores the pipe's read end as unit->fd.
+*/
 static int	handle_heredoc(t_pipe_unit *unit)
 {
 	int		fds[2];
@@ -52,6 +60,10 @@ static int	handle_heredoc(t_pipe_unit *unit)
 	return (1);
 }
 
+/*
+**	Returns 1 if line matches limiter exactly (up to a trailing
+**	newline or end of string), 0 otherwise.
+*/
 static int	is_limiter(char *line, char *limiter)
 {
 	size_t	len;

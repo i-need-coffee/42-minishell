@@ -1,5 +1,9 @@
 #include "minishell.h"
 
+/*
+**	Frees every pipe_unit in the list, closing its fd and releasing
+**	its file/args, then nulls *root.
+*/
 void	free_pipe_units(t_pipe_unit **root)
 {
 	t_pipe_unit	*curr;
@@ -20,6 +24,9 @@ void	free_pipe_units(t_pipe_unit **root)
 	*root = NULL;
 }
 
+/*
+**	Closes every unit's fd across the whole pipeline.
+*/
 void	close_all_fds(t_pipe_unit *units)
 {
 	while (units)
@@ -29,6 +36,10 @@ void	close_all_fds(t_pipe_unit *units)
 	}
 }
 
+/*
+**	Returns the CMD-type unit belonging to command index i, or NULL
+**	if that command has none.
+*/
 t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i)
 {
 	while (units && units->cmd_index != i)
@@ -42,6 +53,10 @@ t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i)
 	return (NULL);
 }
 
+/*
+**	Builds a NULL-terminated "KEY=value" string array from the env
+**	linked list, suitable for passing to execve().
+*/
 char	**build_envp_tab(t_env *env)
 {
 	char	**envp;

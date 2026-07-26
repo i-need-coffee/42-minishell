@@ -2,6 +2,10 @@
 
 static void	run_child_process(t_mini *mini, int i);
 
+/*
+**	Forks one child process per command in the pipeline, running each
+**	in run_child_process; closes the parent's copies of all fds.
+*/
 int	create_children(t_mini *mini)
 {
 	int	i;
@@ -25,6 +29,11 @@ int	create_children(t_mini *mini)
 	close_all_fds(mini->units);
 	return (1);
 }
+
+/*
+**	Waits for every forked child and stores the last one's exit status
+**	(or 128 + signal number if it was killed) in mini->err_num.
+*/
 void	wait_children(t_mini *mini)
 {
 	int		status;
@@ -46,6 +55,10 @@ void	wait_children(t_mini *mini)
 		mini->err_num = 128 + WTERMSIG(status);
 }
 
+/*
+**	Sets up a child's redirections/pipes/fds, then runs its command:
+**	a built-in directly, or an external command via execute_cmd.
+*/
 static void	run_child_process(t_mini *mini, int i)
 {
 	t_pipe_unit	*cmd;
