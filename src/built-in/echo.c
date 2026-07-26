@@ -3,6 +3,10 @@
 static void	set_data(int *has_newline, int *i, int *last_arg, char **args);
 static int	is_n_flag(char *arg);
 
+/*
+**	Writes args to stdout, space-separated, honoring a leading -n flag
+**	to suppress the trailing newline.
+*/
 int	echo(char **args)
 {
 	int	has_newline;
@@ -31,6 +35,10 @@ int	echo(char **args)
 	return (0);
 }
 
+/*
+**	Detects a leading -n flag and computes the starting index and
+**	index of the last argument.
+*/
 static void	set_data(int *has_newline, int *i, int *last_arg, char **args)
 {
 	*has_newline = 1;
@@ -43,6 +51,10 @@ static void	set_data(int *has_newline, int *i, int *last_arg, char **args)
 	*last_arg = count_args(args) - 1;
 }
 
+/*
+**	Returns 1 if arg is a valid -n flag (e.g. "-n", "-nnn"), 0
+**	otherwise.
+*/
 static int	is_n_flag(char *arg)
 {
 	int	i;

@@ -5,6 +5,10 @@ static void	set_values(char *arg, char **key, char **value);
 static int	is_key_valid(char *key);
 static void	print_export_error(char *arg);
 
+/*
+**	With no args, prints all env vars in "declare -x" format; otherwise
+**	adds/updates each KEY[=value] arg in env.
+*/
 int	export(t_env *env, char **args)
 {
 	int	i;
@@ -28,6 +32,10 @@ int	export(t_env *env, char **args)
 	return (exit_code);
 }
 
+/*
+**	Parses arg into a key/value pair and either updates the matching
+**	env node or appends a new one.
+*/
 static int	add_node_to_env(t_env *env, char *arg)
 {
 	char	*key;
@@ -56,6 +64,10 @@ static int	add_node_to_env(t_env *env, char *arg)
 	return (1);
 }
 
+/*
+**	Splits arg on '=' into freshly allocated *key and *value strings
+**	(empty value if no '=' is present).
+*/
 static void	set_values(char *arg, char **key, char **value)
 {
 	int	key_len;
@@ -81,6 +93,10 @@ static void	set_values(char *arg, char **key, char **value)
 	ft_strlcpy(*value, arg + key_len + 1, value_len + 1);
 }
 
+/*
+**	Returns 1 if key is a valid shell identifier (starts with a letter
+**	or underscore, then alnum/underscore only).
+*/
 static int	is_key_valid(char *key)
 {
 	int	i;
@@ -97,6 +113,10 @@ static int	is_key_valid(char *key)
 	return (1);
 }
 
+/*
+**	Prints the "not a valid identifier" error for a rejected export
+**	argument.
+*/
 static void	print_export_error(char *arg)
 {
 	write(2, "minishell: export: `", 21);

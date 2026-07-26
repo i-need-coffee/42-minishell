@@ -2,6 +2,9 @@
 
 static void	remove_env_node(t_env *curr, t_env **root);
 
+/*
+**	Removes each env node whose key matches an argument in args.
+*/
 int	unset(t_env **root, char **args)
 {
 	t_env	*curr;
@@ -27,6 +30,10 @@ int	unset(t_env **root, char **args)
 	return (0);
 }
 
+/*
+**	Unlinks curr from the env list, updating root/prev/next pointers,
+**	and frees its memory.
+*/
 static void	remove_env_node(t_env *curr, t_env **root)
 {
 	t_env	*temp;

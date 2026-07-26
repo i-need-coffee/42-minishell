@@ -3,6 +3,10 @@
 static void	swap_values_node(t_env *curr, t_env *next);
 static int	join_and_print_node(t_env *node);
 
+/*
+**	Sorts the env linked list by key using bubble sort, swapping node
+**	contents in place.
+*/
 void	sort_env_nodes(t_env **root)
 {
 	t_env	*node;
@@ -27,6 +31,10 @@ void	sort_env_nodes(t_env **root)
 	}
 }
 
+/*
+**	Prints every env node in "declare -x KEY="value"" format; returns 0
+**	if any allocation fails.
+*/
 int	print_env_nodes(t_env **root)
 {
 	t_env	*node;
@@ -41,6 +49,9 @@ int	print_env_nodes(t_env **root)
 	return (1);
 }
 
+/*
+**	Swaps the key and value pointers between two adjacent env nodes.
+*/
 static void	swap_values_node(t_env *curr, t_env *next)
 {
 	char	*temp;
@@ -53,6 +64,10 @@ static void	swap_values_node(t_env *curr, t_env *next)
 	next->value = temp;
 }
 
+/*
+**	Builds the "declare -x KEY="value"" string for node and prints it,
+**	freeing intermediate buffers.
+*/
 static int	join_and_print_node(t_env *node)
 {
 	char	*temp1;

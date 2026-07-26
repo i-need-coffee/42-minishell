@@ -1,5 +1,9 @@
 #include "minishell.h"
 
+/*
+**	Changes the current working directory to args[1], or $HOME if no
+**	argument is given.
+*/
 int	cd(t_env *env, char **args)
 {
 	int		arg_count;

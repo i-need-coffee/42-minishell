@@ -1,5 +1,9 @@
 #include "minishell.h"
 
+/*
+**	Prints every "KEY=value" entry of envp; fails if called with any
+**	arguments.
+*/
 int	env(char **envp, char **args)
 {
 	int		i;

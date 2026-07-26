@@ -1,5 +1,9 @@
 #include "minishell.h"
 
+/*
+**	Prints the current working directory, growing the buffer as needed
+**	if it's too small.
+*/
 int	pwd(void)
 {
 	size_t	size;
