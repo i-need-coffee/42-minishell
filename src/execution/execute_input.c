@@ -9,7 +9,7 @@ void	init_data(t_mini *mini)
 	u1 = calloc(1, sizeof(t_pipe_unit));
 	u1->type = CMD;
 	u1->args = malloc(sizeof(char *) * 2);
-	u1->args[0] = ft_strdup("export");
+	u1->args[0] = ft_strdup("cd");
 	u1->args[1] = NULL;
 	u1->fd = -1;
 	u1->cmd_index = 0;

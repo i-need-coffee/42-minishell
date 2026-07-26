@@ -13,7 +13,9 @@
 # define ERR_RESTORE_FDS	"minishell: impossible to restore original STDIN and STDOUT"
 # define ERR_PWD			"minishell: pwd"
 # define ERR_ECHO			"minishell: echo"
+# define ERR_CD				"minishell: cd"
 # define ERR_CD_ARGS_NUM	"minishell: cd: too many arguments"
+# define ERR_CD_NO_HOME		"minishell: cd: HOME not set"
 # define ERR_ENV_ARGS_NUM	"minishell: env: too many arguments"
 # define ERR_ALLOC_EXPORT	"minishell: export: cannot allocate memory"
 

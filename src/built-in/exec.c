@@ -28,7 +28,7 @@ int	execute_built_in(t_mini *mini, t_pipe_unit *cmd)
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		exec_result = pwd();
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
-		exec_result = cd(cmd->args);
+		exec_result = cd(mini->env, cmd->args);
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		exec_result = env(mini->envp, cmd->args);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)

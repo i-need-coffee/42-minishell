@@ -164,7 +164,7 @@ int				is_built_in(t_pipe_unit *cmd);
 int				execute_built_in(t_mini *mini, t_pipe_unit *cmd);
 int				echo(char **args);
 int				pwd(void);
-int				cd(char **args);
+int				cd(t_env *env, char **args);
 int				count_args(char **args);
 int				env(char **envp, char **args);
 int				unset(t_env **root, char **args);
