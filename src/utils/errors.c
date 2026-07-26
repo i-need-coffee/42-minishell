@@ -18,6 +18,10 @@ void	print_error_and_exit(t_mini *mini, char *err_msg, int exit_code)
 	cleanup_exit(mini, exit_code);
 }
 
+/*
+**	Prints "minishell: err_msg: <strerror(errnum)>" to stderr, mimicking
+**	perror() but with a custom prefix instead of the program name.
+*/
 void	print_perror(char *err_msg, int errnum)
 {
 	write(2, "minishell: ", 11);

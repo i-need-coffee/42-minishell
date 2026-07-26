@@ -10,7 +10,7 @@
 # define ERR_DUP			"minishell: dup"
 # define ERR_WAITPID		"minishell: waitpid"
 # define ERR_WRITE			"minishell: write"
-# define ERR_RESTORE_FDS	"minishell: impossible to restore original STDIN and STDOUT"
+# define ERR_RESTORE_FDS	"minishell: impossible to restore STDIN and STDOUT"
 # define ERR_PWD			"minishell: pwd"
 # define ERR_ECHO			"minishell: echo"
 # define ERR_CD				"minishell: cd"
