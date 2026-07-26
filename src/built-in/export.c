@@ -14,8 +14,9 @@ int	export(t_mini *mini, char **args)
 	if (count_args(args) == 1)
 	{
 		sort_env_nodes(&mini->env);
-		print_env_nodes(mini);
-		return (0);
+		if (!print_env_nodes(mini))
+			exit_code = 1;
+		return (exit_code);
 	}
 	i = 1;
 	while (args[i])
@@ -34,8 +35,9 @@ static int	add_node_to_env(t_mini *mini, char *arg)
 	t_env	*node;
 
 	set_values(arg, &key, &value);
+	free_and_null(&key);
 	if (!key || !value)
-		return (free(key), free(value), print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE), 0);
+		return (free(key), free(value), print_error(ERR_ALLOC_EXPORT), 0);
 	node = get_env_node_with_key(&mini->env, key);
 	if (node)
 	{
@@ -48,7 +50,7 @@ static int	add_node_to_env(t_mini *mini, char *arg)
 		return (print_export_error(arg), free(key), free(value), 0);
 	node = new_node();
 	if (!node)
-		return (free(key), free(value), print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE), 0);
+		return (free(key), free(value), print_error(ERR_ALLOC_EXPORT), 0);
 	node->key = key;
 	node->value = value;
 	add_back(&mini->env, node);

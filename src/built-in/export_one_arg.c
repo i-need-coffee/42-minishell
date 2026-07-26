@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 static void	swap_values_node(t_env *curr, t_env *next);
-static void	join_and_print_node(t_mini *mini, t_env *node);
+static int	join_and_print_node(t_mini *mini, t_env *node);
 
 void	sort_env_nodes(t_env **root)
 {
@@ -27,16 +27,18 @@ void	sort_env_nodes(t_env **root)
 	}
 }
 
-void	print_env_nodes(t_mini *mini)
+int	print_env_nodes(t_mini *mini)
 {
 	t_env	*node;
 
 	node = mini->env;
 	while (node)
 	{
-		join_and_print_node(mini, node);
+		if (!join_and_print_node(mini, node))
+			return (0);
 		node = node->next;
 	}
+	return (1);
 }
 
 static void	swap_values_node(t_env *curr, t_env *next)
@@ -51,26 +53,27 @@ static void	swap_values_node(t_env *curr, t_env *next)
 	next->value = temp;
 }
 
-static void	join_and_print_node(t_mini *mini, t_env *node)
+static int	join_and_print_node(t_mini *mini, t_env *node)
 {
 	char	*temp1;
 	char	*temp2;
 
 	temp1 = ft_strjoin(node->value, "\"");
 	if (!temp1)
-		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+		return (print_error(ERR_ALLOC_EXPORT), 0);
 	temp2 = ft_strjoin("=\"", temp1);
 	free_and_null(&temp1);
 	if (!temp2)
-		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+		return (print_error(ERR_ALLOC_EXPORT), 0);
 	temp1 = ft_strjoin(node->key, temp2);
 	free_and_null(&temp2);
 	if (!temp1)
-		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+		return (print_error(ERR_ALLOC_EXPORT), 0);
 	temp2 = ft_strjoin("declare -x ", temp1);
 	free_and_null(&temp1);
 	if (!temp2)
-		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+		return (print_error(ERR_ALLOC_EXPORT), 0);
 	printf("%s\n", temp2);
 	free_and_null(&temp2);
+	return (1);
 }

@@ -170,6 +170,6 @@ int				env(char **envp, char **args);
 int				unset(t_env **root, char **args);
 int				export(t_mini *mini, char **args);
 void			sort_env_nodes(t_env **root);
-void			print_env_nodes(t_mini *mini);
+int				print_env_nodes(t_mini *mini);
 
 #endif

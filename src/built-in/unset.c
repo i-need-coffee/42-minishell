@@ -16,7 +16,7 @@ int	unset(t_env **root, char **args)
 			if (ft_strcmp(args[i], curr->key) == 0)
 			{
 				if (curr == *root && curr->next == NULL)
-						return (free_env(root), 0);
+					return (free_env(root), 0);
 				remove_env_node(curr, root);
 				break ;
 			}
