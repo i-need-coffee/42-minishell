@@ -7,8 +7,10 @@ static void	print_export_error(char *arg);
 
 int	export(t_mini *mini, char **args)
 {
-	int		i;
+	int	i;
+	int	exit_code;
 
+	exit_code = 0;
 	if (count_args(args) == 1)
 	{
 		sort_env_nodes(&mini->env);
@@ -19,10 +21,10 @@ int	export(t_mini *mini, char **args)
 	while (args[i])
 	{
 		if (!add_node_to_env(mini, args[i]))
-			return (1);
+			exit_code = 1;
 		i++;
 	}
-	return (0);
+	return (exit_code);
 }
 
 static int	add_node_to_env(t_mini *mini, char *arg)

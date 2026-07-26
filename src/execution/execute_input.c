@@ -9,10 +9,13 @@ void	init_data(t_mini *mini)
 	// unset USER
 	u1 = calloc(1, sizeof(t_pipe_unit));
 	u1->type = CMD;
-	u1->args = malloc(sizeof(char *) * 3);
+	u1->args = malloc(sizeof(char *) * 6);
 	u1->args[0] = ft_strdup("export");
 	u1->args[1] = ft_strdup("NEWKEY=NEWVALUE=NEWVALUE2");
-	u1->args[2] = NULL;
+	u1->args[2] = ft_strdup("EMPTY");
+	u1->args[3] = ft_strdup("EMPTY2=");
+	u1->args[4] = ft_strdup("NEWKEY2=NEWVALUE=NEWVALUE2");
+	u1->args[5] = NULL;
 	u1->fd = -1;
 	u1->cmd_index = 0;
 	u1->next = NULL;
