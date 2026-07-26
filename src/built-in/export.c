@@ -1,20 +1,18 @@
 #include "minishell.h"
 
-static void	sort_nodes(t_env **root);
-static void	swap_nodes(t_env *curr, t_env *next);
-static void	print_nodes(t_mini *mini);
 static int	add_node_to_env(t_mini *mini, char *arg);
+static void	set_values(char *arg, char **key, char **value);
 static int	is_key_valid(char *key);
 static void	print_export_error(char *arg);
 
 int	export(t_mini *mini, char **args)
 {
-	int	i;
+	int		i;
 
 	if (count_args(args) == 1)
 	{
-		sort_nodes(&mini->env);
-		print_nodes(mini);
+		sort_env_nodes(&mini->env);
+		print_env_nodes(mini);
 		return (0);
 	}
 	i = 1;
@@ -27,87 +25,57 @@ int	export(t_mini *mini, char **args)
 	return (0);
 }
 
-static void	sort_nodes(t_env **root)
-{
-	t_env	*node;
-	int		i;
-	int		j;
-	int		count;
-
-	i = 0;
-	count = count_env_nodes(*root);
-	while (i < count - 1)
-	{
-		node = *root;
-		j = 0;
-		while (j < (count - i - 1))
-		{
-			if (node && node->next && ft_strcmp(node->key, node->next->key) > 0)
-				swap_nodes(node, node->next);
-			node = node->next;
-			j++;
-		}
-		i++;
-	}
-}
-
-static void	swap_nodes(t_env *curr, t_env *next)
-{
-	char	*temp;
-
-	temp = curr->key;
-	curr->key = next->key;
-	next->key = temp;
-	temp = curr->value;
-	curr->value = next->value;
-	next->value = temp;
-}
-
-static void	print_nodes(t_mini *mini)
-{
-	char	*temp1;
-	char	*temp2;
-
-	while (mini->env)
-	{
-		temp1 = ft_strjoin(mini->env->value, "\"");
-		if (!temp1)
-			print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
-		temp2 = ft_strjoin("=\"", temp1);
-		free_and_null(&temp1);
-		if (!temp2)
-			print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
-		temp1 = ft_strjoin(mini->env->key, temp2);
-		free_and_null(&temp2);
-		if (!temp1)
-			print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
-		temp2 = ft_strjoin("declare -x ", temp1);
-		free_and_null(&temp1);
-		if (!temp2)
-			print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
-		printf("%s\n", temp2);
-		free_and_null(&temp2);
-		mini->env = mini->env->next;
-	}
-}
-
 static int	add_node_to_env(t_mini *mini, char *arg)
 {
 	char	*key;
 	char	*value;
+	t_env	*node;
+
+	set_values(arg, &key, &value);
+	if (!key || !value)
+		return (free(key), free(value), print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE), 0);
+	node = get_env_node_with_key(&mini->env, key);
+	if (node)
+	{
+		free_and_null(&node->value);
+		node->value = value;
+		free(key);
+		return (1);
+	}
+	if (!is_key_valid(key))
+		return (print_export_error(arg), free(key), free(value), 0);
+	node = new_node();
+	if (!node)
+		return (free(key), free(value), print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE), 0);
+	node->key = key;
+	node->value = value;
+	add_back(&mini->env, node);
+	return (1);
+}
+
+static void	set_values(char *arg, char **key, char **value)
+{
+	int	key_len;
+	int	value_len;
 
 	if (!ft_strchr(arg, '='))
 	{
-		key = ft_strdup(arg);
-		value = ft_strdup("\0");
+		*key = ft_strdup(arg);
+		*value = ft_strdup("\0");
+		return ;
 	}
-	else
-		set_values(&key, &value);
-	if (!key || !value)
-	{
-		
-	}
-	return (1);
+	key_len = 0;
+	while (arg[key_len] && arg[key_len] != '=')
+		key_len++;
+	*key = malloc((key_len + 1) * sizeof(char));
+	if (!*key)
+		return ;
+	ft_strlcpy(*key, arg, key_len + 1);
+	value_len = ft_strlen(arg) - key_len - 1;
+	*value = malloc((value_len + 1) * sizeof(char));
+	if (!*value)
+		return ;
+	ft_strlcpy(*value, arg + key_len + 1, value_len + 1);
 }
 
 static int	is_key_valid(char *key)

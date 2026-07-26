@@ -140,6 +140,7 @@ int				strlen_key(char *envp);
 void			free_env(t_env **root);
 char			*get_value_with_key(t_env *env, char *key);
 int				count_env_nodes(t_env *env);
+t_env			*get_env_node_with_key(t_env **root, char *key);
 
 /* -- EXECUTION --*/
 void			execute_input(t_mini *mini);
@@ -168,5 +169,7 @@ int				count_args(char **args);
 int				env(char **envp, char **args);
 int				unset(t_env **root, char **args);
 int				export(t_mini *mini, char **args);
+void			sort_env_nodes(t_env **root);
+void			print_env_nodes(t_mini *mini);
 
 #endif

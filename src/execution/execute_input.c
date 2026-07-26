@@ -11,7 +11,7 @@ void	init_data(t_mini *mini)
 	u1->type = CMD;
 	u1->args = malloc(sizeof(char *) * 3);
 	u1->args[0] = ft_strdup("export");
-	u1->args[1] = ft_strdup("NEWKEY=VALUE1=VALUE2=VALUE3");
+	u1->args[1] = ft_strdup("NEWKEY=NEWVALUE=NEWVALUE2");
 	u1->args[2] = NULL;
 	u1->fd = -1;
 	u1->cmd_index = 0;
@@ -68,12 +68,7 @@ void	execute_input(t_mini *mini)
 	cmd = get_cmd_unit(mini->units, 0);
 	if (cmd && mini->cmd_nb == 1 && is_built_in(cmd))
 	{
-		//printf("\n--BEFORE--\n\n");
-		//print_node_env(mini->env);
 		mini->err_num = exec_in_parent(mini, cmd);
-		//printf("\n\n--NOW--\n\n");
-		//print_node_env(mini->env);
-		//printf("\n\n");
 		return ;
 	}
 	if (!create_children(mini))
