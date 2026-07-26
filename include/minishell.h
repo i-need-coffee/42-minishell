@@ -168,8 +168,8 @@ int				cd(char **args);
 int				count_args(char **args);
 int				env(char **envp, char **args);
 int				unset(t_env **root, char **args);
-int				export(t_mini *mini, char **args);
+int				export(t_env *env, char **args);
 void			sort_env_nodes(t_env **root);
-int				print_env_nodes(t_mini *mini);
+int				print_env_nodes(t_env **root);
 
 #endif

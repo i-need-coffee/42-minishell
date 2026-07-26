@@ -1,11 +1,11 @@
 #include "minishell.h"
 
-static int	add_node_to_env(t_mini *mini, char *arg);
+static int	add_node_to_env(t_env *env, char *arg);
 static void	set_values(char *arg, char **key, char **value);
 static int	is_key_valid(char *key);
 static void	print_export_error(char *arg);
 
-int	export(t_mini *mini, char **args)
+int	export(t_env *env, char **args)
 {
 	int	i;
 	int	exit_code;
@@ -13,32 +13,31 @@ int	export(t_mini *mini, char **args)
 	exit_code = 0;
 	if (count_args(args) == 1)
 	{
-		sort_env_nodes(&mini->env);
-		if (!print_env_nodes(mini))
+		sort_env_nodes(&env);
+		if (!print_env_nodes(&env))
 			exit_code = 1;
 		return (exit_code);
 	}
 	i = 1;
 	while (args[i])
 	{
-		if (!add_node_to_env(mini, args[i]))
+		if (!add_node_to_env(env, args[i]))
 			exit_code = 1;
 		i++;
 	}
 	return (exit_code);
 }
 
-static int	add_node_to_env(t_mini *mini, char *arg)
+static int	add_node_to_env(t_env *env, char *arg)
 {
 	char	*key;
 	char	*value;
 	t_env	*node;
 
 	set_values(arg, &key, &value);
-	free_and_null(&key);
 	if (!key || !value)
 		return (free(key), free(value), print_error(ERR_ALLOC_EXPORT), 0);
-	node = get_env_node_with_key(&mini->env, key);
+	node = get_env_node_with_key(&env, key);
 	if (node)
 	{
 		free_and_null(&node->value);
@@ -53,7 +52,7 @@ static int	add_node_to_env(t_mini *mini, char *arg)
 		return (free(key), free(value), print_error(ERR_ALLOC_EXPORT), 0);
 	node->key = key;
 	node->value = value;
-	add_back(&mini->env, node);
+	add_back(&env, node);
 	return (1);
 }
 

@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 static void	swap_values_node(t_env *curr, t_env *next);
-static int	join_and_print_node(t_mini *mini, t_env *node);
+static int	join_and_print_node(t_env *node);
 
 void	sort_env_nodes(t_env **root)
 {
@@ -27,14 +27,14 @@ void	sort_env_nodes(t_env **root)
 	}
 }
 
-int	print_env_nodes(t_mini *mini)
+int	print_env_nodes(t_env **root)
 {
 	t_env	*node;
 
-	node = mini->env;
+	node = *root;
 	while (node)
 	{
-		if (!join_and_print_node(mini, node))
+		if (!join_and_print_node(node))
 			return (0);
 		node = node->next;
 	}
@@ -53,7 +53,7 @@ static void	swap_values_node(t_env *curr, t_env *next)
 	next->value = temp;
 }
 
-static int	join_and_print_node(t_mini *mini, t_env *node)
+static int	join_and_print_node(t_env *node)
 {
 	char	*temp1;
 	char	*temp2;

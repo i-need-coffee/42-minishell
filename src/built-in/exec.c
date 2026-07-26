@@ -34,6 +34,6 @@ int	execute_built_in(t_mini *mini, t_pipe_unit *cmd)
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		exec_result = unset(&mini->env, cmd->args);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
-		exec_result = export(mini, cmd->args);
+		exec_result = export(mini->env, cmd->args);
 	return (exec_result);
 }
