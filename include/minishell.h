@@ -89,6 +89,7 @@ typedef struct s_mini
 {
 	char		*input;
 	int			pipe_nb; //pipe nb a incrementer.
+	int			err_num; //de base il est a zero
 	t_token		*tokens;
 	t_env		*env;
 	t_pipe_unit	*units;
@@ -136,7 +137,7 @@ int				strlen_key(char *envp);
 void			free_env(t_env **root);
 /* -- PARSING --*/
 int	parse_tokens(t_mini *mini, t_pipe_unit **head);
-int	parse_word_token(t_pipe_unit **head, t_token *tkn, t_env *env);
+int	parse_word_token(t_pipe_unit **head, t_token *tkn, t_env *env, int cmdi);
 int add_arg(char **str, int i, t_pipe_unit *unit, t_env *env);
 void    print_lst(void* str);
 int    expension(char *str, int i, t_env *env, char **buffer);
@@ -156,6 +157,9 @@ int put_value_in_prev_args(t_pipe_unit *cnode, t_token *current, t_env *env);
 int replace_str(char **str, char *second_part, int replace_start, int replace_end );
 void	create_redirection_node(t_pipe_unit **head,t_token *next, char* filename) ;
 t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type);
+// int	parse_tokens_word_or_pipe(t_mini *mini, t_token *current, int *cmdi, t_pipe_unit **unit);
+void	wrapper_handle_dollar(char **str, char **tmp, int *i, t_env *env);
+int	wrapper_handle_quote(char *str, int *index, t_env *env, char **tmp);
 
 
 #endif

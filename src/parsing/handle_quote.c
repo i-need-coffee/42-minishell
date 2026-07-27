@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+int	wrapper_handle_quote(char *str, int *index, t_env *env, char **tmp)
+{
+	int	i;
+
+	i = *(index);
+	if ((handle_quote(str, i, env, tmp)) == -1)
+		return (1);
+	if (str[i] == '\'')
+		*index = check_quote_sanity(str, i + 1, '\'');
+	else
+		*index = check_quote_sanity(str, i + 1, '\"');
+	return (0);
+}
+
 int	check_quote_sanity(char *str, int end, char c)
 {
 	while (str[end] && str[end] != c)
@@ -14,7 +28,7 @@ int	check_quote_sanity(char *str, int end, char c)
 	return (end);
 }
 
-int	handle_double_quote(char *str, int i, t_env *env, char** b)
+int	handle_double_quote(char *str, int i, t_env *env, char **b)
 {
 	int		start;
 	int		end;
@@ -29,8 +43,7 @@ int	handle_double_quote(char *str, int i, t_env *env, char** b)
 	{
 		if (str[i] == '$')
 		{
-			create_or_update_buffer(&buffer_t_list_args
-		, str, start, i);
+			create_or_update_buffer(&buffer_t_list_args, str, start, i);
 			i = expension(str, i, env, &buffer_t_list_args);
 			start = i;
 			if (i == end)
@@ -40,7 +53,6 @@ int	handle_double_quote(char *str, int i, t_env *env, char** b)
 	}
 	if (start < i)
 		create_or_update_buffer(&buffer_t_list_args, str, start, i);
-	// create_or_update_lst(unit, buffer_t_list_args);
 	*b = buffer_t_list_args;
 	return (end + 1);
 }
@@ -55,7 +67,6 @@ int	handle_single_quote(char *str, int i, char **b)
 	if (end == -1)
 		return (-1);
 	substr = ft_substr(str, i, end - i);
-    // create_or_update_lst(unit, substr);
 	*b = substr;
 	end += 1;
 	return (end);

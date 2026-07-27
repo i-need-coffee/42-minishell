@@ -2,14 +2,15 @@
 
 void	clean_unit_struct(t_pipe_unit *unit)
 {
-	t_pipe_unit *tmp;
+	t_pipe_unit	*tmp;
 
-	while(unit)
+	while (unit)
 	{
 		tmp = unit;
 		unit = unit->next;
 		ft_lstdelone(tmp->args, free);
-		if (tmp->file) {
+		if (tmp->file)
+		{
 			free(tmp->file);
 			tmp->file = NULL;
 		}
@@ -24,7 +25,7 @@ void	clean_unit_struct(t_pipe_unit *unit)
 */
 int	process_line(t_mini *mini)
 {
-	t_pipe_unit *unit;
+	t_pipe_unit	*unit;
 
 	unit = NULL;
 	mini->input = readline("minishell> ");
@@ -34,12 +35,12 @@ int	process_line(t_mini *mini)
 		add_history(mini->input);
 	tokenize_input(mini);
 	// print_tokens(&mini->tokens);
-	if(parse_tokens(mini, &unit))
+	if (parse_tokens(mini, &unit))
 	{
 		cleanup(mini);
 		clean_unit_struct(unit);
 		unit = NULL;
-		return (-1);
+		return (1);
 	}
 	cleanup(mini);
 	clean_unit_struct(unit);
@@ -52,7 +53,7 @@ int	process_line(t_mini *mini)
 **	envp, configures signal handlers, then runs the read-tokenize loop
 **	until EOF.
 */
-int g_sig = 0;
+int		g_sig = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -66,5 +67,5 @@ int	main(int argc, char **argv, char **envp)
 	signal_config(SIGINT, set_global_var);
 	while (process_line(&mini))
 		;
-//	cleanup_exit(&mini, 0);
+	//	cleanup_exit(&mini, 0);
 }

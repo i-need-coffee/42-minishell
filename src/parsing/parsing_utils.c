@@ -4,6 +4,7 @@ void	print_lst(void *str)
 {
 	ft_printf("%s\n", str);
 }
+
 void	create_or_update_buffer(char **buffer, char *str, int start, int end)
 {
 	char	*substr;
@@ -31,6 +32,7 @@ void	create_or_update_buffer(char **buffer, char *str, int start, int end)
 		free(tmp_buffer);
 	}
 }
+
 void	create_or_update_lst(t_pipe_unit *unit, char *buffer)
 {
 	if (!unit->args)
@@ -76,5 +78,5 @@ t_pipe_unit	*create_or_update_unit_struct(t_pipe_unit **head, int cmdi,
 		tmp->next = new_unit_node(cmdi, type);
 		tmp->next->prev = tmp;
 	}
-    return (NULL);
+	return (NULL);
 }
