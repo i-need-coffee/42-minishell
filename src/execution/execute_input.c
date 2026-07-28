@@ -1,6 +1,38 @@
 #include "minishell.h"
 
+static void	init_exec_data(t_mini *mini);
 static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd);
+
+void	print_data(t_mini *mini)
+{
+	t_pipe_unit	*curr;
+	int			node;
+	int			j;
+
+	node = 0;
+	curr = mini->units;
+	while (curr)
+	{
+		ft_printf("── node[%d] ──────────────────────────────\n", node);
+		ft_printf("  type     : %d\n", curr->type);
+		ft_printf("  cmd_index: %d\n", curr->cmd_index);
+		if (curr->args)
+		{
+			j = 0;
+			while (curr->args[j])
+			{
+				ft_printf("  args[%d]  : %s\n", j, curr->args[j]);
+				j++;
+			}
+		}
+		if (curr->file)
+			ft_printf("  file     : %s\n", curr->file);
+		ft_printf("  fd       : %d\n", curr->fd);
+		node++;
+		curr = curr->next;
+	}
+	ft_printf("─────────────────────────────────────────\n");
+}
 
 /*
 **	Runs the parsed pipeline: sets up heredocs and pipes, then either
@@ -10,10 +42,10 @@ void	execute_input(t_mini *mini)
 {
 	t_pipe_unit	*cmd;
 
-	mini->cmd_nb = mini->pipe_nb + 1;
-	mini->envp = build_envp_tab(mini->env);
-	if (!mini->envp)
-		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+	print_data(mini);
+	init_exec_data(mini);
+	printf("pipe nb: %d\n", mini->pipe_nb);
+	printf("cmd nb: %d\n", mini->cmd_nb);
 	if (!execute_heredocs(mini))
 		return ;
 	if (mini->pipe_nb && !create_pipes(mini))
@@ -27,6 +59,23 @@ void	execute_input(t_mini *mini)
 	if (!create_children(mini))
 		return ;
 	wait_children(mini);
+}
+
+static void	init_exec_data(t_mini *mini)
+{
+	t_pipe_unit	*unit;
+
+	unit = mini->units;
+	while (unit)
+	{
+		if (unit->type == PIPE_OUT)
+			mini->pipe_nb++;
+		unit = unit->next;
+	}
+	mini->cmd_nb = mini->pipe_nb + 1;
+	mini->envp = build_envp_tab(mini->env);
+	if (!mini->envp)
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 }
 
 /*
