@@ -2,7 +2,7 @@
 # define ERRORS_H
 
 # define ERR_SYNTAX_PIPE	"minishell: syntax error near unexpected token `|'"
-# define ERR_REDIR			"minishell: syntax error near unexpected token `newline'"
+# define ERR_REDIR	"minishell: syntax error near unexpected token `newline'"
 # define ERR_SIG			"minishell: sigaction failed"
 # define ERR_ALLOC			"minishell: cannot allocate memory"
 # define ERR_QUOTES			"minishell: incorrect syntax: unclosed quotes"
