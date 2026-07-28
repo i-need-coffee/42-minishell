@@ -1,13 +1,5 @@
 #include "minishell.h"
 
-// This function parse only word token:
-// Start create or add a node in the struct to give back for execution
-//
-// int add_to_args(t_pipe_unit **head, t_token *current)
-// {
-//
-// }
-
 int	parse_word_token(t_pipe_unit **head, t_token *current, t_env *env, int cmdi)
 {
 	int			i;

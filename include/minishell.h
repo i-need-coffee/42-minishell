@@ -113,7 +113,6 @@ int				has_unclosed_quotes(char *input);
 void			print_error_and_exit(
 					t_mini *mini, char *err_msg, int exit_code);
 void			free_everthing(t_mini *mini);
-void			ft_abort(char *msg);
 
 /* -- TOKENIZATION -- */
 void			tokenize_input(t_mini *mini);
@@ -141,7 +140,6 @@ int				parse_tokens(t_mini *mini, t_pipe_unit **head);
 int				parse_word_token(
 					t_pipe_unit **head, t_token *tkn, t_env *env, int cmdi);
 int				add_arg(char **str, int i, t_pipe_unit *unit, t_env *env);
-void			print_lst(void *str);
 int				expension(char *str, int i, t_env *env, char **buffer);
 int				handle_quote(char *str, int i, t_env *env, char **b);
 void			create_or_update_buffer(

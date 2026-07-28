@@ -1,10 +1,5 @@
 #include "minishell.h"
 
-void	print_lst(void *str)
-{
-	ft_printf("%s\n", str);
-}
-
 void	create_or_update_buffer(char **buffer, char *str, int start, int end)
 {
 	char	*substr;

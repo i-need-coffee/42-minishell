@@ -52,7 +52,5 @@ int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
 			return (-1); // todo: handle error
 		current = current->next;
 	}
-	if (*unit && (*unit)->args)
-		ft_lstiter((*unit)->args, &print_lst);
 	return (0);
 }
