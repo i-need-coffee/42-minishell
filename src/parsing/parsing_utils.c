@@ -66,6 +66,7 @@ t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)
 	new_token->fd = -1;
 	new_token->cmd_index = cmdi;
 	new_token->next = NULL;
+	new_token->prev = NULL;
 	return (new_token);
 }
 
