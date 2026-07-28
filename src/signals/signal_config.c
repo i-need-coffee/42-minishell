@@ -8,7 +8,7 @@ void	signal_config(int signb, void *handler)
 	sigemptyset(&config.sa_mask);
 	config.sa_flags = 0;
 	if (sigaction(signb, &config, NULL) < 0)
-		print_error(ERR_SIGACTION);
+		print_error(ERR_SIG);
 }
 
 void	handler_sigint(int signb)

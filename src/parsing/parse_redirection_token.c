@@ -87,12 +87,12 @@ int	parse_redirection_token(t_pipe_unit **unit, t_token *current, t_env *env)
 {
 	if (current->next == NULL)
 	{
-		ft_printf(ERR_SYNTAX_TOKEN_REDIRECTION);
+		ft_printf(ERR_REDIR);
 		return (-1);
 	}
 	if (current->next->type != TOKEN_WORD)
 	{
-		ft_printf(ERR_SYNTAX_TOKEN_REDIRECTION);
+		ft_printf(ERR_REDIR);
 		return (-1);
 	}
 	if (ft_strncmp(current->value, ">>", 2) == 0)
