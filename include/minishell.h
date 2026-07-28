@@ -33,13 +33,6 @@ typedef enum e_token_type
 	TOKEN_EOF
 }	t_token_type;
 
-typedef enum e_quote_type
-{
-	NONE,
-	SINGLE,
-	DOUBLE
-}	t_quote_type;
-
 typedef enum e_unit_type
 {
 	CMD,
@@ -51,18 +44,10 @@ typedef enum e_unit_type
 	PIPE_IN
 }	t_unit_type;
 
-typedef struct s_token_segment
-{
-	t_quote_type			quote_type;
-	char					*value;
-	struct s_token_segment	*next;
-}	t_token_segment;
-
 typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	// t_token_segment	*segments;
 	struct s_token	*prev;
 	struct s_token	*next;
 }	t_token;
@@ -113,14 +98,13 @@ int				has_unclosed_quotes(char *input);
 void			print_error_and_exit(
 					t_mini *mini, char *err_msg, int exit_code);
 void			free_everthing(t_mini *mini);
+void			ft_abort(char *msg);
 
 /* -- TOKENIZATION -- */
 void			tokenize_input(t_mini *mini);
-t_token_segment	*generate_segments(char *value);
 int				add_token(t_token **root, t_token_type type, char *value);
 void			add_word_token(t_mini **mini, int *i);
 void			free_tokens(t_token **root);
-void			free_segments(t_token_segment **root);
 
 /* -- SIGNALS -- */
 void			signal_config(int signb, void *handler);
