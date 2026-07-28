@@ -9,6 +9,18 @@ void	cleanup(t_mini *mini)
 		free_tokens(&mini->tokens);
 	if (mini->input)
 		free(mini->input);
+	if (mini->units)
+		free_pipe_units(&mini->units);
+	if (mini->pids)
+	{
+		free(mini->pids);
+		mini->pids = NULL;
+	}
+	if (mini->envp)
+	{
+		free_char_tab(mini->envp);
+		mini->envp = NULL;
+	}
 }
 
 /*

@@ -55,7 +55,8 @@ SRCS	= \
 	$(SRC_DIR)/ft_atol.c \
 	$(SRC_DIR)/ft_isspace.c \
 	$(SRC_DIR)/ft_char_free.c \
-	$(SRC_DIR)/safe_close.c
+	$(SRC_DIR)/safe_close.c \
+	$(SRC_DIR)/ft_strcmp.c
 
 OBJ_DIR	= obj
 OBJS	= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

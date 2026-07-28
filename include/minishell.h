@@ -13,6 +13,9 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <stdio.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 
 /*
 ** ================================
@@ -56,13 +59,14 @@ typedef struct s_env
 {
 	char			*key;
 	char			*value;
+	struct s_env	*prev;
 	struct s_env	*next;
 }	t_env;
 
 typedef struct s_pipe_unit
 {
 	t_unit_type			type;
-	t_list				*args;
+	char				**args;
 	char				*file;
 	int					fd;
 	int					cmd_index;
@@ -75,9 +79,12 @@ typedef struct s_mini
 	char		*input;
 	int			pipe_nb;
 	int			err_num;
+	int			cmd_nb;
 	t_token		*tokens;
 	t_env		*env;
+	char		**envp;
 	t_pipe_unit	*units;
+	pid_t		*pids;
 }	t_mini;
 
 /*
@@ -99,6 +106,7 @@ void			print_error_and_exit(
 					t_mini *mini, char *err_msg, int exit_code);
 void			free_everthing(t_mini *mini);
 void			ft_abort(char *msg);
+void			print_perror(char *err_msg, int errnum);
 
 /* -- TOKENIZATION -- */
 void			tokenize_input(t_mini *mini);
@@ -118,6 +126,39 @@ void			add_back(t_env **env, t_env *new);
 t_env			*new_node(void);
 int				strlen_key(char *envp);
 void			free_env(t_env **root);
+char			*get_value_with_key(t_env *env, char *key);
+int				count_env_nodes(t_env *env);
+t_env			*get_env_node_with_key(t_env **root, char *key);
+
+/* -- EXECUTION --*/
+void			execute_input(t_mini *mini);
+int				execute_heredocs(t_mini *mini);
+void			free_pipe_units(t_pipe_unit **root);
+int				create_pipes(t_mini *mini);
+int				open_files(t_pipe_unit *units, int i);
+int				create_children(t_mini *mini);
+int				execute_cmd(t_mini *mini, t_pipe_unit *cmd);
+void			wait_children(t_mini *mini);
+void			close_all_fds(t_pipe_unit *units);
+t_pipe_unit		*get_cmd_unit(t_pipe_unit *units, int i);
+char			**build_envp_tab(t_env *env);
+int				dup_pipes(t_pipe_unit *units, int i);
+int				dup_redirects(t_pipe_unit *units, int i);
+int				dup_saved_fds(int *saved_stdin, int *saved_stdout);
+void			restore_fds(t_mini *mini, int saved_stdin, int saved_stdout);
+
+/* -- BUILT-IN --*/
+int				is_built_in(t_pipe_unit *cmd);
+int				execute_built_in(t_mini *mini, t_pipe_unit *cmd);
+int				echo(char **args);
+int				pwd(void);
+int				cd(t_env *env, char **args);
+int				count_args(char **args);
+int				env(char **envp, char **args);
+int				unset(t_env **root, char **args);
+int				export(t_env *env, char **args);
+void			sort_env_nodes(t_env **root);
+int				print_env_nodes(t_env **root);
 
 /* -- PARSING --*/
 int				parse_tokens(t_mini *mini, t_pipe_unit **head);
@@ -128,7 +169,7 @@ int				expension(char *str, int i, t_env *env, char **buffer);
 int				handle_quote(char *str, int i, t_env *env, char **b);
 void			create_or_update_buffer(
 					char **buffer, char *str, int start, int end);
-void			create_or_update_lst(t_pipe_unit *unit, char *buffer);
+void			create_or_update_args(t_pipe_unit *unit, char *buffer);
 int				check_quote_sanity(char *str, int end, char c);
 t_pipe_unit		*create_or_update_unit_struct(
 					t_pipe_unit **head, int cmdi, t_unit_type type);

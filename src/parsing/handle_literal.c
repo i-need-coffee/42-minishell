@@ -60,6 +60,6 @@ int	add_arg(char **str, int i, t_pipe_unit *unit, t_env *env)
 		}
 		i++;
 	}
-	create_or_update_lst(unit, ft_substr(*str, start, i - start));
+	create_or_update_args(unit, ft_substr(*str, start, i - start));
 	return (i);
 }

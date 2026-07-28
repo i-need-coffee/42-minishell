@@ -28,16 +28,29 @@ void	create_or_update_buffer(char **buffer, char *str, int start, int end)
 	}
 }
 
-void	create_or_update_lst(t_pipe_unit *unit, char *buffer)
+void	create_or_update_args(t_pipe_unit *unit, char *buffer)
 {
-	if (!unit->args)
+	char	**new_args;
+	int		n;
+	int		i;
+
+	n = 0;
+	if (unit->args)
+		while (unit->args[n])
+			n++;
+	new_args = malloc(sizeof(char *) * (n + 2));
+	if (!new_args)
+		ft_abort("Memory allocation failed");
+	i = 0;
+	while (i < n)
 	{
-		unit->args = ft_lstnew(buffer);
-		if (!unit->args)
-			ft_abort("Memory allocation failed");
+		new_args[i] = unit->args[i];
+		i++;
 	}
-	else
-		ft_lstadd_back(&unit->args, ft_lstnew(buffer));
+	new_args[n] = buffer;
+	new_args[n + 1] = NULL;
+	free(unit->args);
+	unit->args = new_args;
 }
 
 t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)

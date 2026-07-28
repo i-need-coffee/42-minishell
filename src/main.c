@@ -6,14 +6,21 @@
 */
 int	process_line(t_mini *mini)
 {
+	ft_printf("last error num: %d\n", mini->err_num);
 	mini->input = readline("minishell> ");
 	if (!mini->input)
 		return (0);
 	if (*mini->input)
 		add_history(mini->input);
+	if (has_unclosed_quotes(mini->input))
+	{
+		mini->err_num = 2;
+		return (print_error(ERR_QUOTES), cleanup(mini), 1);
+	}
 	tokenize_input(mini);
 	if (parse_tokens(mini, &mini->units))
 		return (cleanup(mini), 1);
+	execute_input(mini);
 	cleanup(mini);
 	return (1);
 }

@@ -5,7 +5,6 @@
 */
 void	print_error(char *err_msg)
 {
-	write(2, "error: ", 7);
 	write(2, err_msg, ft_strlen(err_msg));
 	write(2, "\n", 1);
 }
@@ -23,4 +22,17 @@ void	ft_abort(char *msg)
 {
 	perror(msg);
 	exit(1);
+}
+
+/*
+**	Prints "minishell: err_msg: <strerror(errnum)>" to stderr, mimicking
+**	perror() but with a custom prefix instead of the program name.
+*/
+void	print_perror(char *err_msg, int errnum)
+{
+	write(2, "minishell: ", 11);
+	write(2, err_msg, ft_strlen(err_msg));
+	write(2, ": ", 2);
+	write(2, strerror(errnum), ft_strlen(strerror(errnum)));
+	write(2, "\n", 1);
 }

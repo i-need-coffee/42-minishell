@@ -24,6 +24,7 @@ void	add_back(t_env **env, t_env *new)
 	current = *env;
 	while (current->next)
 		current = current->next;
+	new->prev = current;
 	current->next = new;
 }
 
@@ -44,4 +45,17 @@ void	free_env(t_env **root)
 		free(temp);
 	}
 	*root = NULL;
+}
+
+int	count_env_nodes(t_env *env)
+{
+	int	count;
+
+	count = 0;
+	while (env)
+	{
+		count++;
+		env = env->next;
+	}
+	return (count);
 }

@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_char_free.c                                     :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sjolliet <sjolliet@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/14 14:29:32 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/07/04 16:40:27 by sjolliet         ###   ########.fr       */
+/*   Created: 2026/07/04 21:37:43 by sjolliet          #+#    #+#             */
+/*   Updated: 2026/07/04 21:41:43 by sjolliet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	free_char_tab(char **tab)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int	i;
+	size_t	i;
 
-	if (!tab)
-		return ;
 	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
+	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
-	}
-	free(tab);
-}
-
-void	free_and_null(char **ptr)
-{
-	if (ptr && *ptr)
-	{
-		free(*ptr);
-		*ptr = NULL;
-	}
+	return ((unsigned char)s1[i] - (unsigned char )s2[i]);
 }

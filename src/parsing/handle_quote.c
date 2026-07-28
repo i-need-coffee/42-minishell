@@ -32,10 +32,10 @@ int	handle_double_quote(char *str, int i, t_env *env, char **b)
 {
 	int		start;
 	int		end;
-	char	*buffer_t_list_args;
+	char	*quote_buffer;
 
 	start = i;
-	buffer_t_list_args = NULL;
+	quote_buffer = NULL;
 	end = check_quote_sanity(str, i, '\"');
 	if (end == -1)
 		return (-1);
@@ -43,8 +43,8 @@ int	handle_double_quote(char *str, int i, t_env *env, char **b)
 	{
 		if (str[i] == '$')
 		{
-			create_or_update_buffer(&buffer_t_list_args, str, start, i);
-			i = expension(str, i, env, &buffer_t_list_args);
+			create_or_update_buffer(&quote_buffer, str, start, i);
+			i = expension(str, i, env, &quote_buffer);
 			start = i;
 			if (i == end)
 				start++;
@@ -52,8 +52,8 @@ int	handle_double_quote(char *str, int i, t_env *env, char **b)
 		i++;
 	}
 	if (start < i)
-		create_or_update_buffer(&buffer_t_list_args, str, start, i);
-	*b = buffer_t_list_args;
+		create_or_update_buffer(&quote_buffer, str, start, i);
+	*b = quote_buffer;
 	return (end + 1);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sjolliet <sjolliet@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:42:28 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/03/14 19:04:18 by sjolliet         ###   ########.fr       */
+/*   Updated: 2026/07/04 21:42:23 by sjolliet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ long		ft_atol(const char *nptr);
 int			ft_isspace(int c);
 void		free_char_tab(char **tab);
 void		safe_close(int *fd);
+int			ft_strcmp(const char *s1, const char *s2);
 
 #endif
