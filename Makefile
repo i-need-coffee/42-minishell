@@ -3,32 +3,20 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jturrel <jturrel@student.42.fr>            +#+  +:+       +#+         #
+#    By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/06/28 18:50:42 by jturrel        #  #+#    #+#              #
-#    Updated: 2026/06/28 21:00:07 by jturrel          ###   ########.fr        #
+#    Created: 2026/06/28 18:50:42 by jturrel           #+#    #+#              #
+#    Updated: 2026/07/28 13:29:43 by sjolliet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			= minishell
 
 CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -Iinclude -g -fsanitize=address -Ilibft/include -I/usr/local/Cellar/readline/8.3.3/include
+CFLAGS			= -Wall -Wextra -Werror -g -Iinclude -Ilibft/include
 
 LIBFT_DIR		= libft
-LIBFT			= $(LIBFT_DIR)/libft.a -L/usr/local/Cellar/readline/8.3.3/lib -lreadline
-
-
-# CFLAGS			= -g
-
-# INC_FLAGS = -Iinclude -Ilibft/include -I/usr/local/Cellar/readline/8.3.3/include/readline
-
-# LIBFT_DIR		= libft
-# LIBS			= -L$(LIBFT_DIR)/libft.a -L/usr/local/Cellar/readline/8.3.3/lib/libreadline.a -lreadline
-
-# # -I$(brew --prefix readline)/include -Iinclude -Ilibft/include  -L$(brew --prefix readline)/lib -lreadline
-
-# LIBREADLINE = -lreadline
+LIBFT			= $(LIBFT_DIR)/libft.a
 
 SRC_DIR			= src
 OBJ_DIR			= obj
@@ -55,9 +43,6 @@ SRCS			= \
 	$(SRC_DIR)/parsing/parse_pipe_token.c\
 	$(SRC_DIR)/parsing/parse_redirection_token.c\
 	$(SRC_DIR)/parsing/redirection_utils/common_redirection_utils.c
-
-
-
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -91,6 +76,6 @@ fclean: clean
 re: fclean all
 
 leaks: re
-	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes ./minishell
+	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes ./minishell
 
 .PHONY: all clean fclean re leaks
