@@ -19,12 +19,13 @@ int	parse_tokens_word_or_pipe(t_mini *mini, t_token *current, int *cmdi,
 	return (0);
 }
 
-int	parse_tokens_redirection(t_mini *mini, t_token *current, t_pipe_unit **unit)
+int	parse_tokens_redirection(t_mini *mini, t_token *current,
+		t_pipe_unit **unit, int cmdi)
 {
 	if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
 		|| current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC)
 	{
-		if (parse_redirection_token(unit, current, mini->env))
+		if (parse_redirection_token(unit, current, mini->env, cmdi))
 			return (-1);
 	}
 	return (0);
@@ -46,7 +47,7 @@ int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
 		}
 		else if (parse_tokens_word_or_pipe(mini, current, &cmdi, unit))
 			return (-1);
-		else if (parse_tokens_redirection(mini, current, unit))
+		else if (parse_tokens_redirection(mini, current, unit, cmdi))
 			return (-1);
 		if (*unit == NULL)
 			return (-1); // todo: handle error

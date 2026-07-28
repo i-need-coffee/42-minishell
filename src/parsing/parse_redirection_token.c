@@ -64,13 +64,13 @@ void	wrapper_put_value_in_prev(t_pipe_unit **head, t_token *current,
 }
 
 int	uptade_unit_struct_redir(t_pipe_unit **head, t_token *current, t_env *env,
-		t_unit_type type)
+		t_unit_type type, int cmdi)
 {
 	t_pipe_unit	*current_node;
 	char		*str;
 	char		*file_name;
 
-	create_or_update_unit_struct(head, 0, type);
+	create_or_update_unit_struct(head, cmdi, type);
 	str = current->next->value;
 	current_node = *head;
 	while (current_node->next)
@@ -83,7 +83,8 @@ int	uptade_unit_struct_redir(t_pipe_unit **head, t_token *current, t_env *env,
 	return (0);
 }
 
-int	parse_redirection_token(t_pipe_unit **unit, t_token *current, t_env *env)
+int	parse_redirection_token(t_pipe_unit **unit, t_token *current, t_env *env,
+		int cmdi)
 {
 	if (current->next == NULL)
 	{
@@ -96,13 +97,13 @@ int	parse_redirection_token(t_pipe_unit **unit, t_token *current, t_env *env)
 		return (-1);
 	}
 	if (ft_strncmp(current->value, ">>", 2) == 0)
-		return (uptade_unit_struct_redir(unit, current, env, APPEND));
+		return (uptade_unit_struct_redir(unit, current, env, APPEND, cmdi));
 	else if (ft_strncmp(current->value, "<<", 2) == 0)
-		return (uptade_unit_struct_redir(unit, current, env, HEREDOC));
+		return (uptade_unit_struct_redir(unit, current, env, HEREDOC, cmdi));
 	else if (current->value[0] == '>')
-		return (uptade_unit_struct_redir(unit, current, env, REDIR_OUT));
+		return (uptade_unit_struct_redir(unit, current, env, REDIR_OUT, cmdi));
 	else if (current->value[0] == '<')
-		return (uptade_unit_struct_redir(unit, current, env, REDIR_IN));
+		return (uptade_unit_struct_redir(unit, current, env, REDIR_IN, cmdi));
 	else
 		return (-1);
 	return (0);

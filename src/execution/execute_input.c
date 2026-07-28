@@ -41,6 +41,7 @@ void	execute_input(t_mini *mini)
 {
 	t_pipe_unit	*cmd;
 
+	print_data(mini);
 	mini->cmd_nb = mini->pipe_nb + 1;
 	mini->envp = build_envp_tab(mini->env);
 	if (!mini->envp)

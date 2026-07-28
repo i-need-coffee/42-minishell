@@ -177,7 +177,7 @@ int				handle_dollar(char *str, int i, t_env *env, char **b);
 int				parse_pipe_token(
 					t_pipe_unit **unit, t_token *current, int *cmdi);
 int				parse_redirection_token(
-					t_pipe_unit **unit, t_token *current, t_env *env);
+					t_pipe_unit **unit, t_token *current, t_env *env, int cmdi);
 void			clean_str(char *str);
 int				put_value_in_prev_args(
 					t_pipe_unit *cnode, t_token *current, t_env *env);
