@@ -2,37 +2,6 @@
 
 static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd);
 
-void	print_data(t_mini *mini)
-{
-	t_pipe_unit	*curr;
-	int			node;
-	int			j;
-
-	node = 0;
-	curr = mini->units;
-	while (curr)
-	{
-		ft_printf("── node[%d] ──────────────────────────────\n", node);
-		ft_printf("  type     : %d\n", curr->type);
-		ft_printf("  cmd_index: %d\n", curr->cmd_index);
-		if (curr->args)
-		{
-			j = 0;
-			while (curr->args[j])
-			{
-				ft_printf("  args[%d]  : %s\n", j, curr->args[j]);
-				j++;
-			}
-		}
-		if (curr->file)
-			ft_printf("  file     : %s\n", curr->file);
-		ft_printf("  fd       : %d\n", curr->fd);
-		node++;
-		curr = curr->next;
-	}
-	ft_printf("─────────────────────────────────────────\n");
-}
-
 /*
 **	Runs the parsed pipeline: sets up heredocs and pipes, then either
 **	executes a single built-in in the parent or forks children.
@@ -41,7 +10,6 @@ void	execute_input(t_mini *mini)
 {
 	t_pipe_unit	*cmd;
 
-	print_data(mini);
 	mini->cmd_nb = mini->pipe_nb + 1;
 	mini->envp = build_envp_tab(mini->env);
 	if (!mini->envp)
