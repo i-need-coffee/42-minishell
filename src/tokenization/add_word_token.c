@@ -34,7 +34,6 @@ static int	get_substr_len(char *input)
 	int	len;
 
 	len = 0;
-
 	while (input[len])
 	{
 		if (isseparator(input[len]))
