@@ -8,13 +8,13 @@ int	parse_tokens_word_or_pipe(t_mini *mini, t_token *current, int *cmdi,
 {
 	if (current->type == TOKEN_WORD)
 	{
-		if (parse_word_token(unit, current, mini->env, *cmdi) < 0)
-			return (-1);
+		if (parse_word_token(unit, current, mini->env, *cmdi) == 0)
+			return (1);
 	}
 	else if (current->type == TOKEN_PIPE)
 	{
 		if (parse_pipe_token(unit, current, cmdi))
-			return (-1);
+			return (1);// mess error handle
 	}
 	return (0);
 }
@@ -45,13 +45,13 @@ int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
 			current = current->next;
 			continue ;
 		}
-		else if (parse_tokens_word_or_pipe(mini, current, &cmdi, unit))
-			return (-1);
+		if (!(parse_tokens_word_or_pipe(mini, current, &cmdi, unit)))
+			return (0);// mess error handle and exit handle
 		else if (parse_tokens_redirection(mini, current, unit, cmdi))
-			return (-1);
+			return (0);// mess error handle and exit handle
 		if (*unit == NULL)
-			return (-1); // todo: handle error
+			return (0); // todo: handle error -> what error ? mess error handle and exit handle
 		current = current->next;
 	}
-	return (0);
+	return (1);
 }
