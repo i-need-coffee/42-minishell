@@ -53,7 +53,7 @@ int	expension(char *str, int i, t_env *env, char **buffer)
 	temp_env = env;
 	i++;
 	end = i;
-	while (ft_isalnum(str[end]))
+	while (str[end] == '_' || ft_isalnum(str[end]))
 		end++;
 	key = ft_substr(str, i, end - i);
 	if (check_key(temp_env, key, end, buffer) != -1)
