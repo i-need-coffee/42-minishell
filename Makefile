@@ -6,7 +6,7 @@
 #    By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/28 18:50:42 by jturrel           #+#    #+#              #
-#    Updated: 2026/07/28 15:34:12 by sjolliet         ###   ########.fr        #
+#    Updated: 2026/07/30 14:42:53 by sjolliet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ SRCS			= \
 	$(SRC_DIR)/execution/files.c \
 	$(SRC_DIR)/execution/exec.c \
 	$(SRC_DIR)/execution/dup.c \
-	$(SRC_DIR)/built-in/exec.c \
+	$(SRC_DIR)/built-in/execute_built_in.c \
 	$(SRC_DIR)/built-in/echo.c \
 	$(SRC_DIR)/built-in/pwd.c \
 	$(SRC_DIR)/built-in/cd.c \
