@@ -9,6 +9,8 @@ int	wrapper_handle_dollar(char **str, char **tmp, int *i, t_env *env) // handle 
 	if (*i == 0)
 		return (0);
 	*i = replace_str(str, *tmp, start, *(i)); //message error handle
+	if (*i == 0)
+		return (0);
 	return (1);
 }
 

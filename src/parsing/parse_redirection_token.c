@@ -6,7 +6,18 @@ char	*put_rest_on_value(char *substr, char *str, int i, char **next_value)
 
 	rest = NULL;
 	substr = ft_substr(str, 0, i);
+	if (!substr)
+	{
+		print_error(ERR_ALLOC);
+		return (NULL);
+	}
 	rest = ft_substr(str, i, ft_strlen(str) - i);
+	if (!rest)
+	{
+		print_error(ERR_ALLOC);
+		free(substr);
+		return (NULL);
+	}
 	free(*next_value);
 	*next_value = NULL;
 	*next_value = rest;
@@ -21,20 +32,29 @@ char	*get_file_name(t_env *env, char **next_value, char *str)
 	char	*tmp;
 
 	i = 0;
+	substr = NULL;
 	while (str[i] != '\0' && str[i] != ' ')
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 		{
 			start = i;
 			substr = ft_substr(str, 0, i);
-			if (wrapper_handle_quote(str, &i, env, &tmp))
+			if (!substr)
+			{
+				print_error(ERR_ALLOC);
+				return (0);
+			}
+			if (!(wrapper_handle_quote(str, &i, env, &tmp)))
 				return (NULL);
 			i = replace_str(&str, tmp, start, i + 1);
+			if (i == 0)
+				return (NULL);
 			continue ;
 		}
 		if (str[i] == '$')
 		{
-			wrapper_handle_dollar(&str, &tmp, &i, env);
+			if (!(wrapper_handle_dollar(&str, &tmp, &i, env)))
+				return (NULL);
 			continue ;
 		}
 		i++;
@@ -42,8 +62,8 @@ char	*get_file_name(t_env *env, char **next_value, char *str)
 	return (put_rest_on_value(substr, str, i, next_value));
 }
 
-void	wrapper_put_value_in_prev(t_pipe_unit **head, t_token *current,
-		t_env *env, t_pipe_unit *current_node)
+int	wrapper_put_value_in_prev(t_pipe_unit **head, t_token *current,
+		t_env *env, t_pipe_unit *current_node) // handle message error
 {
 	t_pipe_unit	*tmp_prev;
 
@@ -58,43 +78,48 @@ void	wrapper_put_value_in_prev(t_pipe_unit **head, t_token *current,
 			current_node->prev = tmp_prev;
 			*head = tmp_prev;
 		}
-		put_value_in_prev_args(tmp_prev, current->next, env);
+		if (!(put_value_in_prev_args(tmp_prev, current->next, env)))
+			return (1);
 		clean_str(current->next->value);
 	}
+	return (0);
 }
 
 int	uptade_unit_struct_redir(t_pipe_unit **head, t_token *current, t_env *env,
-		t_unit_type type, int cmdi)
+		t_unit_type type, int cmdi) // handle message error
 {
 	t_pipe_unit	*current_node;
 	char		*str;
 	char		*file_name;
 
-	create_or_update_unit_struct(head, cmdi, type);
+	if (!(create_or_update_unit_struct(head, cmdi, type)))
+		return (0);
 	str = current->next->value;
 	current_node = *head;
 	while (current_node->next)
 		current_node = current_node->next;
 	file_name = get_file_name(env, &current->next->value, str);
 	if (!file_name)
-		return (-1);
-	create_redirection_node(head, current->next, file_name);
-	wrapper_put_value_in_prev(head, current, env, current_node);
-	return (0);
+		return (0);
+	if (!(create_redirection_node(head, current->next, file_name)))
+		return (0);
+	if (!(wrapper_put_value_in_prev(head, current, env, current_node)))
+		return (0);
+	return (1);
 }
 
 int	parse_redirection_token(t_pipe_unit **unit, t_token *current, t_env *env,
-		int cmdi)
+		int cmdi)// error handle before
 {
 	if (current->next == NULL)
 	{
 		print_error(ERR_REDIR);
-		return (-1);
+		return (0);
 	}
 	if (current->next->type != TOKEN_WORD)
 	{
 		print_error(ERR_REDIR);
-		return (-1);
+		return (0);
 	}
 	if (ft_strncmp(current->value, ">>", 2) == 0)
 		return (uptade_unit_struct_redir(unit, current, env, APPEND, cmdi));
@@ -105,6 +130,6 @@ int	parse_redirection_token(t_pipe_unit **unit, t_token *current, t_env *env,
 	else if (current->value[0] == '<')
 		return (uptade_unit_struct_redir(unit, current, env, REDIR_IN, cmdi));
 	else
-		return (-1);
-	return (0);
+		return (0);
+	return (1);
 }

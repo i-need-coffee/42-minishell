@@ -73,7 +73,7 @@ int	create_or_update_args(t_pipe_unit *unit, char *buffer)
 	return (0);
 }
 
-t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)
+t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type) // handle error message
 {
 	t_pipe_unit	*new_token;
 

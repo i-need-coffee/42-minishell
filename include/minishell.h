@@ -184,7 +184,7 @@ int				put_value_in_prev_args(
 int				replace_str(
 					char **str, char *second_part,
 					int replace_start, int replace_end );
-void			create_redirection_node(
+int			create_redirection_node(
 					t_pipe_unit **head, t_token *next, char *filename);
 t_pipe_unit		*new_unit_node(int cmdi, t_unit_type type);
 int			wrapper_handle_dollar(

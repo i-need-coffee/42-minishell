@@ -4,7 +4,7 @@
 // and print unit->args nodes for debugging
 
 int	parse_tokens_word_or_pipe(t_mini *mini, t_token *current, int *cmdi,
-		t_pipe_unit **unit)
+		t_pipe_unit **unit) // mess error handle
 {
 	if (current->type == TOKEN_WORD)
 	{
@@ -25,10 +25,10 @@ int	parse_tokens_redirection(t_mini *mini, t_token *current,
 	if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
 		|| current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC)
 	{
-		if (parse_redirection_token(unit, current, mini->env, cmdi))
-			return (-1);
+		if (!(parse_redirection_token(unit, current, mini->env, cmdi)))
+			return (0);
 	}
-	return (0);
+	return (1);
 }
 
 int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
@@ -47,7 +47,7 @@ int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
 		}
 		if (!(parse_tokens_word_or_pipe(mini, current, &cmdi, unit)))
 			return (0);// mess error handle and exit handle
-		else if (parse_tokens_redirection(mini, current, unit, cmdi))
+		else if (!(parse_tokens_redirection(mini, current, unit, cmdi)))
 			return (0);// mess error handle and exit handle
 		if (*unit == NULL)
 			return (0); // todo: handle error -> what error ? mess error handle and exit handle
