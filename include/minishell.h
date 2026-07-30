@@ -121,7 +121,7 @@ void			handler_sigquit(int signb);
 void			set_global_var(int signb);
 
 /* -- ENVIRONEMENT --*/
-t_env			**build_env(char **envp, t_env **env);
+int				build_env(char **envp, t_env **env);
 void			add_back(t_env **env, t_env *new);
 t_env			*new_node(void);
 int				strlen_key(char *envp);
@@ -159,6 +159,7 @@ int				unset(t_env **root, char **args);
 int				export(t_env *env, char **args);
 void			sort_env_nodes(t_env **root);
 int				print_env_nodes(t_env **root);
+char			*get_curr_dir(void);
 
 /* -- PARSING --*/
 int				parse_tokens(t_mini *mini, t_pipe_unit **head);
