@@ -20,5 +20,8 @@
 # define ERR_CD_NO_HOME		"minishell: cd: HOME not set"
 # define ERR_ENV_ARGS_NUM	"minishell: env: too many arguments"
 # define ERR_ALLOC_EXPORT	"minishell: export: cannot allocate memory"
+# define ERR_EXIT			"minishell: exit: "
+# define ERR_EXIT_NUM		": numeric argument required"
+# define ERR_EXIT_ARGS_NUM	"minishell: exit: too many arguments"
 
 #endif

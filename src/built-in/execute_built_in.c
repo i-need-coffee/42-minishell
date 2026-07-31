@@ -46,6 +46,6 @@ int	execute_built_in(t_mini *mini, t_pipe_unit *cmd)
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		exec_result = export(mini->env, cmd->args);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
-		exit_minishell(mini, cmd->args);
+		exec_result = exit_minishell(mini, cmd->args);
 	return (exec_result);
 }

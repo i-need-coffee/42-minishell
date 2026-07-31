@@ -163,7 +163,7 @@ int				export(t_env *env, char **args);
 void			sort_env_nodes(t_env **root);
 int				print_env_nodes(t_env **root);
 char			*get_curr_dir(void);
-void			exit_minishell(t_mini *mini, char **args);
+int				exit_minishell(t_mini *mini, char **args);
 
 /* -- PARSING --*/
 int				parse_tokens(t_mini *mini, t_pipe_unit **head);
