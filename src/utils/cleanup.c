@@ -23,6 +23,8 @@ void	cleanup(t_mini *mini)
 		free_char_tab(mini->envp);
 		mini->envp = NULL;
 	}
+	if (!restore_saved_stdin(mini) || !restore_saved_stdout(mini))
+		print_error_and_exit(mini, ERR_RESTORE_FDS, EXIT_FAILURE);
 }
 
 /*

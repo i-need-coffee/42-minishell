@@ -39,6 +39,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	ft_bzero(&mini, sizeof(t_mini));
+	mini.saved_stdin = -1;
+	mini.saved_stdout = -1;
 	if (!build_env(envp, &mini.env))
 		print_error_and_exit(&mini, ERR_ALLOC, EXIT_FAILURE);
 	signal_config(SIGQUIT, set_global_var);

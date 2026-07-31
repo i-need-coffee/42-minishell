@@ -68,33 +68,38 @@ int	dup_saved_fds(int *saved_stdin, int *saved_stdout)
 	return (1);
 }
 
-/*
-**	Restores stdin/stdout from the previously saved fds, retrying on
-**	EINTR, and closes the saved copies once done.
-*/
-void	restore_fds(t_mini *mini, int saved_stdin, int saved_stdout)
+int	restore_saved_stdin(t_mini *mini)
 {
-	while (dup2(saved_stdin, STDIN_FILENO) == -1)
+	if (mini->saved_stdin == -1)
+		return (1);
+	while (dup2(mini->saved_stdin, STDIN_FILENO) == -1)
 	{
 		if (errno != EINTR)
 			break ;
 	}
-	if (dup2(saved_stdin, STDIN_FILENO) == -1)
+	if (dup2(mini->saved_stdin, STDIN_FILENO) == -1)
 	{
-		safe_close(&saved_stdin);
-		safe_close(&saved_stdout);
-		print_error_and_exit(mini, ERR_RESTORE_FDS, EXIT_FAILURE);
+		safe_close(&mini->saved_stdin);
+		return (0);
 	}
-	safe_close(&saved_stdin);
-	while (dup2(saved_stdout, STDOUT_FILENO) == -1)
+	safe_close(&mini->saved_stdin);
+	return (1);
+}
+
+int	restore_saved_stdout(t_mini *mini)
+{
+	if (mini->saved_stdout == -1)
+		return (1);
+	while (dup2(mini->saved_stdout, STDOUT_FILENO) == -1)
 	{
 		if (errno != EINTR)
 			break ;
 	}
-	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+	if (dup2(mini->saved_stdout, STDOUT_FILENO) == -1)
 	{
-		safe_close(&saved_stdout);
-		print_error_and_exit(mini, ERR_RESTORE_FDS, EXIT_FAILURE);
+		safe_close(&mini->saved_stdout);
+		return (0);
 	}
-	safe_close(&saved_stdout);
+	safe_close(&mini->saved_stdout);
+	return (1);
 }

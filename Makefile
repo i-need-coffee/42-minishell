@@ -6,7 +6,7 @@
 #    By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/28 18:50:42 by jturrel           #+#    #+#              #
-#    Updated: 2026/07/30 14:42:53 by sjolliet         ###   ########.fr        #
+#    Updated: 2026/07/30 17:59:26 by sjolliet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,8 @@ SRCS			= \
 	$(SRC_DIR)/built-in/env.c \
 	$(SRC_DIR)/built-in/unset.c \
 	$(SRC_DIR)/built-in/export.c \
-	$(SRC_DIR)/built-in/export_one_arg.c
+	$(SRC_DIR)/built-in/export_one_arg.c \
+	$(SRC_DIR)/built-in/exit_minishell.c
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

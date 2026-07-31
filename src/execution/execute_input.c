@@ -50,19 +50,14 @@ static void	init_exec_data(t_mini *mini)
 */
 static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd)
 {
-	int	saved_stdin;
-	int	saved_stdout;
 	int	exec_result;
 
-	saved_stdin = -1;
-	saved_stdout = -1;
 	if (!open_files(mini->units, 0))
 		return (1);
-	if (!dup_saved_fds(&saved_stdin, &saved_stdout))
+	if (!dup_saved_fds(&mini->saved_stdin, &mini->saved_stdout))
 		return (1);
 	if (!dup_redirects(mini->units, 0))
-		return (restore_fds(mini, saved_stdin, saved_stdout), 1);
+		return (1);
 	exec_result = execute_built_in(mini, cmd);
-	restore_fds(mini, saved_stdin, saved_stdout);
 	return (exec_result);
 }

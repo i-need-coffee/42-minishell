@@ -80,6 +80,8 @@ typedef struct s_mini
 	int			pipe_nb;
 	int			err_num;
 	int			cmd_nb;
+	int			saved_stdin;
+	int			saved_stdout;
 	t_token		*tokens;
 	t_env		*env;
 	char		**envp;
@@ -145,7 +147,8 @@ char			**build_envp_tab(t_env *env);
 int				dup_pipes(t_pipe_unit *units, int i);
 int				dup_redirects(t_pipe_unit *units, int i);
 int				dup_saved_fds(int *saved_stdin, int *saved_stdout);
-void			restore_fds(t_mini *mini, int saved_stdin, int saved_stdout);
+int				restore_saved_stdin(t_mini *mini);
+int				restore_saved_stdout(t_mini *mini);
 
 /* -- BUILT-IN --*/
 int				is_built_in(t_pipe_unit *cmd);
@@ -160,6 +163,7 @@ int				export(t_env *env, char **args);
 void			sort_env_nodes(t_env **root);
 int				print_env_nodes(t_env **root);
 char			*get_curr_dir(void);
+void			exit_minishell(t_mini *mini, char **args);
 
 /* -- PARSING --*/
 int				parse_tokens(t_mini *mini, t_pipe_unit **head);
