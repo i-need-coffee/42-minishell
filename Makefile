@@ -41,6 +41,7 @@ SRCS			= \
 	$(SRC_DIR)/parsing/handle_quote.c \
 	$(SRC_DIR)/parsing/parse_pipe_token.c \
 	$(SRC_DIR)/parsing/parse_redirection_token.c \
+	$(SRC_DIR)/parsing/wrapper.c \
 	$(SRC_DIR)/parsing/redirection_utils/common_redirection_utils.c \
 	$(SRC_DIR)/execution/execute_input.c \
 	$(SRC_DIR)/execution/heredoc.c \
