@@ -1,22 +1,6 @@
 #include "minishell.h"
 
-int	wrapper_handle_quote(char *str, int *index, t_env *env, char **tmp) // handle error message
-{
-	int	i;
-
-	i = *(index);
-	if ((handle_quote(str, i, env, tmp)) == 0)
-		return (0);
-	if (str[i] == '\'')
-		*index = check_quote_sanity(str, i + 1, '\'');
-	else
-		*index = check_quote_sanity(str, i + 1, '\"');
-	if (*index == 0)
-		return (0);
-	return (1);
-}
-
-int	check_quote_sanity(char *str, int end, char c)//message error handle
+int	check_quote_sanity(char *str, int end, char c)
 {
 	while (str[end] && str[end] != c)
 		end++;
@@ -28,7 +12,17 @@ int	check_quote_sanity(char *str, int end, char c)//message error handle
 	return (end);
 }
 
-int	handle_double_quote(char *str, int i, t_env *env, char **b) //message error handle
+int	increment(int *start, int *i, int *end)
+{
+	if (*i == 0)
+		return (0);
+	*start = *i;
+	if (*i == *end)
+		(*start)++;
+	return (1);
+}
+
+int	handle_double_quote(char *str, int i, t_env *env, char **b)
 {
 	int		start;
 	int		end;
@@ -43,24 +37,21 @@ int	handle_double_quote(char *str, int i, t_env *env, char **b) //message error 
 	{
 		if (str[i] == '$')
 		{
-			if ((create_or_update_buffer(&quote_buffer, str, start, i)) == 0) //message error handle
+			if ((create_or_update_buffer(&quote_buffer, str, start, i)) == 0)
 				return (0);
-			if ((i = expension(str, i, env, &quote_buffer)) == 0)//message error handle
+			i = expension(str, i, env, &quote_buffer);
+			if (increment(&start, &i, &end) == 0)
 				return (0);
-			start = i;
-			if (i == end)
-				start++;
 		}
 		i++;
 	}
-	if (start < i)
-		if ((create_or_update_buffer(&quote_buffer, str, start, i)) == 0)//message error handle
-			return (0);
+	if (!(wrapper_coub(&quote_buffer, str, start, i)))
+		return (0);
 	*b = quote_buffer;
 	return (end + 1);
 }
 
-int	handle_single_quote(char *str, int i, char **b) //message error handle
+int	handle_single_quote(char *str, int i, char **b)
 {
 	int		end;
 	char	*substr;
@@ -70,7 +61,8 @@ int	handle_single_quote(char *str, int i, char **b) //message error handle
 	if (end == 0)
 		return (0);
 	substr = ft_substr(str, i, end - i);
-	if (!substr) {
+	if (!substr)
+	{
 		print_error(ERR_ALLOC);
 		return (0);
 	}
@@ -79,7 +71,7 @@ int	handle_single_quote(char *str, int i, char **b) //message error handle
 	return (end);
 }
 
-int	handle_quote(char *str, int i, t_env *env, char **b)// handle message error
+int	handle_quote(char *str, int i, t_env *env, char **b)
 {
 	if (str[i] == '\"')
 		i = handle_double_quote(str, i + 1, env, b);

@@ -1,31 +1,28 @@
 #include "minishell.h"
 
-// This function parse the types of mini(WORD, PIPE, etc)
-// and print unit->args nodes for debugging
-
 int	parse_tokens_word_or_pipe(t_mini *mini, t_token *current, int *cmdi,
-		t_pipe_unit **unit) // mess error handle
+		t_pipe_unit **unit)
 {
 	if (current->type == TOKEN_WORD)
 	{
 		if (parse_word_token(unit, current, mini->env, *cmdi) == 0)
-			return (1);
+			return (0);
 	}
 	else if (current->type == TOKEN_PIPE)
 	{
-		if (parse_pipe_token(unit, current, cmdi))
-			return (1);// mess error handle
+		if (!(parse_pipe_token(unit, current, cmdi)))
+			return (0);
 	}
-	return (0);
+	return (1);
 }
 
-int	parse_tokens_redirection(t_mini *mini, t_token *current,
-		t_pipe_unit **unit, int cmdi)
+int	parse_tokens_redirection(t_mini *mini, t_token *current, t_pipe_unit **unit,
+		int cmdi)
 {
 	if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
 		|| current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC)
 	{
-		if (!(parse_redirection_token(unit, current, mini->env, cmdi)))
+		if (!(parse_redirection_token(unit, current, mini, cmdi)))
 			return (0);
 	}
 	return (1);
@@ -46,11 +43,14 @@ int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
 			continue ;
 		}
 		if (!(parse_tokens_word_or_pipe(mini, current, &cmdi, unit)))
-			return (0);// mess error handle and exit handle
+			return (0);
 		else if (!(parse_tokens_redirection(mini, current, unit, cmdi)))
-			return (0);// mess error handle and exit handle
+			return (0);
 		if (*unit == NULL)
-			return (0); // todo: handle error -> what error ? mess error handle and exit handle
+		{
+			print_error(ERR_ALLOC);
+			return (0);
+		}
 		current = current->next;
 	}
 	return (1);

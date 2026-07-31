@@ -13,9 +13,9 @@ int	parse_pipe_token(t_pipe_unit **unit, t_token *current, int *cmdi)
 		return (0);
 	}
 	if (!(create_or_update_unit_struct(unit, *cmdi, PIPE_OUT)))
-		return (0);// mess error handle
+		return (0);
 	(*cmdi)++;
 	if (!(create_or_update_unit_struct(unit, *cmdi, PIPE_IN)))
-			return (0);// mess error handle
+		return (0);
 	return (1);
 }
