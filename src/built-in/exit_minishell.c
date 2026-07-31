@@ -38,10 +38,7 @@ static int	check_errors(t_mini *mini, char **args)
 	{
 		if (mini->pipe_nb == 0)
 			printf("exit\n");
-		ft_putstr_fd(ERR_EXIT, 2);
-		ft_putstr_fd(args[1], 2);
-		ft_putstr_fd(ERR_EXIT_NUM, 2);
-		ft_putstr_fd("\n", 2);
+		print_error3(ERR_EXIT, args[1], ERR_EXIT_NUM);
 		cleanup_exit(mini, 2);
 	}
 	if (count_args(args) > 2)

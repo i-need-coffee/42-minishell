@@ -36,3 +36,13 @@ void	print_perror(char *err_msg, int errnum)
 	write(2, strerror(errnum), ft_strlen(strerror(errnum)));
 	write(2, "\n", 1);
 }
+
+void	print_error3(char *start, char *middle, char *end)
+{
+	write(2, start, ft_strlen(start));
+	write(2, ": ", 2);
+	write(2, middle, ft_strlen(middle));
+	write(2, ": ", 2);
+	write(2, end, ft_strlen(end));
+	write(2, "\n", 1);
+}
