@@ -73,19 +73,11 @@ static char	*get_cmd_path(char *env_path, char *cmd_arg)
 static int	print_exec_error(char *cmd, int error)
 {
 	if (error == ENOENT && !ft_strchr(cmd, '/'))
-	{
-		write(2, "minishell: ", 11);
-		write(2, cmd, ft_strlen(cmd));
-		write(2, ": Command not found\n", 20);
-	}
+		print_error3("minishell", cmd, ERR_CMD_NOT_FOUND);
 	else if (error == EACCES && cmd[0] == '/')
-	{
-		write(2, "minishell: ", 11);
-		write(2, cmd, ft_strlen(cmd));
-		write(2, ": Is a directory\n", 17);
-	}
+		print_error3("minishell", cmd, ERR_IS_A_DIR);
 	else
-		print_perror(cmd, error);
+		print_error3("minishell", cmd, strerror(error));
 	if (error == ENOENT)
 		return (127);
 	else

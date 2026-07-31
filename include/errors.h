@@ -23,5 +23,7 @@
 # define ERR_EXIT			"minishell: exit"
 # define ERR_EXIT_NUM		"numeric argument required"
 # define ERR_EXIT_ARGS_NUM	"minishell: exit: too many arguments"
+# define ERR_CMD_NOT_FOUND	"command not found"
+# define ERR_IS_A_DIR		"is a directory"
 
 #endif

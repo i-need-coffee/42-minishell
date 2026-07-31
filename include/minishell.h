@@ -108,7 +108,6 @@ void			print_error_and_exit(
 					t_mini *mini, char *err_msg, int exit_code);
 void			free_everthing(t_mini *mini);
 void			ft_abort(char *msg);
-void			print_perror(char *err_msg, int errnum);
 void			print_error3(char *start, char *middle, char *end);
 
 /* -- TOKENIZATION -- */

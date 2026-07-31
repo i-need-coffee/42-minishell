@@ -40,7 +40,7 @@ static int	open_file(t_pipe_unit *unit)
 		error = errno;
 	if (error)
 	{
-		print_perror(unit->file, error);
+		print_error3("minishell", unit->file, strerror(error));
 		return (0);
 	}
 	return (1);
