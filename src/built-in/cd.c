@@ -23,6 +23,6 @@ int	cd(t_env *env, char **args)
 	else
 		path = args[1];
 	if (chdir(path) == -1)
-		return (perror(ERR_CD), 1);
+		return (print_error3(ERR_CD, path, strerror(errno)), 1);
 	return (0);
 }
