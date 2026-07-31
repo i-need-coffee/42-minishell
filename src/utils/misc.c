@@ -1,5 +1,25 @@
 #include "minishell.h"
 
+void	increment_shell_level(t_env **env)
+{
+	t_env	*shlvl;
+	int		nb;
+
+	shlvl = get_env_node_with_key(env, "SHLVL");
+	if (!shlvl)
+		return ;
+	nb = ft_atoi(shlvl->value);
+	if (nb == 0)
+	{
+		free_and_null(&shlvl->value);
+		shlvl->value = "1";
+		return ;
+	}
+	nb++;
+	free_and_null(&shlvl->value);
+	shlvl->value = ft_itoa(nb);
+}
+
 /*
 **	This function is used to check if there are any unclosed
 **	quotes in the user input.

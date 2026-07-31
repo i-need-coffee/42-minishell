@@ -6,7 +6,7 @@
 #    By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/28 18:50:42 by jturrel           #+#    #+#              #
-#    Updated: 2026/07/30 17:59:26 by sjolliet         ###   ########.fr        #
+#    Updated: 2026/07/31 17:30:06 by sjolliet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ OBJ_DIR			= obj
 SRCS			= \
 	$(SRC_DIR)/debug.c \
 	$(SRC_DIR)/main.c \
-	$(SRC_DIR)/utils/quotes.c \
+	$(SRC_DIR)/utils/misc.c \
 	$(SRC_DIR)/utils/cleanup.c \
 	$(SRC_DIR)/utils/errors.c \
 	$(SRC_DIR)/tokenization/tokenize_input.c \
