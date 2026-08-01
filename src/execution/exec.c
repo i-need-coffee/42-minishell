@@ -1,7 +1,7 @@
 #include "minishell.h"
 
-static char			*get_cmd_path(char *env_path, char *cmd);
-static int			print_exec_error(char *cmd, int error);
+static char	*get_cmd_path(char *env_path, char *cmd);
+static int	print_exec_error(char *cmd, int error);
 
 /*
 **	Executes an external command: runs it directly if it contains a
@@ -9,9 +9,9 @@ static int			print_exec_error(char *cmd, int error);
 */
 int	execute_cmd(t_mini *mini, t_pipe_unit *cmd)
 {
-	char		*env_path;
-	char		*cmd_path;
-	int			exit_code;
+	char	*env_path;
+	char	*cmd_path;
+	int		exit_code;
 
 	env_path = get_value_with_key(mini->env, "PATH");
 	if (!env_path || !env_path[0] || ft_strchr(cmd->args[0], '/'))
