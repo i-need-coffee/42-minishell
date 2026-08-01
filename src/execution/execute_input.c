@@ -30,6 +30,10 @@ void	execute_input(t_mini *mini)
 	wait_children(mini);
 }
 
+/*
+**	Counts pipes to derive cmd_nb, and builds the envp array used by
+**	execve() for this run.
+*/
 static void	init_exec_data(t_mini *mini)
 {
 	t_pipe_unit	*unit;

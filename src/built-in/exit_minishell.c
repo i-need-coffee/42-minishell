@@ -3,6 +3,12 @@
 static int	check_errors(t_mini *mini, char **args);
 static int	is_numeric_arg(char *arg);
 
+/*
+**	Exits the shell with args[1] % 256 as status (or 0 if no arg),
+**	printing "exit" first unless inside a pipeline. If args[1] fails
+**	numeric validation, exits directly from check_errors; if there are
+**	too many arguments, prints an error and returns 1 without exiting.
+*/
 int	exit_minishell(t_mini *mini, char **args)
 {
 	int			i;
@@ -32,6 +38,10 @@ int	exit_minishell(t_mini *mini, char **args)
 	return (0);
 }
 
+/*
+**	Validates args[1] as a numeric exit code and checks for excess
+**	arguments, printing errors and exiting/returning as appropriate.
+*/
 static int	check_errors(t_mini *mini, char **args)
 {
 	if (!is_numeric_arg(args[1]))
@@ -51,6 +61,11 @@ static int	check_errors(t_mini *mini, char **args)
 	return (1);
 }
 
+/*
+**	Returns 1 if arg is all zeros or converts to a non-zero long long
+**	via ft_str_to_lld, 0 if the conversion yields 0 (i.e. arg is not
+**	numeric).
+*/
 static int	is_numeric_arg(char *arg)
 {
 	long long	nb;

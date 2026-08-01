@@ -1,7 +1,9 @@
 #include "minishell.h"
 
 /*
-**	Frees per-iteration data. Called after each readline iteration.
+**	Frees per-iteration data and restores the saved stdin/stdout fds.
+**	Called after each readline iteration; if restoring the fds fails,
+**	prints an error, frees env, and exits immediately.
 */
 void	cleanup(t_mini *mini)
 {

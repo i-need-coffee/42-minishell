@@ -44,7 +44,7 @@ static int	get_substr_len(char *input)
 }
 
 /*
-**	Returns 1 if c is a whitespace or an operator character (|, <, >).
+**	Returns 1 if c is an operator character (|, <, >).
 */
 static int	isseparator(int c)
 {

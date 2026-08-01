@@ -24,6 +24,9 @@ void	ft_abort(char *msg)
 	exit(1);
 }
 
+/*
+**	Prints "start: middle: end\n" to stderr.
+*/
 void	print_error3(char *start, char *middle, char *end)
 {
 	write(2, start, ft_strlen(start));

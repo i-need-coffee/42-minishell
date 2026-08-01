@@ -78,6 +78,11 @@ static int	is_limiter(char *line, char *limiter)
 	return (0);
 }
 
+/*
+**	Reads one line from stdin, returning NULL at EOF or if the line
+**	matches delimiter (heredoc termination). If expands is set, expands
+**	$VAR occurrences in the line using env.
+*/
 static char	*get_typed_line(char *delimiter, int expands, t_env *env)
 {
 	char	*line;

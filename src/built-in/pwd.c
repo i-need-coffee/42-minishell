@@ -1,5 +1,9 @@
 #include "minishell.h"
 
+/*
+**	Returns the current working directory in a malloc'd buffer,
+**	growing the buffer and retrying if it's too small.
+*/
 char	*get_curr_dir(void)
 {
 	size_t	size;

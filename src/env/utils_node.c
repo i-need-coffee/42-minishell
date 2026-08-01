@@ -1,5 +1,8 @@
 #include "minishell.h"
 
+/*
+**	Allocates and zero-initializes a new env node.
+*/
 t_env	*new_node(void)
 {
 	t_env	*new;
@@ -10,6 +13,9 @@ t_env	*new_node(void)
 	return (new);
 }
 
+/*
+**	Appends new to the end of the env list.
+*/
 void	add_back(t_env **env, t_env *new)
 {
 	t_env	*current;
@@ -28,6 +34,9 @@ void	add_back(t_env **env, t_env *new)
 	current->next = new;
 }
 
+/*
+**	Frees every node of the env list and sets *root to NULL.
+*/
 void	free_env(t_env **root)
 {
 	t_env	*curr;
@@ -47,6 +56,9 @@ void	free_env(t_env **root)
 	*root = NULL;
 }
 
+/*
+**	Returns the number of nodes in the env list.
+*/
 int	count_env_nodes(t_env *env)
 {
 	int	count;
@@ -60,6 +72,9 @@ int	count_env_nodes(t_env *env)
 	return (count);
 }
 
+/*
+**	Adds default PWD and SHLVL=1 nodes to env, used when envp is empty.
+*/
 int	add_base_env(t_env **env)
 {
 	t_env	*pwd;

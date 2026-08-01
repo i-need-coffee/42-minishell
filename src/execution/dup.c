@@ -68,6 +68,10 @@ int	dup_saved_fds(int *saved_stdin, int *saved_stdout)
 	return (1);
 }
 
+/*
+**	Restores stdin from mini->saved_stdin (if set) via dup2(), retrying
+**	on EINTR, then closes the saved fd.
+*/
 int	restore_saved_stdin(t_mini *mini)
 {
 	if (mini->saved_stdin == -1)
@@ -86,6 +90,10 @@ int	restore_saved_stdin(t_mini *mini)
 	return (1);
 }
 
+/*
+**	Restores stdout from mini->saved_stdout (if set) via dup2(),
+**	retrying on EINTR, then closes the saved fd.
+*/
 int	restore_saved_stdout(t_mini *mini)
 {
 	if (mini->saved_stdout == -1)

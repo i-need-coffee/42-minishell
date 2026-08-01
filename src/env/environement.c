@@ -1,5 +1,9 @@
 #include "minishell.h"
 
+/*
+**	Returns the length of the key part of an "KEY=value" envp entry
+**	(the index of '='), or 0 if there is no '='.
+*/
 int	strlen_key(char *envp)
 {
 	int	i;
@@ -14,6 +18,10 @@ int	strlen_key(char *envp)
 	return (0);
 }
 
+/*
+**	Builds the env list from envp, or from add_base_env if envp is
+**	NULL/empty. Returns 0 on allocation failure.
+*/
 int	build_env(char **envp, t_env **env)
 {
 	int		i;
@@ -36,6 +44,9 @@ int	build_env(char **envp, t_env **env)
 	return (1);
 }
 
+/*
+**	Returns the value associated with key in env, or NULL if not found.
+*/
 char	*get_value_with_key(t_env *env, char *key)
 {
 	while (env)
@@ -47,6 +58,9 @@ char	*get_value_with_key(t_env *env, char *key)
 	return (NULL);
 }
 
+/*
+**	Returns the env node whose key matches key, or NULL if not found.
+*/
 t_env	*get_env_node_with_key(t_env **root, char *key)
 {
 	t_env	*curr;
@@ -61,6 +75,10 @@ t_env	*get_env_node_with_key(t_env **root, char *key)
 	return (NULL);
 }
 
+/*
+**	Creates a new env node from an "KEY=value" envp entry, incrementing
+**	the value if the key is SHLVL. Returns NULL on allocation failure.
+*/
 t_env	*create_env_node(char *envp_node)
 {
 	t_env	*node;
