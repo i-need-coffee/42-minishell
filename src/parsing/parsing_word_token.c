@@ -3,7 +3,6 @@
 int	parse_word_token(t_pipe_unit **head, t_token *current, t_env *env, int cmdi)
 {
 	int			i;
-	int			start;
 	t_pipe_unit	*new_token;
 	char		*str;
 
@@ -14,7 +13,6 @@ int	parse_word_token(t_pipe_unit **head, t_token *current, t_env *env, int cmdi)
 	while (new_token->next)
 		new_token = new_token->next;
 	i = 0;
-	start = i;
 	while (str[i])
 	{
 		i = add_arg(&str, i, new_token, env);
