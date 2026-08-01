@@ -21,6 +21,7 @@ int	wrapper_create_buffer(char **buffer, char *str, int start, int buff_len)
 		}
 		ft_strlcpy(*buffer, substr, (buff_len) + 1);
 		free(substr);
+		substr = NULL;
 	}
 	return (1);
 }

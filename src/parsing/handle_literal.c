@@ -20,6 +20,7 @@ char	*built_first_part(char *str, char *second_part, int replace_start)
 		return (0);
 	}
 	free(first_part);
+	first_part = NULL;
 	return (tmp);
 }
 
@@ -43,6 +44,7 @@ char	*built_last_part(char *str, char *tmp, int replace_end)
 		return (0);
 	}
 	free(last_part);
+	last_part = NULL;
 	return (joined_args);
 }
 
@@ -60,11 +62,22 @@ int	replace_str(char **str, char *second_part, int replace_start,
 		return (0);
 	ret = ft_strlen(tmp);
 	joined_args = built_last_part(*str, tmp, replace_end);
-	if (!joined_args)
+	if (!joined_args) {
+		free(tmp);
+		tmp = NULL;
 		return (0);
+	}
 	free(tmp);
-	free(second_part);
-	*str = joined_args;
+	tmp = NULL;
+	free(*str);
+	*str = NULL;
+	*str = ft_strdup(joined_args);
+	if (!*str) {
+		print_error(ERR_ALLOC);
+		return (0);
+	}
+	free(joined_args);
+	joined_args = NULL;
 	return (ret);
 }
 

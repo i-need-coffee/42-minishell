@@ -47,7 +47,9 @@ int	handle_double_quote(char *str, int i, t_env *env, char **b)
 	}
 	if (!(wrapper_coub(&quote_buffer, str, start, i)))
 		return (0);
-	*b = quote_buffer;
+	*b = ft_strdup(quote_buffer);
+	free(quote_buffer);
+	quote_buffer = NULL;
 	return (end + 1);
 }
 

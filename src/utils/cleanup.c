@@ -1,5 +1,22 @@
 #include "minishell.h"
 
+void	free_env_vars(t_env **root)
+{
+	t_env	*curr;
+	t_env	*temp;
+
+	curr = *root;
+	while (curr != NULL)
+	{
+		temp = curr;
+		curr = curr->next;
+		free(temp->key);
+		free(temp->value);
+		free(temp);
+	}
+	*root = NULL;
+}
+
 /*
 **	Frees per-iteration data. Called after each readline iteration.
 */
@@ -23,11 +40,13 @@ void	cleanup(t_mini *mini)
 		free_char_tab(mini->envp);
 		mini->envp = NULL;
 	}
+
 	if (!restore_saved_stdin(mini) || !restore_saved_stdout(mini))
 	{
 		print_error(ERR_RESTORE_FDS);
 		exit(EXIT_FAILURE);
 	}
+	free_env_vars(&mini->env);
 }
 
 /*
