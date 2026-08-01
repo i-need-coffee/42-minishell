@@ -59,3 +59,27 @@ int	count_env_nodes(t_env *env)
 	}
 	return (count);
 }
+
+int	add_base_env(t_env **env)
+{
+	t_env	*pwd;
+	t_env	*shlvl;
+
+	pwd = new_node();
+	if (!pwd)
+		return (0);
+	pwd->key = ft_strdup("PWD");
+	pwd->value = ft_strdup(get_curr_dir());
+	if (!pwd->key || !pwd->value)
+		return (free(pwd->key), free(pwd->value), free(pwd), 0);
+	add_back(env, pwd);
+	shlvl = new_node();
+	if (!shlvl)
+		return (0);
+	shlvl->key = ft_strdup("SHLVL");
+	shlvl->value = ft_strdup("1");
+	if (!shlvl->key || !shlvl->value)
+		return (free(shlvl->key), free(shlvl->value), free(shlvl), 0);
+	add_back(env, shlvl);
+	return (1);
+}

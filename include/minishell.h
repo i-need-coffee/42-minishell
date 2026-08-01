@@ -109,7 +109,6 @@ void			print_error_and_exit(
 void			free_everthing(t_mini *mini);
 void			ft_abort(char *msg);
 void			print_error3(char *start, char *middle, char *end);
-void			increment_shell_level(t_mini *mini);
 
 /* -- TOKENIZATION -- */
 void					tokenize_input(t_mini *mini);
@@ -133,6 +132,8 @@ void			free_env(t_env **root);
 char			*get_value_with_key(t_env *env, char *key);
 int				count_env_nodes(t_env *env);
 t_env			*get_env_node_with_key(t_env **root, char *key);
+int				add_base_env(t_env **env);
+t_env			*create_env_node(char *envp_node);
 
 /* -- EXECUTION --*/
 void			execute_input(t_mini *mini);

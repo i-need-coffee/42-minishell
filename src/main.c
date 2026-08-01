@@ -43,7 +43,6 @@ int	main(int argc, char **argv, char **envp)
 	mini.saved_stdout = -1;
 	if (!build_env(envp, &mini.env))
 		print_error_and_exit(&mini, ERR_ALLOC, EXIT_FAILURE);
-	increment_shell_level(&mini);
 	signal_config(SIGQUIT, set_global_var);
 	signal_config(SIGINT, set_global_var);
 	while (process_line(&mini))
