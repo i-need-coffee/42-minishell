@@ -21,14 +21,14 @@ int	put_value_in_prev_args(t_pipe_unit *cnode, t_token *current, t_env *env)
 	{
 		i = add_arg(&str, i, cnode, env);
 		if (i == -1)
-			return (-1);
+			return (0);
 		while (str[i] == ' ')
 			i++;
 	}
-	return (0);
+	return (1);
 }
 
-void	create_redirection_node(t_pipe_unit **head, t_token *next,
+int	create_redirection_node(t_pipe_unit **head, t_token *next,
 		char *filename)
 {
 	t_pipe_unit	*tmp_unit;
@@ -41,7 +41,13 @@ void	create_redirection_node(t_pipe_unit **head, t_token *next,
 	}
 	tmp_unit->file = filename;
 	buffer = ft_strtrim(next->value, " \t");
+	if (!buffer)
+	{
+		print_error(ERR_ALLOC);
+		return (0);
+	}
 	free(next->value);
 	next->value = NULL;
 	next->value = buffer;
+	return (1);
 }

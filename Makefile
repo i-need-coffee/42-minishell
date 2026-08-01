@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+         #
+#    By: jturrel <jturrel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/28 18:50:42 by jturrel           #+#    #+#              #
-#    Updated: 2026/07/31 17:30:06 by sjolliet         ###   ########.fr        #
+#    Updated: 2026/08/01 11:19:22 by jturrel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS			= \
 	$(SRC_DIR)/parsing/handle_quote.c \
 	$(SRC_DIR)/parsing/parse_pipe_token.c \
 	$(SRC_DIR)/parsing/parse_redirection_token.c \
+	$(SRC_DIR)/parsing/wrapper.c \
 	$(SRC_DIR)/parsing/redirection_utils/common_redirection_utils.c \
 	$(SRC_DIR)/execution/execute_input.c \
 	$(SRC_DIR)/execution/heredoc.c \

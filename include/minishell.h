@@ -7,14 +7,14 @@
 ** ================================
 */
 
-# include <libft.h>
+# include <errno.h>
 # include <errors.h>
-# include <readline/readline.h>
+# include <fcntl.h>
+# include <libft.h>
 # include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
-# include <errno.h>
-# include <fcntl.h>
 # include <sys/wait.h>
 
 /*
@@ -23,7 +23,7 @@
 ** ================================
 */
 
-extern int	g_sig;
+extern int				g_sig;
 
 typedef enum e_token_type
 {
@@ -34,7 +34,7 @@ typedef enum e_token_type
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
 	TOKEN_EOF
-}	t_token_type;
+}						t_token_type;
 
 typedef enum e_unit_type
 {
@@ -45,23 +45,23 @@ typedef enum e_unit_type
 	HEREDOC,
 	PIPE_OUT,
 	PIPE_IN
-}	t_unit_type;
+}						t_unit_type;
 
 typedef struct s_token
 {
-	t_token_type	type;
-	char			*value;
-	struct s_token	*prev;
-	struct s_token	*next;
-}	t_token;
+	t_token_type		type;
+	char				*value;
+	struct s_token		*prev;
+	struct s_token		*next;
+}						t_token;
 
 typedef struct s_env
 {
-	char			*key;
-	char			*value;
-	struct s_env	*prev;
-	struct s_env	*next;
-}	t_env;
+	char				*key;
+	char				*value;
+	struct s_env		*prev;
+	struct s_env		*next;
+}						t_env;
 
 typedef struct s_pipe_unit
 {
@@ -72,7 +72,7 @@ typedef struct s_pipe_unit
 	int					cmd_index;
 	struct s_pipe_unit	*prev;
 	struct s_pipe_unit	*next;
-}	t_pipe_unit;
+}						t_pipe_unit;
 
 typedef struct s_mini
 {
@@ -96,8 +96,8 @@ typedef struct s_mini
 */
 
 /* -- DEBUG -- */
-void			print_tokens(t_token **root);
-void			print_node_env(t_env *node);
+void					print_tokens(t_token **root);
+void					print_node_env(t_env *node);
 
 /* -- UTILS -- */
 void			cleanup_exit(t_mini *mini, int exit_code);
@@ -112,16 +112,17 @@ void			print_error3(char *start, char *middle, char *end);
 void			increment_shell_level(t_env **env);
 
 /* -- TOKENIZATION -- */
-void			tokenize_input(t_mini *mini);
-int				add_token(t_token **root, t_token_type type, char *value);
-void			add_word_token(t_mini **mini, int *i);
-void			free_tokens(t_token **root);
+void					tokenize_input(t_mini *mini);
+int						add_token(t_token **root, t_token_type type,
+							char *value);
+void					add_word_token(t_mini **mini, int *i);
+void					free_tokens(t_token **root);
 
 /* -- SIGNALS -- */
-void			signal_config(int signb, void *handler);
-void			handler_sigint(int signb);
-void			handler_sigquit(int signb);
-void			set_global_var(int signb);
+void					signal_config(int signb, void *handler);
+void					handler_sigint(int signb);
+void					handler_sigquit(int signb);
+void					set_global_var(int signb);
 
 /* -- ENVIRONEMENT --*/
 int				build_env(char **envp, t_env **env);
@@ -167,35 +168,40 @@ char			*get_curr_dir(void);
 int				exit_minishell(t_mini *mini, char **args);
 
 /* -- PARSING --*/
-int				parse_tokens(t_mini *mini, t_pipe_unit **head);
-int				parse_word_token(
-					t_pipe_unit **head, t_token *tkn, t_env *env, int cmdi);
-int				add_arg(char **str, int i, t_pipe_unit *unit, t_env *env);
-int				expension(char *str, int i, t_env *env, char **buffer);
-int				handle_quote(char *str, int i, t_env *env, char **b);
-void			create_or_update_buffer(
-					char **buffer, char *str, int start, int end);
-void			create_or_update_args(t_pipe_unit *unit, char *buffer);
-int				check_quote_sanity(char *str, int end, char c);
-t_pipe_unit		*create_or_update_unit_struct(
-					t_pipe_unit **head, int cmdi, t_unit_type type);
-int				handle_dollar(char *str, int i, t_env *env, char **b);
-int				parse_pipe_token(
-					t_pipe_unit **unit, t_token *current, int *cmdi);
-int				parse_redirection_token(
-					t_pipe_unit **unit, t_token *current, t_env *env, int cmdi);
-void			clean_str(char *str);
-int				put_value_in_prev_args(
-					t_pipe_unit *cnode, t_token *current, t_env *env);
-int				replace_str(
-					char **str, char *second_part,
-					int replace_start, int replace_end );
-void			create_redirection_node(
-					t_pipe_unit **head, t_token *next, char *filename);
-t_pipe_unit		*new_unit_node(int cmdi, t_unit_type type);
-void			wrapper_handle_dollar(
-					char **str, char **tmp, int *i, t_env *env);
-int				wrapper_handle_quote(
-					char *str, int *index, t_env *env, char **tmp);
-
+int						parse_tokens(t_mini *mini, t_pipe_unit **head);
+int						parse_word_token(t_pipe_unit **head, t_token *tkn,
+							t_env *env, int cmdi);
+int						add_arg(char **str, int i, t_pipe_unit *unit,
+							t_env *env);
+int						expension(char *str, int i, t_env *env, char **buffer);
+int						handle_quote(char *str, int i, t_env *env, char **b);
+int						create_or_update_buffer(char **buffer, char *str,
+							int start, int end);
+int						create_or_update_args(t_pipe_unit *unit, char *buffer);
+int						check_quote_sanity(char *str, int end, char c);
+int						create_or_update_unit_struct(t_pipe_unit **head,
+							int cmdi, t_unit_type type);
+int						handle_dollar(char *str, int i, t_env *env, char **b);
+int						parse_pipe_token(t_pipe_unit **unit, t_token *current,
+							int *cmdi);
+int						parse_redirection_token(t_pipe_unit **unit,
+							t_token *current, t_mini *mini, int cmdi);
+void					clean_str(char *str);
+int						put_value_in_prev_args(t_pipe_unit *cnode,
+							t_token *current, t_env *env);
+int						replace_str(char **str, char *second_part,
+							int replace_start, int replace_end);
+int						create_redirection_node(t_pipe_unit **head,
+							t_token *next, char *filename);
+t_pipe_unit				*new_unit_node(int cmdi, t_unit_type type);
+int						wrapper_handle_dollar(char **str, char **tmp, int *i,
+							t_env *env);
+int						wrapper_handle_quote(char *str, int *index, t_env *env,
+							char **tmp);
+int						wrapper_update_buffer(char *buffer, char *str,
+							int start, int buff_len);
+int						wrapper_put_value_in_prev(t_pipe_unit **head,
+							t_token *current, t_env *env,
+							t_pipe_unit *current_node);
+int						wrapper_coub(char **quote_buffer, char *str, int start, int i);
 #endif

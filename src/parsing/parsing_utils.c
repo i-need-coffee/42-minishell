@@ -1,34 +1,49 @@
 #include "minishell.h"
 
-void	create_or_update_buffer(char **buffer, char *str, int start, int end)
+int	wrapper_create_buffer(char **buffer, char *str, int start, int buff_len)
 {
 	char	*substr;
-	char	*tmp_buffer;
 
+	substr = NULL;
 	if (!*buffer)
 	{
-		*buffer = (char *)malloc((end - start) + 1);
+		*buffer = (char *)malloc((buff_len) + 1);
 		if (!*buffer)
-			ft_abort("Memory allocation failed");
-		substr = ft_substr(str, start, end - start);
-		ft_strlcpy(*buffer, substr, (end - start) + 1);
+		{
+			print_error(ERR_ALLOC);
+			return (0);
+		}
+		substr = ft_substr(str, start, buff_len);
+		if (!substr)
+		{
+			print_error(ERR_ALLOC);
+			return (0);
+		}
+		ft_strlcpy(*buffer, substr, (buff_len) + 1);
 		free(substr);
+	}
+	return (1);
+}
+
+int	create_or_update_buffer(char **buffer, char *str, int start, int end)
+{
+	int	buff_len;
+
+	buff_len = end - start;
+	if (!*buffer)
+	{
+		if (!(wrapper_create_buffer(buffer, str, start, buff_len)))
+			return (0);
 	}
 	else
 	{
-		tmp_buffer = (char *)malloc(ft_strlen(*buffer) + 1);
-		if (!tmp_buffer)
-			ft_abort("Memory allocation failed");
-		ft_strlcpy(tmp_buffer, *buffer, (ft_strlen(*buffer) + 1));
-		free(*buffer);
-		substr = ft_substr(str, start, end - start);
-		*buffer = ft_strjoin(tmp_buffer, substr);
-		free(substr);
-		free(tmp_buffer);
+		if (!(wrapper_update_buffer(*buffer, str, start, buff_len)))
+			return (0);
 	}
+	return (1);
 }
 
-void	create_or_update_args(t_pipe_unit *unit, char *buffer)
+int	create_or_update_args(t_pipe_unit *unit, char *buffer)
 {
 	char	**new_args;
 	int		n;
@@ -40,7 +55,10 @@ void	create_or_update_args(t_pipe_unit *unit, char *buffer)
 			n++;
 	new_args = malloc(sizeof(char *) * (n + 2));
 	if (!new_args)
-		ft_abort("Memory allocation failed");
+	{
+		print_error(ERR_ALLOC);
+		return (0);
+	}
 	i = 0;
 	while (i < n)
 	{
@@ -51,6 +69,7 @@ void	create_or_update_args(t_pipe_unit *unit, char *buffer)
 	new_args[n + 1] = NULL;
 	free(unit->args);
 	unit->args = new_args;
+	return (1);
 }
 
 t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)
@@ -59,7 +78,10 @@ t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)
 
 	new_token = malloc(sizeof(t_pipe_unit));
 	if (!new_token)
-		ft_abort("Memory allocation failed");
+	{
+		print_error(ERR_ALLOC);
+		return (NULL);
+	}
 	new_token->type = type;
 	new_token->file = NULL;
 	new_token->args = NULL;
@@ -70,22 +92,25 @@ t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)
 	return (new_token);
 }
 
-// inicialise une node et l'ajoute a la chaine
-// TODO: return re-type and handle error
-t_pipe_unit	*create_or_update_unit_struct(t_pipe_unit **head, int cmdi,
-		t_unit_type type)
+int	create_or_update_unit_struct(t_pipe_unit **head, int cmdi, t_unit_type type)
 {
 	t_pipe_unit	*tmp;
 
 	if (!*head)
+	{
 		*head = new_unit_node(cmdi, type);
+		if (!*head)
+			return (0);
+	}
 	else
 	{
 		tmp = *head;
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new_unit_node(cmdi, type);
+		if (!tmp->next)
+			return (0);
 		tmp->next->prev = tmp;
 	}
-	return (NULL);
+	return (1);
 }

@@ -18,8 +18,8 @@ int	process_line(t_mini *mini)
 		return (print_error(ERR_QUOTES), cleanup(mini), 1);
 	}
 	tokenize_input(mini);
-	if (parse_tokens(mini, &mini->units))
-		return (cleanup(mini), 1);
+	if (!(parse_tokens(mini, &mini->units)))
+		return (1);
 	execute_input(mini);
 	cleanup(mini);
 	return (1);
