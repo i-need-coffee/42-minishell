@@ -109,7 +109,7 @@ void			print_error_and_exit(
 void			free_everthing(t_mini *mini);
 void			ft_abort(char *msg);
 void			print_error3(char *start, char *middle, char *end);
-void			increment_shell_level(t_env **env);
+void			increment_shell_level(t_mini *mini);
 
 /* -- TOKENIZATION -- */
 void					tokenize_input(t_mini *mini);

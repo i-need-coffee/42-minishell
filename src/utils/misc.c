@@ -1,23 +1,26 @@
 #include "minishell.h"
 
-void	increment_shell_level(t_env **env)
+void	increment_shell_level(t_mini *mini)
 {
 	t_env	*shlvl;
 	int		nb;
 
-	shlvl = get_env_node_with_key(env, "SHLVL");
+	shlvl = get_env_node_with_key(&mini->env, "SHLVL");
 	if (!shlvl)
 		return ;
 	nb = ft_atoi(shlvl->value);
 	if (nb == 0)
 	{
 		free_and_null(&shlvl->value);
-		shlvl->value = "1";
-		return ;
+		shlvl->value = ft_strdup("1");
+		if (!shlvl->value)
+			print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	}
 	nb++;
 	free_and_null(&shlvl->value);
 	shlvl->value = ft_itoa(nb);
+	if (!shlvl->value)
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 }
 
 /*
