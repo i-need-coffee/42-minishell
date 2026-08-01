@@ -26,6 +26,7 @@ void	cleanup(t_mini *mini)
 	if (!restore_saved_stdin(mini) || !restore_saved_stdout(mini))
 	{
 		print_error(ERR_RESTORE_FDS);
+		free_env(&mini->env);
 		exit(EXIT_FAILURE);
 	}
 }
