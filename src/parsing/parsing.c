@@ -13,6 +13,7 @@ int	parse_tokens_word_or_pipe(t_mini *mini, t_token *current, int *cmdi,
 		if (!(parse_pipe_token(unit, current, cmdi)))
 			return (0);
 	}
+	current->value = NULL;
 	return (1);
 }
 
