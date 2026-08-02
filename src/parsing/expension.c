@@ -11,6 +11,8 @@ int	wrapper_handle_dollar(char **str, char **tmp, int *i, t_env *env)
 	*i = replace_str(str, *tmp, start, *(i));
 	if (*i == 0)
 		return (0);
+	free(*tmp);
+	tmp = NULL;
 	return (1);
 }
 
@@ -35,14 +37,17 @@ int	handle_dollar(char *str, int i, t_env *env, char **b)
 	return (i);
 }
 
-int	cmp_key(char *key, char *buffer, char *tmp_buffer, t_env *temp_env)
+int	cmp_key(char *key, char **buffer, char *tmp_buffer, t_env *temp_env)
 {
-	ft_strlcpy(tmp_buffer, buffer, (ft_strlen(buffer) + 1));
-	free(buffer);
-	buffer = ft_strjoin(tmp_buffer, temp_env->value);
+	ft_strlcpy(tmp_buffer, *buffer, (ft_strlen(*buffer) + 1));
+	free(*buffer);
+	*buffer = NULL;
+	*buffer = ft_strjoin(tmp_buffer, temp_env->value);
 	free(key);
+	key = NULL;
 	free(tmp_buffer);
-	if (!buffer)
+	tmp_buffer = NULL;
+	if (!*buffer)
 	{
 		print_error(ERR_ALLOC);
 		return (0);
@@ -64,13 +69,14 @@ int	check_key(t_env *temp_env, char *key, int end, char **buffer)
 	{
 		if (!ft_strncmp(key, temp_env->key, end))
 		{
-			if (!(cmp_key(key, *buffer, tmp_buffer, temp_env)))
+			if (!(cmp_key(key, buffer, tmp_buffer, temp_env)))
 				return (0);
 			return (end);
 		}
 		temp_env = temp_env->next;
 	}
 	free(tmp_buffer);
+	tmp_buffer = NULL;
 	return (1);
 }
 

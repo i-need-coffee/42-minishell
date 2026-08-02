@@ -1,10 +1,12 @@
 #include "minishell.h"
 
-char	*put_rest_on_value(char *substr, char *str, int i, char **next_value)
+char	*put_rest_on_value(char *str, int i, char **next_value)
 {
 	char	*rest;
+	char	*substr;
 
 	rest = NULL;
+	substr = NULL;
 	substr = ft_substr(str, 0, i);
 	if (!substr)
 	{
@@ -16,15 +18,18 @@ char	*put_rest_on_value(char *substr, char *str, int i, char **next_value)
 	{
 		print_error(ERR_ALLOC);
 		free(substr);
+		substr = NULL;
 		return (NULL);
 	}
 	free(*next_value);
 	*next_value = NULL;
 	*next_value = rest;
+	free(str);
+	str = NULL;
 	return (substr);
 }
 
-char	*quote_part(char **str, int *i, t_env *env)
+int	quote_part(char **str, int *i, t_env *env)
 {
 	char	*substr;
 	char	*tmp;
@@ -38,30 +43,31 @@ char	*quote_part(char **str, int *i, t_env *env)
 	if (!substr)
 	{
 		print_error(ERR_ALLOC);
-		return (NULL);
+		return (0);
 	}
 	if (!(wrapper_handle_quote(*str, i, env, &tmp)))
-		return (NULL);
+		return (0);
 	*i = replace_str(str, tmp, start, *(i) + 1);
+	free(tmp);
+	tmp = NULL;
+	free(substr);
+	substr = NULL;
 	if (*i == 0)
-		return (NULL);
-	return (substr);
+		return (0);
+	return (1);
 }
 
 char	*get_file_name(t_env *env, char **next_value, char *str)
 {
 	int		i;
-	char	*substr;
 	char	*tmp;
 
 	i = 0;
-	substr = NULL;
 	while (str[i] != '\0' && str[i] != ' ')
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 		{
-			substr = quote_part(&str, &i, env);
-			if (!substr)
+			if (!quote_part(&str, &i, env))
 				return (NULL);
 			continue ;
 		}
@@ -73,7 +79,7 @@ char	*get_file_name(t_env *env, char **next_value, char *str)
 		}
 		i++;
 	}
-	return (put_rest_on_value(substr, str, i, next_value));
+	return (put_rest_on_value(str, i, next_value));
 }
 
 int	uptade_unit_struct_redir(t_mini *mini, t_token *current,
@@ -87,7 +93,11 @@ int	uptade_unit_struct_redir(t_mini *mini, t_token *current,
 	head = &mini->units;
 	if (!(create_or_update_unit_struct(head, cmdi, type)))
 		return (0);
-	str = current->next->value;
+	str = ft_strdup(current->next->value);
+	if (!str) {
+		print_error(ERR_ALLOC);
+		return (0);
+	}
 	current_node = *head;
 	while (current_node->next)
 		current_node = current_node->next;
@@ -107,11 +117,13 @@ int	parse_redirection_token(t_pipe_unit **unit, t_token *current, t_mini *mini,
 	(void)unit;
 	if (current->next == NULL)
 	{
+		// ft_abort("errno");
 		print_error(ERR_REDIR);
 		return (0);
 	}
 	if (current->next->type != TOKEN_WORD)
 	{
+		// ft_abort("errno");
 		print_error(ERR_REDIR);
 		return (0);
 	}
