@@ -69,8 +69,8 @@ int	replace_str(char **str, char *second_part, int replace_start,
 	}
 	free(tmp);
 	tmp = NULL;
-	free(*str);
-	*str = NULL;
+	// free(*str);
+	// *str = NULL;
 	*str = ft_strdup(joined_args);
 	if (!*str) {
 		print_error(ERR_ALLOC);

@@ -10,8 +10,8 @@ void	free_env_vars(t_env **root)
 	{
 		temp = curr;
 		curr = curr->next;
-		free(temp->key);
-		free(temp->value);
+		free_and_null(&temp->key);
+		free_and_null(&temp->value);
 		free(temp);
 	}
 	*root = NULL;
@@ -49,7 +49,7 @@ void	cleanup(t_mini *mini)
 		free_env(&mini->env);
 		exit(EXIT_FAILURE);
 	}
-	free_env_vars(&mini->env);
+//	free_env_vars(&mini->env);
 }
 
 /*

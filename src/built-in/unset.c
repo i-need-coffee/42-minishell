@@ -52,8 +52,8 @@ static void	remove_env_node(t_env *curr, t_env **root)
 	}
 	temp = curr;
 	if (temp->key)
-		free(temp->key);
+		free_and_null(&temp->key);
 	if (temp->value)
-		free(temp->value);
+		free_and_null(&temp->value);
 	free(temp);
 }

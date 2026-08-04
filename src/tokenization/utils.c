@@ -41,7 +41,7 @@ void	free_tokens(t_token **root)
 		temp = curr;
 		curr = curr->next;
 		if (temp->value)
-			free(temp->value);
+			free_and_null(&temp->value);
 		free(temp);
 	}
 	*root = NULL;

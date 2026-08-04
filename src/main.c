@@ -22,7 +22,6 @@ int	process_line(t_mini *mini)
 		cleanup(mini);
 		return (1);
 	}
-
 	execute_input(mini);
 	cleanup(mini);
 	return (1);

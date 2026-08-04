@@ -48,9 +48,9 @@ void	free_env(t_env **root)
 		temp = curr;
 		curr = curr->next;
 		if (temp->key)
-			free(temp->key);
+			free_and_null(&temp->key);
 		if (temp->value)
-			free(temp->value);
+			free_and_null(&temp->value);
 		free(temp);
 	}
 	*root = NULL;
@@ -86,7 +86,7 @@ int	add_base_env(t_env **env)
 	pwd->key = ft_strdup("PWD");
 	pwd->value = ft_strdup(get_curr_dir());
 	if (!pwd->key || !pwd->value)
-		return (free(pwd->key), free(pwd->value), free(pwd), 0);
+		return (free_and_null(&pwd->key), free_and_null(&pwd->value), free(pwd), 0);
 	add_back(env, pwd);
 	shlvl = new_node();
 	if (!shlvl)
@@ -94,7 +94,7 @@ int	add_base_env(t_env **env)
 	shlvl->key = ft_strdup("SHLVL");
 	shlvl->value = ft_strdup("1");
 	if (!shlvl->key || !shlvl->value)
-		return (free(shlvl->key), free(shlvl->value), free(shlvl), 0);
+		return (free_and_null(&shlvl->key), free_and_null(&shlvl->value), free(shlvl), 0);
 	add_back(env, shlvl);
 	return (1);
 }
