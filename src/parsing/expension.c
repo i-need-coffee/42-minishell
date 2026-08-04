@@ -37,14 +37,12 @@ int	handle_dollar(char *str, int i, t_env *env, char **b)
 	return (i);
 }
 
-int	cmp_key(char *key, char **buffer, char *tmp_buffer, t_env *temp_env)
+int	cmp_key(char **buffer, char *tmp_buffer, t_env *temp_env)
 {
 	ft_strlcpy(tmp_buffer, *buffer, (ft_strlen(*buffer) + 1));
 	free(*buffer);
 	*buffer = NULL;
 	*buffer = ft_strjoin(tmp_buffer, temp_env->value);
-	free(key);
-	key = NULL;
 	free(tmp_buffer);
 	tmp_buffer = NULL;
 	if (!*buffer)
@@ -69,7 +67,7 @@ int	check_key(t_env *temp_env, char *key, int end, char **buffer)
 	{
 		if (!ft_strncmp(key, temp_env->key, end))
 		{
-			if (!(cmp_key(key, buffer, tmp_buffer, temp_env)))
+			if (!(cmp_key(buffer, tmp_buffer, temp_env)))
 				return (0);
 			return (end);
 		}
@@ -98,6 +96,7 @@ int	expension(char *str, int i, t_env *env, char **buffer)
 		return (0);
 	}
 	if (check_key(temp_env, key, end, buffer) == 0)
-		return (0);
+		return (free_and_null(&key), 0);
+	free_and_null(&key);
 	return (end);
 }

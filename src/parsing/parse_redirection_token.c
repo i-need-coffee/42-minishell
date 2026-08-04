@@ -104,11 +104,12 @@ int	uptade_unit_struct_redir(t_mini *mini, t_token *current, t_unit_type type,
 		current_node = current_node->next;
 	file_name = get_file_name(mini->env, &current->next->value, str);
 	if (!file_name)
-		return (0);
+		return (free_and_null(&str), 0);
 	if (!(create_redirection_node(head, current->next, file_name)))
-		return (0);
+		return (free_and_null(&str), 0);
 	if (!(wrapper_put_value_in_prev(head, current, mini->env, current_node)))
-		return (0);
+		return (free_and_null(&str), 0);
+	free_and_null(&str);
 	return (1);
 }
 
