@@ -7,13 +7,14 @@ int	parse_tokens_word_or_pipe(t_mini *mini, t_token *current, int *cmdi,
 	{
 		if (parse_word_token(unit, current, mini->env, *cmdi) == 0)
 			return (0);
+		free(current->value);
+		current->value = NULL;
 	}
 	else if (current->type == TOKEN_PIPE)
 	{
 		if (!(parse_pipe_token(unit, current, cmdi)))
 			return (0);
 	}
-	current->value = NULL;
 	return (1);
 }
 
