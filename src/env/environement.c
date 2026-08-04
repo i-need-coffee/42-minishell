@@ -93,7 +93,8 @@ t_env	*create_env_node(char *envp_node)
 	node->value = ft_substr(envp_node, len_key + 1, ft_strlen(envp_node)
 			- len_key);
 	if (!node->key || !node->value)
-		return (free_and_null(&node->key), free_and_null(&node->value), free(node), NULL);
+		return (free_and_null(&node->key), free_and_null(&node->value),
+			free(node), NULL);
 	if (ft_strcmp(node->key, "SHLVL") == 0)
 	{
 		nb = ft_atoi(node->value);
@@ -101,7 +102,8 @@ t_env	*create_env_node(char *envp_node)
 		free_and_null(&node->value);
 		node->value = ft_itoa(nb);
 		if (!node->value)
-			return (free_and_null(&node->key), free_and_null(&node->value), free(node), NULL);
+			return (free_and_null(&node->key), free_and_null(&node->value),
+				free(node), NULL);
 	}
 	return (node);
 }

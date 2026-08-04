@@ -62,20 +62,17 @@ int	replace_str(char **str, char *second_part, int replace_start,
 		return (0);
 	ret = ft_strlen(tmp);
 	joined_args = built_last_part(*str, tmp, replace_end);
-	if (!joined_args) {
+	if (!joined_args)
+	{
 		free(tmp);
 		tmp = NULL;
 		return (0);
 	}
 	free(tmp);
 	tmp = NULL;
-	// free(*str);
-	// *str = NULL;
 	*str = ft_strdup(joined_args);
-	if (!*str) {
-		print_error(ERR_ALLOC);
-		return (0);
-	}
+	if (!*str)
+		ft_abort(ERR_ALLOC);
 	free(joined_args);
 	joined_args = NULL;
 	return (ret);

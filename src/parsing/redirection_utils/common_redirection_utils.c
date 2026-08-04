@@ -11,10 +11,8 @@ void	clean_str(char *str)
 int	put_value_in_prev_args(t_pipe_unit *cnode, t_token *current, t_env *env)
 {
 	int		i;
-	// char	*tmp;
 	char	*str;
 
-	// tmp = NULL;
 	i = 0;
 	str = current->value;
 	while (str[i])

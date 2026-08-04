@@ -76,18 +76,18 @@ typedef struct s_pipe_unit
 
 typedef struct s_mini
 {
-	char		*input;
-	int			pipe_nb;
-	int			err_num;
-	int			cmd_nb;
-	int			saved_stdin;
-	int			saved_stdout;
-	t_token		*tokens;
-	t_env		*env;
-	char		**envp;
-	t_pipe_unit	*units;
-	pid_t		*pids;
-}	t_mini;
+	char				*input;
+	int					pipe_nb;
+	int					err_num;
+	int					cmd_nb;
+	int					saved_stdin;
+	int					saved_stdout;
+	t_token				*tokens;
+	t_env				*env;
+	char				**envp;
+	t_pipe_unit			*units;
+	pid_t				*pids;
+}						t_mini;
 
 /*
 ** ================================
@@ -100,15 +100,15 @@ void					print_tokens(t_token **root);
 void					print_node_env(t_env *node);
 
 /* -- UTILS -- */
-void			cleanup_exit(t_mini *mini, int exit_code);
-void			cleanup(t_mini *mini);
-void			print_error(char *err_msg);
-int				has_unclosed_quotes(char *input);
-void			print_error_and_exit(
-					t_mini *mini, char *err_msg, int exit_code);
-void			free_everthing(t_mini *mini);
-void			ft_abort(char *msg);
-void			print_error3(char *start, char *middle, char *end);
+void					cleanup_exit(t_mini *mini, int exit_code);
+void					cleanup(t_mini *mini);
+void					print_error(char *err_msg);
+int						has_unclosed_quotes(char *input);
+void					print_error_and_exit(t_mini *mini, char *err_msg,
+							int exit_code);
+void					free_everthing(t_mini *mini);
+void					ft_abort(char *msg);
+void					print_error3(char *start, char *middle, char *end);
 
 /* -- TOKENIZATION -- */
 void					tokenize_input(t_mini *mini);
@@ -124,49 +124,49 @@ void					handler_sigquit(int signb);
 void					set_global_var(int signb);
 
 /* -- ENVIRONEMENT --*/
-int				build_env(char **envp, t_env **env);
-void			add_back(t_env **env, t_env *new);
-t_env			*new_node(void);
-int				strlen_key(char *envp);
-void			free_env(t_env **root);
-char			*get_value_with_key(t_env *env, char *key);
-int				count_env_nodes(t_env *env);
-t_env			*get_env_node_with_key(t_env **root, char *key);
-int				add_base_env(t_env **env);
-t_env			*create_env_node(char *envp_node);
+int						build_env(char **envp, t_env **env);
+void					add_back(t_env **env, t_env *new);
+t_env					*new_node(void);
+int						strlen_key(char *envp);
+void					free_env(t_env **root);
+char					*get_value_with_key(t_env *env, char *key);
+int						count_env_nodes(t_env *env);
+t_env					*get_env_node_with_key(t_env **root, char *key);
+int						add_base_env(t_env **env);
+t_env					*create_env_node(char *envp_node);
 
 /* -- EXECUTION --*/
-void			execute_input(t_mini *mini);
-int				execute_heredocs(t_mini *mini);
-void			free_pipe_units(t_pipe_unit **root);
-int				create_pipes(t_mini *mini);
-int				open_files(t_pipe_unit *units, int i);
-int				create_children(t_mini *mini);
-int				execute_cmd(t_mini *mini, t_pipe_unit *cmd);
-void			wait_children(t_mini *mini);
-void			close_all_fds(t_pipe_unit *units);
-t_pipe_unit		*get_cmd_unit(t_pipe_unit *units, int i);
-char			**build_envp_tab(t_env *env);
-int				dup_pipes(t_pipe_unit *units, int i);
-int				dup_redirects(t_pipe_unit *units, int i);
-int				dup_saved_fds(int *saved_stdin, int *saved_stdout);
-int				restore_saved_stdin(t_mini *mini);
-int				restore_saved_stdout(t_mini *mini);
+void					execute_input(t_mini *mini);
+int						execute_heredocs(t_mini *mini);
+void					free_pipe_units(t_pipe_unit **root);
+int						create_pipes(t_mini *mini);
+int						open_files(t_pipe_unit *units, int i);
+int						create_children(t_mini *mini);
+int						execute_cmd(t_mini *mini, t_pipe_unit *cmd);
+void					wait_children(t_mini *mini);
+void					close_all_fds(t_pipe_unit *units);
+t_pipe_unit				*get_cmd_unit(t_pipe_unit *units, int i);
+char					**build_envp_tab(t_env *env);
+int						dup_pipes(t_pipe_unit *units, int i);
+int						dup_redirects(t_pipe_unit *units, int i);
+int						dup_saved_fds(int *saved_stdin, int *saved_stdout);
+int						restore_saved_stdin(t_mini *mini);
+int						restore_saved_stdout(t_mini *mini);
 
 /* -- BUILT-IN --*/
-int				is_built_in(t_pipe_unit *cmd);
-int				execute_built_in(t_mini *mini, t_pipe_unit *cmd);
-int				echo(char **args);
-int				pwd(void);
-int				cd(t_env *env, char **args);
-int				count_args(char **args);
-int				env(char **envp, char **args);
-int				unset(t_env **root, char **args);
-int				export(t_env *env, char **args);
-void			sort_env_nodes(t_env **root);
-int				print_env_nodes(t_env **root);
-char			*get_curr_dir(void);
-int				exit_minishell(t_mini *mini, char **args);
+int						is_built_in(t_pipe_unit *cmd);
+int						execute_built_in(t_mini *mini, t_pipe_unit *cmd);
+int						echo(char **args);
+int						pwd(void);
+int						cd(t_env *env, char **args);
+int						count_args(char **args);
+int						env(char **envp, char **args);
+int						unset(t_env **root, char **args);
+int						export(t_env *env, char **args);
+void					sort_env_nodes(t_env **root);
+int						print_env_nodes(t_env **root);
+char					*get_curr_dir(void);
+int						exit_minishell(t_mini *mini, char **args);
 
 /* -- PARSING --*/
 int						parse_tokens(t_mini *mini, t_pipe_unit **head);
@@ -204,5 +204,6 @@ int						wrapper_update_buffer(char *buffer, char *str,
 int						wrapper_put_value_in_prev(t_pipe_unit **head,
 							t_token *current, t_env *env,
 							t_pipe_unit *current_node);
-int						wrapper_coub(char **quote_buffer, char *str, int start, int i);
+int						wrapper_coub(char **quote_buffer, char *str, int start,
+							int i);
 #endif

@@ -82,8 +82,8 @@ char	*get_file_name(t_env *env, char **next_value, char *str)
 	return (put_rest_on_value(str, i, next_value));
 }
 
-int	uptade_unit_struct_redir(t_mini *mini, t_token *current,
-		t_unit_type type, int cmdi)
+int	uptade_unit_struct_redir(t_mini *mini, t_token *current, t_unit_type type,
+		int cmdi)
 {
 	t_pipe_unit	*current_node;
 	char		*str;
@@ -94,7 +94,8 @@ int	uptade_unit_struct_redir(t_mini *mini, t_token *current,
 	if (!(create_or_update_unit_struct(head, cmdi, type)))
 		return (0);
 	str = ft_strdup(current->next->value);
-	if (!str) {
+	if (!str)
+	{
 		print_error(ERR_ALLOC);
 		return (0);
 	}
@@ -116,17 +117,9 @@ int	parse_redirection_token(t_pipe_unit **unit, t_token *current, t_mini *mini,
 {
 	(void)unit;
 	if (current->next == NULL)
-	{
-		// ft_abort("errno");
-		print_error(ERR_REDIR);
-		return (0);
-	}
+		ft_abort("errno");
 	if (current->next->type != TOKEN_WORD)
-	{
-		// ft_abort("errno");
-		print_error(ERR_REDIR);
-		return (0);
-	}
+		ft_abort("errno");
 	if (ft_strncmp(current->value, ">>", 2) == 0)
 		return (uptade_unit_struct_redir(mini, current, APPEND, cmdi));
 	else if (ft_strncmp(current->value, "<<", 2) == 0)

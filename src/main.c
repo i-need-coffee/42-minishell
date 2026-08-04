@@ -18,7 +18,8 @@ int	process_line(t_mini *mini)
 		return (print_error(ERR_QUOTES), cleanup(mini), 1);
 	}
 	tokenize_input(mini);
-	if (!(parse_tokens(mini, &mini->units))) {
+	if (!(parse_tokens(mini, &mini->units)))
+	{
 		cleanup(mini);
 		return (1);
 	}
@@ -32,7 +33,7 @@ int	process_line(t_mini *mini)
 **	envp, configures signal handlers, then runs the read-tokenize loop
 **	until EOF.
 */
-int		g_sig = 0;
+int	g_sig = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
