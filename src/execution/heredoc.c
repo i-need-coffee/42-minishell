@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-static int	handle_heredoc(t_pipe_unit *unit, t_env *env, int expands);
+static int	handle_heredoc(t_pipe_unit *unit, t_mini *mini, int expands);
 static int	is_limiter(char *line, char *limiter);
-static char	*get_typed_line(char *delimiter, int expands, t_env *env);
+static char	*get_typed_line(char *delimiter, int expands, t_mini *mini);
 
 /*
 **	Processes every HEREDOC unit in the pipeline, reading its content
@@ -27,7 +27,7 @@ int	execute_heredocs(t_mini *mini)
 				print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 			free_and_null(&curr->file);
 			curr->file = delimiter;
-			if (!handle_heredoc(curr, mini->env, expands))
+			if (!handle_heredoc(curr, mini, expands))
 				return (0);
 		}
 		curr = curr->next;
@@ -39,7 +39,7 @@ int	execute_heredocs(t_mini *mini)
 **	Reads lines from stdin into a pipe until the limiter is seen,
 **	then stores the pipe's read end as unit->fd.
 */
-static int	handle_heredoc(t_pipe_unit *unit, t_env *env, int expands)
+static int	handle_heredoc(t_pipe_unit *unit, t_mini *mini, int expands)
 {
 	int		fds[2];
 	char	*line;
@@ -50,7 +50,7 @@ static int	handle_heredoc(t_pipe_unit *unit, t_env *env, int expands)
 	{
 		if (write(1, "> ", 2) == -1)
 			return (print_error(ERR_WRITE), close(fds[0]), close(fds[1]), 0);
-		line = get_typed_line(unit->file, expands, env);
+		line = get_typed_line(unit->file, expands, mini);
 		if (!line)
 			break ;
 		if (write(fds[1], line, ft_strlen(line)) == -1)
@@ -83,7 +83,7 @@ static int	is_limiter(char *line, char *limiter)
 **	matches delimiter (heredoc termination). If expands is set, expands
 **	$VAR occurrences in the line using env.
 */
-static char	*get_typed_line(char *delimiter, int expands, t_env *env)
+static char	*get_typed_line(char *delimiter, int expands, t_mini *mini)
 {
 	char	*line;
 	int		i;
@@ -102,7 +102,7 @@ static char	*get_typed_line(char *delimiter, int expands, t_env *env)
 		while (line[i])
 		{
 			if (line[i] == '$' && !(
-					wrapper_handle_dollar(&line, &i, env)))
+					wrapper_handle_dollar(&line, &i, mini)))
 				break ;
 			else if (line[i] != '$')
 				i++;
