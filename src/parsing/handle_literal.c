@@ -93,7 +93,7 @@ int	replace_quote_part(char **str, int *i, t_env *env)
 	return (*i);
 }
 
-int	add_arg(char **str, int i, t_pipe_unit *unit, t_env *env)
+int	add_arg(char **str, int i, t_pipe_unit *unit, t_mini *mini)
 {
 	int		start;
 
@@ -102,13 +102,13 @@ int	add_arg(char **str, int i, t_pipe_unit *unit, t_env *env)
 	{
 		if (str[0][i] == '\'' || str[0][i] == '\"')
 		{
-			if ((replace_quote_part(str, &i, env)) == 0)
+			if ((replace_quote_part(str, &i, mini->env)) == 0)
 				return (-1);
 			continue ;
 		}
 		if (str[0][i] == '$')
 		{
-			if (!(wrapper_handle_dollar(str, &i, env)))
+			if (!(wrapper_handle_dollar(str, &i, mini)))
 				return (-1);
 			continue ;
 		}

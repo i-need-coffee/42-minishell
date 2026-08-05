@@ -77,3 +77,20 @@ int	wrapper_coub(char **quote_buffer, char *str, int start, int i)
 	}
 	return (1);
 }
+
+int	wrapper_handle_dollar(char **str, int *i, t_mini *mini)
+{
+	int		start;
+	char	*tmp;
+
+	start = *i;
+	*i = handle_dollar(*str, *(i), mini, &tmp);
+	if (*i == 0)
+		return (0);
+	*i = replace_str(str, tmp, start, *(i));
+	if (*i == 0)
+		return (0);
+	free(tmp);
+	tmp = NULL;
+	return (1);
+}

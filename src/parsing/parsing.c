@@ -5,7 +5,7 @@ int	parse_tokens_word_or_pipe(t_mini *mini, t_token *current, int *cmdi,
 {
 	if (current->type == TOKEN_WORD)
 	{
-		if (parse_word_token(unit, current, mini->env, *cmdi) == 0)
+		if (parse_word_token(unit, current, mini, *cmdi) == 0)
 			return (0);
 	}
 	else if (current->type == TOKEN_PIPE)

@@ -1,6 +1,7 @@
 #include "minishell.h"
 
-int	parse_word_token(t_pipe_unit **head, t_token *current, t_env *env, int cmdi)
+int	parse_word_token(t_pipe_unit **head, t_token *current, t_mini *mini,
+		int cmdi)
 {
 	int			i;
 	t_pipe_unit	*new_token;
@@ -15,7 +16,7 @@ int	parse_word_token(t_pipe_unit **head, t_token *current, t_env *env, int cmdi)
 	i = 0;
 	while (str[i])
 	{
-		i = add_arg(&str, i, new_token, env);
+		i = add_arg(&str, i, new_token, mini);
 		if (i == -1)
 			return (0);
 		while (str[i] == ' ')

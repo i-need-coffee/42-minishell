@@ -1,30 +1,13 @@
 #include "minishell.h"
 
-int	wrapper_handle_dollar(char **str, int *i, t_env *env)
-{
-	int		start;
-	char	*tmp;
-
-	start = *i;
-	*i = handle_dollar(*str, *(i), env, &tmp);
-	if (*i == 0)
-		return (0);
-	*i = replace_str(str, tmp, start, *(i));
-	if (*i == 0)
-		return (0);
-	free(tmp);
-	tmp = NULL;
-	return (1);
-}
-
-int	handle_dollar(char *str, int i, t_env *env, char **b)
+int	handle_dollar(char *str, int i, t_mini *mini, char **b)
 {
 	char	*buffer;
 
 	buffer = NULL;
 	if (create_or_update_buffer(&buffer, str, i, i) == 0)
 		return (0);
-	i = expension(str, i, env, &buffer);
+	i = expension(str, i, mini, &buffer);
 	if (i == 0)
 		return (0);
 	*b = ft_strdup(buffer);
@@ -79,15 +62,34 @@ int	check_key(t_env *temp_env, char *key, int end, char **buffer)
 	return (1);
 }
 
-int	expension(char *str, int i, t_env *env, char **buffer)
+int	handle_inter_mark(t_mini *mini, char **buffer)
+{
+	char	*tmp;
+
+	tmp = ft_itoa(mini->err_num);
+	if (!tmp)
+		return (0);
+	*buffer = ft_strdup(tmp);
+	free(tmp);
+	tmp = NULL;
+	return (1);
+}
+
+int	expension(char *str, int i, t_mini *mini, char **buffer)
 {
 	int		end;
 	char	*key;
 	t_env	*temp_env;
 
-	temp_env = env;
+	temp_env = mini->env;
 	i++;
 	end = i;
+	if (str[end] == '?')
+	{
+		handle_inter_mark(mini, buffer);
+		end++;
+		return (end);
+	}
 	while (str[end] == '_' || ft_isalnum(str[end]))
 		end++;
 	key = ft_substr(str, i, end - i);
