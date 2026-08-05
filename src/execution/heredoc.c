@@ -86,7 +86,6 @@ static int	is_limiter(char *line, char *limiter)
 static char	*get_typed_line(char *delimiter, int expands, t_env *env)
 {
 	char	*line;
-	char	*temp;
 	int		i;
 
 	line = get_next_line(STDIN_FILENO);
@@ -103,7 +102,7 @@ static char	*get_typed_line(char *delimiter, int expands, t_env *env)
 		while (line[i])
 		{
 			if (line[i] == '$' && !(
-					wrapper_handle_dollar(&line, &temp, &i, env)))
+					wrapper_handle_dollar(&line, &i, env)))
 				break ;
 			else if (line[i] != '$')
 				i++;

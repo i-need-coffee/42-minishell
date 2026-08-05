@@ -96,9 +96,7 @@ int	replace_quote_part(char **str, int *i, t_env *env)
 int	add_arg(char **str, int i, t_pipe_unit *unit, t_env *env)
 {
 	int		start;
-	char	*tmp;
 
-	tmp = NULL;
 	start = i;
 	while (str[0][i] && str[0][i] != ' ')
 	{
@@ -110,7 +108,7 @@ int	add_arg(char **str, int i, t_pipe_unit *unit, t_env *env)
 		}
 		if (str[0][i] == '$')
 		{
-			if (!(wrapper_handle_dollar(str, &tmp, &i, env)))
+			if (!(wrapper_handle_dollar(str, &i, env)))
 				return (-1);
 			continue ;
 		}
