@@ -6,7 +6,7 @@ int	parse_word_token(t_pipe_unit **head, t_token *current, t_env *env, int cmdi)
 	t_pipe_unit	*new_token;
 	char		*str;
 
-	str = current->value;
+	str = ft_strdup(current->value);
 	if (!(create_or_update_unit_struct(head, cmdi, CMD)))
 		return (0);
 	new_token = *head;
@@ -21,5 +21,6 @@ int	parse_word_token(t_pipe_unit **head, t_token *current, t_env *env, int cmdi)
 		while (str[i] == ' ')
 			i++;
 	}
+	free_and_null(&str);
 	return (1);
 }

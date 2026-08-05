@@ -7,7 +7,8 @@ int	parse_pipe_token(t_pipe_unit **unit, t_token *current, int *cmdi)
 		print_error(ERR_SYNTAX_PIPE);
 		return (0);
 	}
-	if (current->prev->type != TOKEN_WORD || current->next->type != TOKEN_WORD)
+	if (current->prev->type != TOKEN_WORD || current->next->type == TOKEN_PIPE
+		|| current->next->type == TOKEN_EOF)
 	{
 		print_error(ERR_SYNTAX_PIPE);
 		return (0);

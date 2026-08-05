@@ -195,7 +195,7 @@ int						replace_str(char **str, char *second_part,
 int						create_redirection_node(t_pipe_unit **head,
 							t_token *next, char *filename);
 t_pipe_unit				*new_unit_node(int cmdi, t_unit_type type);
-int						wrapper_handle_dollar(char **str, char **tmp, int *i,
+int						wrapper_handle_dollar(char **str, int *i,
 							t_env *env);
 int						wrapper_handle_quote(char *str, int *index, t_env *env,
 							char **tmp);

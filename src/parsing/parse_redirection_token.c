@@ -1,19 +1,19 @@
 #include "minishell.h"
 
-char	*put_rest_on_value(char *str, int i, char **next_value)
+char	*put_rest_on_value(char **str, int i, char **next_value)
 {
 	char	*rest;
 	char	*substr;
 
 	rest = NULL;
 	substr = NULL;
-	substr = ft_substr(str, 0, i);
+	substr = ft_substr(*str, 0, i);
 	if (!substr)
 	{
 		print_error(ERR_ALLOC);
 		return (NULL);
 	}
-	rest = ft_substr(str, i, ft_strlen(str) - i);
+	rest = ft_substr(*str, i, ft_strlen(*str) - i);
 	if (!rest)
 	{
 		print_error(ERR_ALLOC);
@@ -24,8 +24,6 @@ char	*put_rest_on_value(char *str, int i, char **next_value)
 	free(*next_value);
 	*next_value = NULL;
 	*next_value = rest;
-	free(str);
-	str = NULL;
 	return (substr);
 }
 
@@ -57,29 +55,33 @@ int	quote_part(char **str, int *i, t_env *env)
 	return (1);
 }
 
-char	*get_file_name(t_env *env, char **next_value, char *str)
+char	*get_file_name(t_env *env, char **next_value, char **str)
 {
 	int		i;
-	char	*tmp;
+	char	*tmp_str;
+	char	*substr;
 
 	i = 0;
-	while (str[i] != '\0' && str[i] != ' ')
+	tmp_str = *str;
+	substr = NULL;
+	while (tmp_str[i] != '\0' && tmp_str[i] != ' ')
 	{
-		if (str[i] == '\'' || str[i] == '\"')
+		if (tmp_str[i] == '\'' || tmp_str[i] == '\"')
 		{
-			if (!quote_part(&str, &i, env))
+			if (!quote_part(&tmp_str, &i, env))
 				return (NULL);
 			continue ;
 		}
-		if (str[i] == '$')
+		if (tmp_str[i] == '$')
 		{
-			if (!(wrapper_handle_dollar(&str, &tmp, &i, env)))
+			if (!(wrapper_handle_dollar(&tmp_str, &i, env)))
 				return (NULL);
 			continue ;
 		}
 		i++;
 	}
-	return (put_rest_on_value(str, i, next_value));
+	substr = put_rest_on_value(&tmp_str, i, next_value);
+	return (substr);
 }
 
 int	uptade_unit_struct_redir(t_mini *mini, t_token *current, t_unit_type type,
@@ -95,14 +97,11 @@ int	uptade_unit_struct_redir(t_mini *mini, t_token *current, t_unit_type type,
 		return (0);
 	str = ft_strdup(current->next->value);
 	if (!str)
-	{
-		print_error(ERR_ALLOC);
-		return (0);
-	}
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	current_node = *head;
 	while (current_node->next)
 		current_node = current_node->next;
-	file_name = get_file_name(mini->env, &current->next->value, str);
+	file_name = get_file_name(mini->env, &current->next->value, &str);
 	if (!file_name)
 		return (free_and_null(&str), 0);
 	if (!(create_redirection_node(head, current->next, file_name)))

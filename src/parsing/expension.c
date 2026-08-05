@@ -1,17 +1,18 @@
 #include "minishell.h"
 
-int	wrapper_handle_dollar(char **str, char **tmp, int *i, t_env *env)
+int	wrapper_handle_dollar(char **str, int *i, t_env *env)
 {
-	int	start;
+	int		start;
+	char	*tmp;
 
 	start = *i;
-	*i = handle_dollar(*str, *(i), env, tmp);
+	*i = handle_dollar(*str, *(i), env, &tmp);
 	if (*i == 0)
 		return (0);
-	*i = replace_str(str, *tmp, start, *(i));
+	*i = replace_str(str, tmp, start, *(i));
 	if (*i == 0)
 		return (0);
-	free(*tmp);
+	free(tmp);
 	tmp = NULL;
 	return (1);
 }
