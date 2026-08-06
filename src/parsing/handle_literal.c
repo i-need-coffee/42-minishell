@@ -94,7 +94,7 @@ int	add_arg(char **str, int i, t_pipe_unit *unit, t_mini *mini)
 				return (-1);
 			continue ;
 		}
-		if (str[0][i] == '$')
+		if ( str[0][i] == '$' && ((!str[0][i + 1]) == 0))
 		{
 			wrapper_handle_dollar(str, &i, mini);
 			continue ;
