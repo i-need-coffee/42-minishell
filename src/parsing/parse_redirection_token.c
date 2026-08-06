@@ -55,7 +55,7 @@ int	quote_part(char **str, int *i, t_mini *mini)
 	return (1);
 }
 
-char	*get_file_name(t_mini *mini, char **next_value, char **str)
+char	*get_file_name(t_mini *mini, char **next_value, char **str, t_token *current)
 {
 	int		i;
 	char	*tmp_str;
@@ -72,7 +72,7 @@ char	*get_file_name(t_mini *mini, char **next_value, char **str)
 				return (NULL);
 			continue ;
 		}
-//		if (tmp_str[i] == '$' && current->type != TOKEN_HEREDOC)
+		if (tmp_str[i] == '$' && current->type != TOKEN_HEREDOC)
 		{
 			if (!(wrapper_handle_dollar(&tmp_str, &i, mini)))
 				return (NULL);
@@ -101,7 +101,7 @@ int	uptade_unit_struct_redir(t_mini *mini, t_token *current, t_unit_type type,
 	current_node = *head;
 	while (current_node->next)
 		current_node = current_node->next;
-	file_name = get_file_name(mini, &current->next->value, &str);
+	file_name = get_file_name(mini, &current->next->value, &str, current);
 	if (!file_name)
 		return (free_and_null(&str), 0);
 	if (!(create_redirection_node(head, current->next, file_name)))
