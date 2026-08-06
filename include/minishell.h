@@ -176,7 +176,7 @@ int						add_arg(char **str, int i, t_pipe_unit *unit,
 							t_mini *mini);
 int						expension(char *str, int i, t_mini *mini,
 							char **buffer);
-int						handle_quote(char *str, int i, t_env *env, char **b);
+int						handle_quote(char *str, int i, t_mini *mini, char **b);
 int						create_or_update_buffer(char **buffer, char *str,
 							int start, int end);
 int						create_or_update_args(t_pipe_unit *unit, char *buffer);
@@ -190,19 +190,19 @@ int						parse_redirection_token(t_pipe_unit **unit,
 							t_token *current, t_mini *mini, int cmdi);
 void					clean_str(char *str);
 int						put_value_in_prev_args(t_pipe_unit *cnode,
-							t_token *current, t_env *env);
+							t_token *current, t_mini *mini);
 int						replace_str(char **str, char *second_part,
 							int replace_start, int replace_end);
 int						create_redirection_node(t_pipe_unit **head,
 							t_token *next, char *filename);
 t_pipe_unit				*new_unit_node(int cmdi, t_unit_type type);
 int						wrapper_handle_dollar(char **str, int *i, t_mini *mini);
-int						wrapper_handle_quote(char *str, int *index, t_env *env,
+int						wrapper_handle_quote(char *str, int *index, t_mini *mini,
 							char **tmp);
 int						wrapper_update_buffer(char *buffer, char *str,
 							int start, int buff_len);
 int						wrapper_put_value_in_prev(t_pipe_unit **head,
-							t_token *current, t_env *env,
+							t_token *current, t_mini *mini,
 							t_pipe_unit *current_node);
 int						wrapper_coub(char **quote_buffer, char *str, int start,
 							int i);

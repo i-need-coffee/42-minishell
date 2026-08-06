@@ -78,14 +78,14 @@ int	replace_str(char **str, char *second_part, int replace_start,
 	return (ret);
 }
 
-int	replace_quote_part(char **str, int *i, t_env *env)
+int	replace_quote_part(char **str, int *i, t_mini *mini)
 {
 	char	*tmp;
 	int		replace_start;
 
 	tmp = NULL;
 	replace_start = *i;
-	if (!(wrapper_handle_quote(*str, i, env, &tmp)))
+	if (!(wrapper_handle_quote(*str, i, mini, &tmp)))
 		return (0);
 	*i = replace_str(str, tmp, replace_start, *i + 1);
 	if (*i == 0)
@@ -102,7 +102,7 @@ int	add_arg(char **str, int i, t_pipe_unit *unit, t_mini *mini)
 	{
 		if (str[0][i] == '\'' || str[0][i] == '\"')
 		{
-			if ((replace_quote_part(str, &i, mini->env)) == 0)
+			if ((replace_quote_part(str, &i, mini)) == 0)
 				return (-1);
 			continue ;
 		}

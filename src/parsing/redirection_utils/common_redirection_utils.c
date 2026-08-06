@@ -8,7 +8,7 @@ void	clean_str(char *str)
 	}
 }
 
-int	put_value_in_prev_args(t_pipe_unit *cnode, t_token *current, t_env *env)
+int	put_value_in_prev_args(t_pipe_unit *cnode, t_token *current, t_mini *mini)
 {
 	int		i;
 	char	*str;
@@ -17,7 +17,7 @@ int	put_value_in_prev_args(t_pipe_unit *cnode, t_token *current, t_env *env)
 	str = current->value;
 	while (str[i])
 	{
-		i = add_arg(&str, i, cnode, env);
+		i = add_arg(&str, i, cnode, mini);
 		if (i == -1)
 			return (0);
 		while (str[i] == ' ')

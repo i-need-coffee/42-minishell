@@ -22,7 +22,7 @@ int	increment(int *start, int *i, int *end)
 	return (1);
 }
 
-int	handle_double_quote(char *str, int i, t_env *env, char **b)
+int	handle_double_quote(char *str, int i, t_mini *mini, char **b)
 {
 	int		start;
 	int		end;
@@ -39,7 +39,7 @@ int	handle_double_quote(char *str, int i, t_env *env, char **b)
 		{
 			if ((create_or_update_buffer(&quote_buffer, str, start, i)) == 0)
 				return (0);
-			i = expension(str, i, env, &quote_buffer);
+			i = expension(str, i, mini, &quote_buffer);
 			if (increment(&start, &i, &end) == 0)
 				return (0);
 		}
@@ -72,10 +72,10 @@ int	handle_single_quote(char *str, int i, char **b)
 	return (end);
 }
 
-int	handle_quote(char *str, int i, t_env *env, char **b)
+int	handle_quote(char *str, int i, t_mini *mini, char **b)
 {
 	if (str[i] == '\"')
-		i = handle_double_quote(str, i + 1, env, b);
+		i = handle_double_quote(str, i + 1, mini, b);
 	else
 		i = handle_single_quote(str, i, b);
 	if (i == 0)
