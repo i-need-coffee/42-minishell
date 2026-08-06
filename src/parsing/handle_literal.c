@@ -58,6 +58,7 @@ int	replace_str(char **str, char *second_part, int replace_start,
 	}
 	free(tmp);
 	tmp = NULL;
+	free_and_null(str);
 	*str = ft_strdup(joined_args);
 	if (!*str)
 		return (0);
@@ -78,6 +79,7 @@ int	replace_quote_part(char **str, int *i, t_mini *mini)
 	*i = replace_str(str, tmp, replace_start, *i + 1);
 	if (*i == 0)
 		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+	free_and_null(&tmp);
 	return (*i);
 }
 

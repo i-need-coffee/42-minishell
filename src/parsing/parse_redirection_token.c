@@ -52,28 +52,28 @@ char	*get_file_name(t_mini *mini, char **next_value, char **str,
 		t_token *current)
 {
 	int		i;
-	char	*tmp_str;
+//	char	*tmp_str;
 	char	*substr;
 
 	i = 0;
-	tmp_str = *str;
+//	tmp_str = *str;
 	substr = NULL;
-	while (tmp_str[i] != '\0' && tmp_str[i] != ' ')
+	while ((*str)[i] != '\0' && (*str)[i] != ' ')
 	{
-		if (tmp_str[i] == '\'' || tmp_str[i] == '\"')
+		if ((*str)[i] == '\'' || (*str)[i] == '\"')
 		{
-			if (!quote_part(&tmp_str, &i, mini))
+			if (!quote_part(str, &i, mini))
 				return (NULL);
 			continue ;
 		}
-		if (tmp_str[i] == '$' && current->type != TOKEN_HEREDOC)
+		if ((*str)[i] == '$' && current->type != TOKEN_HEREDOC)
 		{
-			wrapper_handle_dollar(&tmp_str, &i, mini);
+			wrapper_handle_dollar(str, &i, mini);
 			continue ;
 		}
 		i++;
 	}
-	substr = put_rest_on_value(&tmp_str, i, next_value, mini);
+	substr = put_rest_on_value(str, i, next_value, mini);
 	return (substr);
 }
 
