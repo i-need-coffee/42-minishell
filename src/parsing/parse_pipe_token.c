@@ -1,6 +1,7 @@
 #include "minishell.h"
 
-int	parse_pipe_token(t_pipe_unit **unit, t_token *current, int *cmdi, t_mini *mini)
+int	parse_pipe_token(t_pipe_unit **unit, t_token *current, int *cmdi,
+		t_mini *mini)
 {
 	if (current->prev == NULL || current->next == NULL)
 	{

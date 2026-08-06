@@ -32,12 +32,12 @@ int	wrapper_handle_quote(char *str, int *index, t_mini *mini, char **tmp)
 	else
 		*index = check_quote_sanity(str, i + 1, '\"');
 	if (*index == 0)
-		return (print_error(ERR_QUOTES), 0);;
+		return (print_error(ERR_QUOTES), 0);
 	return (1);
 }
 
-int	wrapper_put_value_in_prev(t_pipe_unit **head, t_token *current, t_mini *mini,
-		t_pipe_unit *current_node)
+int	wrapper_put_value_in_prev(t_pipe_unit **head, t_token *current,
+		t_mini *mini, t_pipe_unit *current_node)
 {
 	t_pipe_unit	*tmp_prev;
 

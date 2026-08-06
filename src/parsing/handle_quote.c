@@ -7,6 +7,7 @@ int	increment(int *start, int *i, int *end)
 		(*start)++;
 	return (1);
 }
+
 int	dup_and_free(char **b, char **quote_buffer)
 {
 	*b = ft_strdup(*quote_buffer);
@@ -66,6 +67,6 @@ int	handle_quote(char *str, int i, t_mini *mini, char **b)
 	else
 		i = handle_single_quote(str, i, b, mini);
 	if (i == 0)
-		return (0); // Quote error not sanity
+		return (0);
 	return (i);
 }

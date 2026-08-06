@@ -23,7 +23,10 @@ int	parse_tokens_redirection(t_mini *mini, t_token *current,
 		|| current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC)
 	{
 		if (!(parse_redirection_token(current, mini, cmdi)))
+		{
+			mini->err_num = 2;
 			return (0);
+		}
 	}
 	return (1);
 }
@@ -48,10 +51,7 @@ int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
 			return (0);
 		}
 		else if (!(parse_tokens_redirection(mini, current, cmdi)))
-		{
-			mini->err_num = 2;
 			return (0);
-		}
 		if (*unit == NULL)
 			print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 		current = current->next;

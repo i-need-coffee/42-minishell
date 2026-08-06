@@ -48,7 +48,8 @@ int	quote_part(char **str, int *i, t_mini *mini)
 	return (1);
 }
 
-char	*get_file_name(t_mini *mini, char **next_value, char **str, t_token *current)
+char	*get_file_name(t_mini *mini, char **next_value, char **str,
+		t_token *current)
 {
 	int		i;
 	char	*tmp_str;
@@ -103,8 +104,7 @@ int	uptade_unit_struct_redir(t_mini *mini, t_token *current, t_unit_type type,
 	}
 	if (!(wrapper_put_value_in_prev(head, current, mini, current_node)))
 		return (free_and_null(&str), 0);
-	free_and_null(&str);
-	return (1);
+	return (free_and_null(&str), 1);
 }
 
 int	parse_redirection_token(t_token *current, t_mini *mini, int cmdi)
@@ -114,7 +114,7 @@ int	parse_redirection_token(t_token *current, t_mini *mini, int cmdi)
 		print_error(ERR_REDIR);
 		return (0);
 	}
-	if (current->next->type != TOKEN_WORD) //a voir si on gere ce cas
+	if (current->next->type != TOKEN_WORD) // a voir si on gere ce cas
 	{
 		print_error(ERR_REDIR);
 		return (0);
