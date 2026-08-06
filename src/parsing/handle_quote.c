@@ -21,6 +21,12 @@ int	increment(int *start, int *i, int *end)
 		(*start)++;
 	return (1);
 }
+int	dup_and_free(char **b, char **quote_buffer)
+{
+	*b = ft_strdup(*quote_buffer);
+	free_and_null(quote_buffer);
+	return (0);
+}
 
 int	handle_double_quote(char *str, int i, t_mini *mini, char **b)
 {
@@ -47,8 +53,7 @@ int	handle_double_quote(char *str, int i, t_mini *mini, char **b)
 	}
 	if (!(wrapper_coub(&quote_buffer, str, start, i)))
 		return (0);
-	*b = ft_strdup(quote_buffer);
-	free_and_null(&quote_buffer);
+	dup_and_free(b, &quote_buffer);
 	return (end + 1);
 }
 
