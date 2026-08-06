@@ -9,16 +9,10 @@ int	wrapper_create_buffer(char **buffer, char *str, int start, int buff_len)
 	{
 		*buffer = (char *)malloc((buff_len) + 1);
 		if (!*buffer)
-		{
-			print_error(ERR_ALLOC);
 			return (0);
-		}
 		substr = ft_substr(str, start, buff_len);
 		if (!substr)
-		{
-			print_error(ERR_ALLOC);
 			return (0);
-		}
 		ft_strlcpy(*buffer, substr, (buff_len) + 1);
 		free(substr);
 		substr = NULL;
@@ -26,7 +20,7 @@ int	wrapper_create_buffer(char **buffer, char *str, int start, int buff_len)
 	return (1);
 }
 
-int	create_or_update_buffer(char **buffer, char *str, int start, int end)
+int	create_or_update_buffer(char **buffer, char *str, int start, int end) // a free avant
 {
 	int	buff_len;
 
@@ -56,10 +50,7 @@ int	create_or_update_args(t_pipe_unit *unit, char *buffer)
 			n++;
 	new_args = malloc(sizeof(char *) * (n + 2));
 	if (!new_args)
-	{
-		print_error(ERR_ALLOC);
 		return (0);
-	}
 	i = 0;
 	while (i < n)
 	{
@@ -79,10 +70,7 @@ t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)
 
 	new_token = malloc(sizeof(t_pipe_unit));
 	if (!new_token)
-	{
-		print_error(ERR_ALLOC);
 		return (NULL);
-	}
 	new_token->type = type;
 	new_token->file = NULL;
 	new_token->args = NULL;
@@ -93,7 +81,7 @@ t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)
 	return (new_token);
 }
 
-int	create_or_update_unit_struct(t_pipe_unit **head, int cmdi, t_unit_type type)
+int	create_or_update_unit_struct(t_pipe_unit **head, int cmdi, t_unit_type type) //a free avant;
 {
 	t_pipe_unit	*tmp;
 

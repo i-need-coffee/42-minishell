@@ -10,19 +10,19 @@ int	parse_tokens_word_or_pipe(t_mini *mini, t_token *current, int *cmdi,
 	}
 	else if (current->type == TOKEN_PIPE)
 	{
-		if (!(parse_pipe_token(unit, current, cmdi)))
+		if (!(parse_pipe_token(unit, current, cmdi, mini)))
 			return (0);
 	}
 	return (1);
 }
 
-int	parse_tokens_redirection(t_mini *mini, t_token *current, t_pipe_unit **unit,
+int	parse_tokens_redirection(t_mini *mini, t_token *current,
 		int cmdi)
 {
 	if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
 		|| current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC)
 	{
-		if (!(parse_redirection_token(unit, current, mini, cmdi)))
+		if (!(parse_redirection_token(current, mini, cmdi)))
 			return (0);
 	}
 	return (1);
@@ -43,14 +43,17 @@ int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
 			continue ;
 		}
 		if (!(parse_tokens_word_or_pipe(mini, current, &cmdi, unit)))
-			return (0);
-		else if (!(parse_tokens_redirection(mini, current, unit, cmdi)))
-			return (0);
-		if (*unit == NULL)
 		{
-			print_error(ERR_ALLOC);
+			mini->err_num = 2;
 			return (0);
 		}
+		else if (!(parse_tokens_redirection(mini, current, cmdi)))
+		{
+			mini->err_num = 2;
+			return (0);
+		}
+		if (*unit == NULL)
+			print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 		current = current->next;
 	}
 	return (1);

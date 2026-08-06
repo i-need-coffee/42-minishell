@@ -185,9 +185,8 @@ int						create_or_update_unit_struct(t_pipe_unit **head,
 							int cmdi, t_unit_type type);
 int						handle_dollar(char *str, int i, t_mini *mini, char **b);
 int						parse_pipe_token(t_pipe_unit **unit, t_token *current,
-							int *cmdi);
-int						parse_redirection_token(t_pipe_unit **unit,
-							t_token *current, t_mini *mini, int cmdi);
+							int *cmdi, t_mini *mini);
+int						parse_redirection_token(t_token *current, t_mini *mini, int cmdi);
 void					clean_str(char *str);
 int						put_value_in_prev_args(t_pipe_unit *cnode,
 							t_token *current, t_mini *mini);

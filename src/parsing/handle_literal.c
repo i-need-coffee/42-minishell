@@ -9,16 +9,10 @@ char	*built_first_part(char *str, char *second_part, int replace_start)
 	first_part = NULL;
 	first_part = ft_substr(str, 0, replace_start);
 	if (!first_part)
-	{
-		print_error(ERR_ALLOC);
-		return (0);
-	}
+		return (NULL);
 	tmp = ft_strjoin(first_part, second_part);
 	if (!tmp)
-	{
-		print_error(ERR_ALLOC);
-		return (0);
-	}
+		return (NULL);
 	free(first_part);
 	first_part = NULL;
 	return (tmp);
@@ -33,16 +27,10 @@ char	*built_last_part(char *str, char *tmp, int replace_end)
 	last_part = NULL;
 	last_part = ft_substr(str, replace_end, ft_strlen(str) - replace_end);
 	if (!last_part)
-	{
-		print_error(ERR_ALLOC);
-		return (0);
-	}
+		return (NULL);
 	joined_args = ft_strjoin(tmp, last_part);
 	if (!joined_args)
-	{
-		print_error(ERR_ALLOC);
-		return (0);
-	}
+		return (NULL);
 	free(last_part);
 	last_part = NULL;
 	return (joined_args);
@@ -72,7 +60,7 @@ int	replace_str(char **str, char *second_part, int replace_start,
 	tmp = NULL;
 	*str = ft_strdup(joined_args);
 	if (!*str)
-		ft_abort(ERR_ALLOC);
+		return (0);
 	free(joined_args);
 	joined_args = NULL;
 	return (ret);
@@ -85,11 +73,11 @@ int	replace_quote_part(char **str, int *i, t_mini *mini)
 
 	tmp = NULL;
 	replace_start = *i;
-	if (!(wrapper_handle_quote(*str, i, mini, &tmp)))
+	if (wrapper_handle_quote(*str, i, mini, &tmp) == 0)
 		return (0);
 	*i = replace_str(str, tmp, replace_start, *i + 1);
 	if (*i == 0)
-		return (0);
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	return (*i);
 }
 
@@ -102,19 +90,18 @@ int	add_arg(char **str, int i, t_pipe_unit *unit, t_mini *mini)
 	{
 		if (str[0][i] == '\'' || str[0][i] == '\"')
 		{
-			if ((replace_quote_part(str, &i, mini)) == 0)
+			if (replace_quote_part(str, &i, mini) == 0)
 				return (-1);
 			continue ;
 		}
 		if (str[0][i] == '$')
 		{
-			if (!(wrapper_handle_dollar(str, &i, mini)))
-				return (-1);
+			wrapper_handle_dollar(str, &i, mini);
 			continue ;
 		}
 		i++;
 	}
 	if (!(create_or_update_args(unit, ft_substr(*str, start, i - start))))
-		return (-1);
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	return (i);
 }

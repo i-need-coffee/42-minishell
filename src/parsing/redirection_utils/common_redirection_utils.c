@@ -40,12 +40,18 @@ int	create_redirection_node(t_pipe_unit **head, t_token *next,
 	tmp_unit->file = filename;
 	buffer = ft_strtrim(next->value, " \t");
 	if (!buffer)
-	{
-		print_error(ERR_ALLOC);
 		return (0);
-	}
 	free(next->value);
 	next->value = NULL;
 	next->value = buffer;
 	return (1);
+}
+
+int	check_quote_sanity(char *str, int end, char c)
+{
+	while (str[end] && str[end] != c)
+		end++;
+	if (str[end] != c)
+		return (0);
+	return (end);
 }

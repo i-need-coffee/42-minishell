@@ -8,8 +8,10 @@ int	parse_word_token(t_pipe_unit **head, t_token *current, t_mini *mini,
 	char		*str;
 
 	str = ft_strdup(current->value);
+	if (!str)
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	if (!(create_or_update_unit_struct(head, cmdi, CMD)))
-		return (0);
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);;
 	new_token = *head;
 	while (new_token->next)
 		new_token = new_token->next;

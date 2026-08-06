@@ -6,16 +6,11 @@ int	handle_dollar(char *str, int i, t_mini *mini, char **b)
 
 	buffer = NULL;
 	if (create_or_update_buffer(&buffer, str, i, i) == 0)
-		return (0);
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	i = expension(str, i, mini, &buffer);
-	if (i == 0)
-		return (0);
 	*b = ft_strdup(buffer);
 	if (!*b)
-	{
-		print_error(ERR_ALLOC);
-		return (0);
-	}
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	free(buffer);
 	buffer = NULL;
 	return (i);
@@ -30,10 +25,7 @@ int	cmp_key(char **buffer, char *tmp_buffer, t_env *temp_env)
 	free(tmp_buffer);
 	tmp_buffer = NULL;
 	if (!*buffer)
-	{
-		print_error(ERR_ALLOC);
 		return (0);
-	}
 	return (1);
 }
 
@@ -43,10 +35,7 @@ int	check_key(t_env *temp_env, char *key, int end, char **buffer)
 
 	tmp_buffer = (char *)malloc(ft_strlen(*buffer) + 1);
 	if (!tmp_buffer)
-	{
-		print_error(ERR_ALLOC);
 		return (0);
-	}
 	while (temp_env)
 	{
 		if (!ft_strncmp(key, temp_env->key, end))
@@ -68,8 +57,10 @@ int	handle_inter_mark(t_mini *mini, char **buffer)
 
 	tmp = ft_itoa(mini->err_num);
 	if (!tmp)
-		return (0);
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	*buffer = ft_strdup(tmp);
+	if (!*buffer)
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	free(tmp);
 	tmp = NULL;
 	return (1);
@@ -94,12 +85,12 @@ int	expension(char *str, int i, t_mini *mini, char **buffer)
 		end++;
 	key = ft_substr(str, i, end - i);
 	if (!key)
-	{
-		print_error(ERR_ALLOC);
-		return (0);
-	}
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	if (check_key(temp_env, key, end, buffer) == 0)
-		return (free_and_null(&key), 0);
+	{
+		free_and_null(&key);
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+	}
 	free_and_null(&key);
 	return (end);
 }
