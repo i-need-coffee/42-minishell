@@ -58,6 +58,7 @@ int	handle_inter_mark(t_mini *mini, char **buffer)
 	tmp = ft_itoa(mini->err_num);
 	if (!tmp)
 		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+	free_and_null(buffer);
 	*buffer = ft_strdup(tmp);
 	if (!*buffer)
 		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
