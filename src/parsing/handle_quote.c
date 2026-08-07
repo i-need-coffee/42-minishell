@@ -10,6 +10,8 @@ int	increment(int *start, int *i, int *end)
 
 int	dup_and_free(char **b, char **quote_buffer)
 {
+	if (!*quote_buffer)
+		return (0);
 	*b = ft_strdup(*quote_buffer);
 	free_and_null(quote_buffer);
 	return (0);

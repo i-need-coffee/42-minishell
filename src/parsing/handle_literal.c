@@ -47,23 +47,22 @@ int	replace_str(char **str, char *second_part, int replace_start,
 	tmp = NULL;
 	tmp = built_first_part(*str, second_part, replace_start);
 	if (!tmp)
-		return (0);
+		return (-1);
 	ret = ft_strlen(tmp);
 	joined_args = built_last_part(*str, tmp, replace_end);
 	if (!joined_args)
 	{
 		free(tmp);
 		tmp = NULL;
-		return (0);
+		return (-1);
 	}
 	free(tmp);
 	tmp = NULL;
 	free_and_null(str);
 	*str = ft_strdup(joined_args);
 	if (!*str)
-		return (0);
-	free(joined_args);
-	joined_args = NULL;
+		return (-1);
+	free_and_null(&joined_args);
 	return (ret);
 }
 
@@ -75,10 +74,13 @@ int	replace_quote_part(char **str, int *i, t_mini *mini)
 	tmp = NULL;
 	replace_start = *i;
 	if (wrapper_handle_quote(*str, i, mini, &tmp) == 0)
-		return (0);
+		return (-1);
 	*i = replace_str(str, tmp, replace_start, *i + 1);
-	if (*i == 0)
+	if (*i == -1)
+	{
+		free_and_null(str);
 		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+	}
 	free_and_null(&tmp);
 	return (*i);
 }
@@ -92,7 +94,7 @@ int	add_arg(char **str, int i, t_pipe_unit *unit, t_mini *mini)
 	{
 		if (str[0][i] == '\'' || str[0][i] == '\"')
 		{
-			if (replace_quote_part(str, &i, mini) == 0)
+			if (replace_quote_part(str, &i, mini) == -1)
 				return (-1);
 			continue ;
 		}
