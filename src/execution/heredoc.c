@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+static void	remove_delimiter_quotes(char *str, char **new_str);
 static int	handle_heredoc(t_pipe_unit *unit, t_mini *mini, int expands);
 static int	is_limiter(char *line, char *limiter);
 static char	*get_typed_line(char *delimiter, int expands, t_mini *mini);
@@ -20,9 +21,9 @@ int	execute_heredocs(t_mini *mini)
 		if (curr->type == HEREDOC)
 		{
 			expands = 1;
-			if (curr->file[0] == '\'' || curr->file[0] == '"')
+			if (ft_strchr(curr->file, '\'') || ft_strchr(curr->file, '"'))
 				expands = 0;
-			delimiter = ft_strtrim(curr->file, "'\"");
+			remove_delimiter_quotes(curr->file, &delimiter);
 			if (!delimiter)
 				print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 			free_and_null(&curr->file);
@@ -33,6 +34,38 @@ int	execute_heredocs(t_mini *mini)
 		curr = curr->next;
 	}
 	return (1);
+}
+
+/*
+** Copies str into new_str, stripping every single and double quote.
+** Used because the heredoc delimiter is matched literally.
+*/
+static void	remove_delimiter_quotes(char *str, char **new_str)
+{
+	int		i;
+	int		j;
+	int		str_len;
+
+	i = 0;
+	str_len = 0;
+	while (str[i])
+	{
+		if (str[i] != '\'' && str[i] != '"')
+			str_len++;
+		i++;
+	}
+	*new_str = malloc((str_len + 1) * sizeof(char));
+	if (!*new_str)
+		return ;
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] != '\'' && str[i] != '"')
+			(*new_str)[j++] = str[i];
+		i++;
+	}
+	(*new_str)[j] = '\0';
 }
 
 /*
@@ -101,10 +134,9 @@ static char	*get_typed_line(char *delimiter, int expands, t_mini *mini)
 		i = 0;
 		while (line[i])
 		{
-			if (line[i] == '$' && !(
-					wrapper_handle_dollar(&line, &i, mini)))
-				break ;
-			else if (line[i] != '$')
+			if (line[i] == '$' && line[i + 1])
+				wrapper_handle_dollar(&line, &i, mini);
+			else
 				i++;
 		}
 	}
