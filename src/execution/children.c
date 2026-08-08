@@ -42,10 +42,10 @@ void	wait_children(t_mini *mini)
 	i = 0;
 	while (i < mini->cmd_nb)
 	{
-		if (waitpid(mini->pids[i], &status, 0) == -1)
+		while (waitpid(mini->pids[i], &status, 0) == -1)
 		{
-			perror(ERR_WAITPID);
-			return ;
+			if (errno != EINTR)
+				return (perror(ERR_WAITPID));
 		}
 		i++;
 	}
