@@ -64,7 +64,8 @@ char	*get_file_name(t_mini *mini, char **next_value, char **str,
 				return (NULL);
 			continue ;
 		}
-		if ((*str)[i] == '$' && current->type != TOKEN_HEREDOC)
+		if (str[0][i] == '$' && str[0][i + 1] && ((ft_isalpha(str[0][i + 1]) && (current->type != TOKEN_HEREDOC))
+		|| str[0][i + 1] == '_' ))
 		{
 			wrapper_handle_dollar(str, &i, mini);
 			continue ;

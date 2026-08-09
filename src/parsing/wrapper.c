@@ -79,7 +79,7 @@ int	wrapper_handle_dollar(char **str, int *i, t_mini *mini)
 	start = *i;
 	*i = handle_dollar(*str, *(i), mini, &tmp);
 	*i = replace_str(str, tmp, start, *(i));
-	if (*i == 0)
+	if (*i == -1)
 		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	free(tmp);
 	tmp = NULL;
