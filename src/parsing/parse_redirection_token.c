@@ -43,7 +43,7 @@ int	quote_part(char **str, int *i, t_mini *mini)
 	tmp = NULL;
 	free(substr);
 	substr = NULL;
-	if (*i == 0)
+	if (*i == -1)
 		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 	return (1);
 }
@@ -52,11 +52,9 @@ char	*get_file_name(t_mini *mini, char **next_value, char **str,
 		t_token *current)
 {
 	int		i;
-//	char	*tmp_str;
 	char	*substr;
 
 	i = 0;
-//	tmp_str = *str;
 	substr = NULL;
 	while ((*str)[i] != '\0' && (*str)[i] != ' ')
 	{
