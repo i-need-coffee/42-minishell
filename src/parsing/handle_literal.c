@@ -98,7 +98,7 @@ int	add_arg(char **str, int i, t_pipe_unit *unit, t_mini *mini)
 				return (-1);
 			continue ;
 		}
-		if (str[0][i] == '$' && str[0][i + 1] && (ft_isalpha(str[0][i + 1]) || str[0][i + 1] == '_'))
+		if (str[0][i] == '$')
 		{
 			wrapper_handle_dollar(str, &i, mini);
 			continue ;

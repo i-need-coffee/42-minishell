@@ -205,4 +205,5 @@ int						wrapper_put_value_in_prev(t_pipe_unit **head,
 							t_pipe_unit *current_node);
 int						wrapper_coub(char **quote_buffer, char *str, int start,
 							int i);
+int						check_if_expension(char *str, int *i);
 #endif

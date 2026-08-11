@@ -134,7 +134,7 @@ static char	*get_typed_line(char *delimiter, int expands, t_mini *mini)
 		i = 0;
 		while (line[i])
 		{
-			if (line[i] == '$' && line[i + 1])
+			if (line[i] == '$')
 				wrapper_handle_dollar(&line, &i, mini);
 			else
 				i++;
