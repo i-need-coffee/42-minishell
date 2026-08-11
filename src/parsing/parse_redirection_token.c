@@ -60,6 +60,7 @@ char	*get_file_name(t_mini *mini, char **next_value, char **str,
 	{
 		if ((*str)[i] == '\'' || (*str)[i] == '\"')
 		{
+			quoted_heredoc(mini, current);
 			if (!quote_part(str, &i, mini))
 				return (NULL);
 			continue ;

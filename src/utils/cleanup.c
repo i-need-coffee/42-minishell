@@ -26,6 +26,7 @@ void	cleanup(t_mini *mini)
 {
 	mini->pipe_nb = 0;
 	mini->cmd_nb = 0;
+	mini->quoted_hd = 0;
 	if (mini->tokens)
 		free_tokens(&mini->tokens);
 	if (mini->input)

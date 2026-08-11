@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+int	quoted_heredoc(t_mini *mini, t_token *current)
+{
+	if (current->type == TOKEN_HEREDOC)
+		mini->quoted_hd = 1;
+	return (0);
+}
+
 int	check_if_expension(char *str, int *i)
 {
 	if (str[*i + 1])

@@ -82,6 +82,7 @@ typedef struct s_mini
 	int					cmd_nb;
 	int					saved_stdin;
 	int					saved_stdout;
+	int					quoted_hd;
 	t_token				*tokens;
 	t_env				*env;
 	char				**envp;
@@ -206,4 +207,5 @@ int						wrapper_put_value_in_prev(t_pipe_unit **head,
 int						wrapper_coub(char **quote_buffer, char *str, int start,
 							int i);
 int						check_if_expension(char *str, int *i);
+int						quoted_heredoc(t_mini *mini, t_token *current);
 #endif
