@@ -76,6 +76,7 @@ t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)
 	new_token->file = NULL;
 	new_token->args = NULL;
 	new_token->fd = -1;
+	new_token->quoted_hd = 0;
 	new_token->cmd_index = cmdi;
 	new_token->next = NULL;
 	new_token->prev = NULL;

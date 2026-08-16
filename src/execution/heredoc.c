@@ -3,7 +3,7 @@
 static void	remove_delimiter_quotes(char *str, char **new_str);
 static int	handle_heredoc(t_pipe_unit *unit, t_mini *mini, int expands);
 static int	is_limiter(char *line, char *limiter);
-static char	*get_typed_line(char *delimiter, int expands, t_mini *mini);
+static char	*get_typed_line(t_pipe_unit *unit, char *delimiter, int expands, t_mini *mini);
 
 /*
 **	Processes every HEREDOC unit in the pipeline, reading its content
@@ -83,7 +83,7 @@ static int	handle_heredoc(t_pipe_unit *unit, t_mini *mini, int expands)
 	{
 		if (write(1, "> ", 2) == -1)
 			return (print_error(ERR_WRITE), close(fds[0]), close(fds[1]), 0);
-		line = get_typed_line(unit->file, expands, mini);
+		line = get_typed_line(unit, unit->file, expands, mini);
 		if (!line)
 			break ;
 		if (write(fds[1], line, ft_strlen(line)) == -1)
@@ -116,7 +116,7 @@ static int	is_limiter(char *line, char *limiter)
 **	matches delimiter (heredoc termination). If expands is set, expands
 **	$VAR occurrences in the line using env.
 */
-static char	*get_typed_line(char *delimiter, int expands, t_mini *mini)
+static char	*get_typed_line(t_pipe_unit *unit, char *delimiter, int expands, t_mini *mini)
 {
 	char	*line;
 	int		i;
@@ -134,7 +134,7 @@ static char	*get_typed_line(char *delimiter, int expands, t_mini *mini)
 		i = 0;
 		while (line[i])
 		{
-			if (line[i] == '$' && mini->quoted_hd == 0)
+			if (line[i] == '$' && unit->quoted_hd != 1)
 				wrapper_handle_dollar(&line, &i, mini);
 			else
 				i++;

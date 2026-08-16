@@ -68,6 +68,7 @@ typedef struct s_pipe_unit
 	t_unit_type			type;
 	char				**args;
 	char				*file;
+	int					quoted_hd;
 	int					fd;
 	int					cmd_index;
 	struct s_pipe_unit	*prev;
@@ -82,7 +83,6 @@ typedef struct s_mini
 	int					cmd_nb;
 	int					saved_stdin;
 	int					saved_stdout;
-	int					quoted_hd;
 	t_token				*tokens;
 	t_env				*env;
 	char				**envp;
