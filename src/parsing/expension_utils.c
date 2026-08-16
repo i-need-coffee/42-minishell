@@ -2,7 +2,7 @@
 
 int	quoted_heredoc(t_mini *mini, t_token *current)
 {
-	t_pipe_unit *current_unit;
+	t_pipe_unit	*current_unit;
 
 	if (!(current->type == TOKEN_HEREDOC))
 		return (0);

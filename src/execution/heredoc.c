@@ -3,7 +3,8 @@
 static void	remove_delimiter_quotes(char *str, char **new_str);
 static int	handle_heredoc(t_pipe_unit *unit, t_mini *mini, int expands);
 static int	is_limiter(char *line, char *limiter);
-static char	*get_typed_line(t_pipe_unit *unit, char *delimiter, int expands, t_mini *mini);
+static char	*get_typed_line(t_pipe_unit *unit, char *delimiter, int expands,
+				t_mini *mini);
 
 /*
 **	Processes every HEREDOC unit in the pipeline, reading its content
@@ -42,9 +43,9 @@ int	execute_heredocs(t_mini *mini)
 */
 static void	remove_delimiter_quotes(char *str, char **new_str)
 {
-	int		i;
-	int		j;
-	int		str_len;
+	int	i;
+	int	j;
+	int	str_len;
 
 	i = 0;
 	str_len = 0;
@@ -87,8 +88,8 @@ static int	handle_heredoc(t_pipe_unit *unit, t_mini *mini, int expands)
 		if (!line)
 			break ;
 		if (write(fds[1], line, ft_strlen(line)) == -1)
-			return (print_error(ERR_WRITE),
-				free(line), close(fds[0]), close(fds[1]), 0);
+			return (print_error(ERR_WRITE), free(line), close(fds[0]),
+				close(fds[1]), 0);
 		free(line);
 	}
 	close(fds[1]);
@@ -105,8 +106,8 @@ static int	is_limiter(char *line, char *limiter)
 	size_t	len;
 
 	len = ft_strlen(limiter);
-	if (ft_strncmp(line, limiter, len) == 0
-		&& (line[len] == '\n' || line[len] == '\0'))
+	if (ft_strncmp(line, limiter, len) == 0 && (line[len] == '\n'
+			|| line[len] == '\0'))
 		return (1);
 	return (0);
 }
@@ -116,7 +117,8 @@ static int	is_limiter(char *line, char *limiter)
 **	matches delimiter (heredoc termination). If expands is set, expands
 **	$VAR occurrences in the line using env.
 */
-static char	*get_typed_line(t_pipe_unit *unit, char *delimiter, int expands, t_mini *mini)
+static char	*get_typed_line(t_pipe_unit *unit, char *delimiter, int expands,
+		t_mini *mini)
 {
 	char	*line;
 	int		i;

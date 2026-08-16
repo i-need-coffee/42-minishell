@@ -113,7 +113,7 @@ int	parse_redirection_token(t_token *current, t_mini *mini, int cmdi)
 		print_error(ERR_REDIR);
 		return (0);
 	}
-	if (current->next->type != TOKEN_WORD) // a voir si on gere ce cas
+	if (current->next->type != TOKEN_WORD)
 	{
 		print_error(ERR_REDIR);
 		return (0);

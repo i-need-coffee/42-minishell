@@ -30,7 +30,8 @@ int	handle_double_quote(char *str, int i, t_mini *mini, char **b)
 		return (0);
 	while (str[i] && !(i > end || i == end))
 	{
-		if ((str[i] == '$' && str[i + 1] && ft_isalpha(str[i + 1]) && str[i + 1] != '\"') || str[i + 1] == '_')
+		if ((str[i] == '$' && str[i + 1] && ft_isalpha(str[i + 1]) && str[i
+					+ 1] != '\"') || str[i + 1] == '_')
 		{
 			if ((create_or_update_buffer(&quote_buffer, str, start, i)) == 0)
 				print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);

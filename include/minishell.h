@@ -187,7 +187,8 @@ int						create_or_update_unit_struct(t_pipe_unit **head,
 int						handle_dollar(char *str, int i, t_mini *mini, char **b);
 int						parse_pipe_token(t_pipe_unit **unit, t_token *current,
 							int *cmdi, t_mini *mini);
-int						parse_redirection_token(t_token *current, t_mini *mini, int cmdi);
+int						parse_redirection_token(t_token *current, t_mini *mini,
+							int cmdi);
 void					clean_str(char *str);
 int						put_value_in_prev_args(t_pipe_unit *cnode,
 							t_token *current, t_mini *mini);
@@ -197,8 +198,8 @@ int						create_redirection_node(t_pipe_unit **head,
 							t_token *next, char *filename);
 t_pipe_unit				*new_unit_node(int cmdi, t_unit_type type);
 int						wrapper_handle_dollar(char **str, int *i, t_mini *mini);
-int						wrapper_handle_quote(char *str, int *index, t_mini *mini,
-							char **tmp);
+int						wrapper_handle_quote(char *str, int *index,
+							t_mini *mini, char **tmp);
 int						wrapper_update_buffer(char *buffer, char *str,
 							int start, int buff_len);
 int						wrapper_put_value_in_prev(t_pipe_unit **head,
