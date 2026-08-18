@@ -1,22 +1,5 @@
 #include "minishell.h"
 
-void	free_env_vars(t_env **root)
-{
-	t_env	*curr;
-	t_env	*temp;
-
-	curr = *root;
-	while (curr != NULL)
-	{
-		temp = curr;
-		curr = curr->next;
-		free_and_null(&temp->key);
-		free_and_null(&temp->value);
-		free(temp);
-	}
-	*root = NULL;
-}
-
 /*
 **	Frees per-iteration data and restores the saved stdin/stdout fds.
 **	Called after each readline iteration; if restoring the fds fails,
