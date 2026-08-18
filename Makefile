@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jturrel <jturrel@student.42.fr>            +#+  +:+       +#+         #
+#    By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/28 18:50:42 by jturrel           #+#    #+#              #
-#    Updated: 2026/08/01 11:19:22 by jturrel          ###   ########.fr        #
+#    Updated: 2026/08/18 11:20:11 by sjolliet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ SRC_DIR			= src
 OBJ_DIR			= obj
 
 SRCS			= \
-	$(SRC_DIR)/debug.c \
 	$(SRC_DIR)/main.c \
 	$(SRC_DIR)/utils/misc.c \
 	$(SRC_DIR)/utils/cleanup.c \

@@ -96,10 +96,6 @@ typedef struct s_mini
 ** ================================
 */
 
-/* -- DEBUG -- */
-void					print_tokens(t_token **root);
-void					print_node_env(t_env *node);
-
 /* -- UTILS -- */
 void					cleanup_exit(t_mini *mini, int exit_code);
 void					cleanup(t_mini *mini);
@@ -208,4 +204,5 @@ int						wrapper_coub(char **quote_buffer, char *str, int start,
 							int i);
 int						check_if_expension(char *str, int *i);
 int						quoted_heredoc(t_mini *mini, t_token *current);
+
 #endif
