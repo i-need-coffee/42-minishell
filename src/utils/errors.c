@@ -18,12 +18,6 @@ void	print_error_and_exit(t_mini *mini, char *err_msg, int exit_code)
 	cleanup_exit(mini, exit_code);
 }
 
-void	ft_abort(char *msg)
-{
-	perror(msg);
-	exit(1);
-}
-
 /*
 **	Prints "start: middle: end\n" to stderr.
 */
