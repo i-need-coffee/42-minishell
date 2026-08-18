@@ -6,7 +6,7 @@ _This project has been created as part of the 42 curriculum by jturrel, sjolliet
 
 Minishell is the first group project from 42's common core.
 
-In this project, we need to reproduce some of the behavior of shell, with the following guidelines:
+In this project, we need to make our own version of bash, with the following guidelines:
 
 - Display a prompt when waiting for a new command.
 - Have a working **history**.
@@ -137,6 +137,43 @@ minishell> echo $?
 
 ## Resources
 
+### References
+- **The Linux Programming Interface**  
+https://broman.dev/download/The%20Linux%20Programming%20Interface.pdf
+- **Linux Man Pages online**  
+https://man7.org/linux/man-pages/
+- **Multiple videos from the Youtube channel CodeVault**  
+https://www.youtube.com/@CodeVault
+- **Article on how heredocs work in bash**  
+https://linuxize.com/post/bash-heredoc/
+- **Article on command line processing (tokens, expansion, redirections, execution)**  
+https://abhijit-pal.medium.com/demystifying-bash-command-line-processing-a-seven-step-journey-74287e1c635c
+- **Article on exit status, with a list of all of them**  
+https://www.cyberciti.biz/faq/linux-bash-exit-status-set-exit-statusin-bash/
+- **Article on environment variables in shell**  
+https://www.digitalocean.com/community/tutorials/how-to-read-and-set-environmental-and-shell-variables-on-linux
+- **Chapter 5 of a system programming book explaining on to write your own shell**  
+https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
+- **A chapter on shell syntax**  
+https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html
+- **Document on how to implement yoru shell POSIX (lexer, parser, execution)**  
+https://shell.multun.net/index.html
+- **Article on how to implement the lexer in shell**  
+https://dev.to/sandeshojha/shell-project-lexer-20nd
+- **Website where we can type any shell commands and get explanations on what they do**  
+https://explainshell.com/
+- **Document on redirections**  
+https://www.iro.umontreal.ca/~pift1166/cours/ift1166/communs/Cours/Redirection.pdf
+- **Guide on allowed functions for this project**  
+https://42-cursus.gitbook.io/guide/3-rank-03/minishell/functions
+- **Profile of a dev that wrote some articles on implementing your own shell**  
+https://dev.to/harshbanthiy
+- **Manual page on redirections**  
+https://www.gnu.org/software/bash/manual/html_node/Redirections.html
+- **Article on operators in bash**  
+https://www.redhat.com/en/blog/redirect-operators-bash
+
+### AI Usage
 AI tools were used as learning and productivity aids for :
 
 - Understanding how signals work, especially when it comes to exit status
