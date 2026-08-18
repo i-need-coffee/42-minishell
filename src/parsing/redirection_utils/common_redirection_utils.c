@@ -8,13 +8,13 @@ void	clean_str(char *str)
 	}
 }
 
-int	put_value_in_prev_args(t_pipe_unit *cnode, t_token *current, t_mini *mini)
+int	put_value_in_prev_args(t_pipe_unit *cnode, t_token **current, t_mini *mini)
 {
 	int		i;
 	char	*str;
 
 	i = 0;
-	str = current->value;
+	str = (*current)->value;
 	while (str[i])
 	{
 		i = add_arg(&str, i, cnode, mini);
@@ -23,6 +23,7 @@ int	put_value_in_prev_args(t_pipe_unit *cnode, t_token *current, t_mini *mini)
 		while (str[i] == ' ')
 			i++;
 	}
+	(*current)->value = str;
 	return (1);
 }
 

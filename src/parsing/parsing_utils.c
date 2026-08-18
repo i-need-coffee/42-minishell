@@ -21,7 +21,6 @@ int	wrapper_create_buffer(char **buffer, char *str, int start, int buff_len)
 }
 
 int	create_or_update_buffer(char **buffer, char *str, int start, int end)
-		// a free avant
 {
 	int	buff_len;
 
@@ -84,7 +83,7 @@ t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)
 }
 
 int	create_or_update_unit_struct(t_pipe_unit **head, int cmdi,
-		t_unit_type type) // a free avant;
+		t_unit_type type)
 {
 	t_pipe_unit	*tmp;
 

@@ -54,7 +54,7 @@ int	wrapper_put_value_in_prev(t_pipe_unit **head, t_token *current,
 			current_node->prev = tmp_prev;
 			*head = tmp_prev;
 		}
-		if (!(put_value_in_prev_args(tmp_prev, current->next, mini)))
+		if (!(put_value_in_prev_args(tmp_prev, &current->next, mini)))
 			return (0);
 		clean_str(current->next->value);
 	}
