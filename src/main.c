@@ -6,7 +6,6 @@
 */
 int	process_line(t_mini *mini)
 {
-	printf("last exit code: %d\n", mini->err_num);
 	mini->input = readline("minishell> ");
 	if (!mini->input)
 		return (0);
