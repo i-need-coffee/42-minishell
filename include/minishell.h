@@ -114,7 +114,8 @@ void					add_word_token(t_mini **mini, int *i);
 void					free_tokens(t_token **root);
 
 /* -- SIGNALS -- */
-void					signal_config(int signb, void *handler);
+void					signal_config_sigquit(int signb, void (*handler_sigquit)(int));
+void					signal_config_sigint(int signb, void (*handler_sigint)(int));
 void					handler_sigint(int signb);
 void					handler_sigquit(int signb);
 void					set_global_var(int signb);

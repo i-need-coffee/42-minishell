@@ -1,10 +1,21 @@
 #include "minishell.h"
 
-void	signal_config(int signb, void *handler)
+void	signal_config_sigint(int signb, void (*handler_sigint)(int))
 {
 	struct sigaction	config;
 
-	config.sa_handler = handler;
+	config.sa_handler = handler_sigint;
+	sigemptyset(&config.sa_mask);
+	config.sa_flags = 0;
+	if (sigaction(signb, &config, NULL) < 0)
+		print_error(ERR_SIG);
+}
+
+void	signal_config_sigquit(int signb, void (*handler_sigquit)(int))
+{
+	struct sigaction	config;
+
+	config.sa_handler = handler_sigquit;
 	sigemptyset(&config.sa_mask);
 	config.sa_flags = 0;
 	if (sigaction(signb, &config, NULL) < 0)
