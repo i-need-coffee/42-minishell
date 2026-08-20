@@ -85,6 +85,9 @@ char	**build_envp_tab(t_env *env)
 	return (envp);
 }
 
+/*
+**	Check if cmd exists and if it has args.
+*/
 int	is_cmd_empty(t_pipe_unit *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0] || !cmd->args[0][0])
