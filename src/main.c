@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 	mini.saved_stdout = -1;
 	if (!build_env(envp, &mini.env))
 		print_error_and_exit(&mini, ERR_ALLOC, EXIT_FAILURE);
-	signal_config_sigquit(SIGQUIT, handler_sigquit);
+	signal(SIGQUIT, SIG_IGN);
 	signal_config_sigint(SIGINT, handler_sigint);
 	while (process_line(&mini))
 		;
