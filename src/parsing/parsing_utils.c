@@ -59,7 +59,7 @@ int	create_or_update_args(t_pipe_unit *unit, char *buffer)
 		new_args[i] = unit->args[i];
 		i++;
 	}
-	new_args[n] = buffer;
+	new_args[n] = ft_strdup(buffer);
 	new_args[n + 1] = NULL;
 	free(unit->args);
 	unit->args = new_args;
