@@ -32,11 +32,19 @@ void	add_word_token(t_mini **mini, int *i)
 static int	get_substr_len(char *input)
 {
 	int	len;
+	int	in_s_quotes;
+	int	in_d_quotes;
 
 	len = 0;
+	in_s_quotes = 0;
+	in_d_quotes = 0;
 	while (input[len])
 	{
-		if (isseparator(input[len]))
+		if (input[len] == '\'' && !in_d_quotes)
+			in_s_quotes = !in_s_quotes;
+		if (input[len] == '"' && !in_s_quotes)
+			in_d_quotes = !in_d_quotes;
+		if (!in_s_quotes && !in_d_quotes && isseparator(input[len]))
 			break ;
 		len++;
 	}
