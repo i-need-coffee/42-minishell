@@ -88,6 +88,7 @@ int	replace_quote_part(char **str, int *i, t_mini *mini)
 int	add_arg(char **str, int i, t_pipe_unit *unit, t_mini *mini)
 {
 	int		start;
+	char	*tmp;
 
 	start = i;
 	while (str[0][i] && str[0][i] != ' ')
@@ -105,7 +106,9 @@ int	add_arg(char **str, int i, t_pipe_unit *unit, t_mini *mini)
 		}
 		i++;
 	}
-	if (!(create_or_update_args(unit, ft_substr(*str, start, i - start))))
+	tmp = ft_substr(*str, start, i - start);
+	if (!(create_or_update_args(unit, tmp)))
 		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+	free_and_null(&tmp);
 	return (i);
 }
