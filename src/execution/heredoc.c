@@ -33,18 +33,22 @@ static int	handle_heredoc(t_pipe_unit *unit, t_mini *mini)
 {
 	int		fds[2];
 	char	*line;
+	char	*typed_line;
 
 	if (pipe(fds) == -1)
 		return (perror(ERR_PIPE), 0);
 	while (1)
 	{
-		if (write(1, "> ", 2) == -1)
-			return (print_error(ERR_WRITE), close(fds[0]), close(fds[1]), 0);
-		line = get_typed_line(unit, unit->file, mini);
-		if (!line)
+		typed_line = get_typed_line(unit, unit->file, mini);
+		if (!typed_line)
 			break ;
+		line = ft_strjoin(typed_line, "\n");
+		free(typed_line);
+		if (!line)
+			return (close(fds[0]), close(fds[1]),
+				print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE), 0);
 		if (write(fds[1], line, ft_strlen(line)) == -1)
-			return (print_error(ERR_WRITE), free(line), close(fds[0]),
+			return (perror(ERR_WRITE), free(line), close(fds[0]),
 				close(fds[1]), 0);
 		free(line);
 	}
@@ -78,7 +82,7 @@ static char	*get_typed_line(t_pipe_unit *unit, char *delimiter, t_mini *mini)
 	char	*line;
 	int		i;
 
-	line = get_next_line(STDIN_FILENO);
+	line = readline("> ");
 	if (!line)
 		return (NULL);
 	if (is_limiter(line, delimiter))
