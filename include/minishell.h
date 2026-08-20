@@ -149,6 +149,7 @@ int						dup_redirects(t_pipe_unit *units, int i);
 int						dup_saved_fds(int *saved_stdin, int *saved_stdout);
 int						restore_saved_stdin(t_mini *mini);
 int						restore_saved_stdout(t_mini *mini);
+int						is_cmd_empty(t_pipe_unit *cmd);
 
 /* -- BUILT-IN --*/
 int						is_built_in(t_pipe_unit *cmd);

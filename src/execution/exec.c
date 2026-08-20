@@ -13,6 +13,8 @@ int	execute_cmd(t_mini *mini, t_pipe_unit *cmd)
 	char	*cmd_path;
 	int		exit_code;
 
+	if (is_cmd_empty(cmd))
+		cleanup_exit(mini, 0);
 	env_path = get_value_with_key(mini->env, "PATH");
 	if (!env_path || !env_path[0] || ft_strchr(cmd->args[0], '/'))
 	{

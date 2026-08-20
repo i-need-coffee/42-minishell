@@ -20,7 +20,12 @@ void	execute_input(t_mini *mini)
 	if (mini->pipe_nb && !create_pipes(mini))
 		return ;
 	cmd = get_cmd_unit(mini->units, 0);
-	if (cmd && mini->cmd_nb == 1 && is_built_in(cmd))
+	if (mini->cmd_nb == 1 && is_cmd_empty(cmd))
+	{
+		mini->err_num = 0;
+		return ;
+	}
+	if (mini->cmd_nb == 1 && !is_cmd_empty(cmd) && is_built_in(cmd))
 	{
 		mini->err_num = exec_in_parent(mini, cmd);
 		return ;

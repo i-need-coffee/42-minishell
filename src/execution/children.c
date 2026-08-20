@@ -74,7 +74,7 @@ static void	run_child_process(t_mini *mini, int i)
 	cmd = get_cmd_unit(mini->units, i);
 	if (!cmd)
 		cleanup_exit(mini, 0);
-	if (is_built_in(cmd))
+	if (!is_cmd_empty(cmd) && is_built_in(cmd))
 	{
 		exec_error = execute_built_in(mini, cmd);
 		cleanup_exit(mini, exec_error);

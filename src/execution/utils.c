@@ -84,3 +84,10 @@ char	**build_envp_tab(t_env *env)
 	envp[i] = NULL;
 	return (envp);
 }
+
+int	is_cmd_empty(t_pipe_unit *cmd)
+{
+	if (!cmd || !cmd->args || !cmd->args[0] || !cmd->args[0][0])
+		return (1);
+	return (0);
+}
