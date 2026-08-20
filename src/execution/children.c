@@ -16,6 +16,8 @@ int	create_children(t_mini *mini)
 	i = 0;
 	while (i < mini->cmd_nb)
 	{
+		if (mini->pipe_nb && !create_pipe(mini, mini->units, i))
+			return (0);
 		mini->pids[i] = fork();
 		if (mini->pids[i] == -1)
 		{
