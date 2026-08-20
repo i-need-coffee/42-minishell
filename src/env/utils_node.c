@@ -84,7 +84,7 @@ int	add_base_env(t_env **env)
 	if (!pwd)
 		return (0);
 	pwd->key = ft_strdup("PWD");
-	pwd->value = ft_strdup(get_curr_dir());
+	pwd->value = get_curr_dir();
 	if (!pwd->key || !pwd->value)
 		return (free_and_null(&pwd->key), free_and_null(&pwd->value), free(pwd),
 			0);
