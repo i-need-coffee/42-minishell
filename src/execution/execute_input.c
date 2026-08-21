@@ -17,8 +17,6 @@ void	execute_input(t_mini *mini)
 		mini->err_num = 1;
 		return ;
 	}
-	if (mini->pipe_nb && !create_pipes(mini))
-		return ;
 	cmd = get_cmd_unit(mini->units, 0);
 	if (mini->cmd_nb == 1 && is_cmd_empty(cmd))
 	{

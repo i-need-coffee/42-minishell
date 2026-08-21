@@ -43,6 +43,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_bzero(&mini, sizeof(t_mini));
 	mini.saved_stdin = -1;
 	mini.saved_stdout = -1;
+	mini.old_rd_fd = -1;
 	if (!build_env(envp, &mini.env))
 		print_error_and_exit(&mini, ERR_ALLOC, EXIT_FAILURE);
 	signal(SIGQUIT, SIG_IGN);

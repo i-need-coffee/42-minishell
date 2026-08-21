@@ -6,7 +6,7 @@
 #    By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/28 18:50:42 by jturrel           #+#    #+#              #
-#    Updated: 2026/08/18 11:20:11 by sjolliet         ###   ########.fr        #
+#    Updated: 2026/08/21 22:04:13 by sjolliet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,6 @@ SRCS			= \
 	$(SRC_DIR)/execution/execute_input.c \
 	$(SRC_DIR)/execution/heredoc.c \
 	$(SRC_DIR)/execution/utils.c \
-	$(SRC_DIR)/execution/pipes.c \
 	$(SRC_DIR)/execution/children.c \
 	$(SRC_DIR)/execution/files.c \
 	$(SRC_DIR)/execution/exec.c \

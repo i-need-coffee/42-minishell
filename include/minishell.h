@@ -83,6 +83,8 @@ typedef struct s_mini
 	int					cmd_nb;
 	int					saved_stdin;
 	int					saved_stdout;
+	int					fds[2];
+	int					old_rd_fd;
 	t_token				*tokens;
 	t_env				*env;
 	char				**envp;
@@ -138,20 +140,19 @@ t_env					*create_env_node(char *envp_node);
 void					execute_input(t_mini *mini);
 int						execute_heredocs(t_mini *mini);
 void					free_pipe_units(t_pipe_unit **root);
-int						create_pipes(t_mini *mini);
 int						open_files(t_pipe_unit *units, int i);
 int						create_children(t_mini *mini);
 int						execute_cmd(t_mini *mini, t_pipe_unit *cmd);
 void					wait_children(t_mini *mini);
-void					close_all_fds(t_pipe_unit *units);
 t_pipe_unit				*get_cmd_unit(t_pipe_unit *units, int i);
 char					**build_envp_tab(t_env *env);
-int						dup_pipes(t_pipe_unit *units, int i);
 int						dup_redirects(t_pipe_unit *units, int i);
 int						dup_saved_fds(int *saved_stdin, int *saved_stdout);
 int						restore_saved_stdin(t_mini *mini);
 int						restore_saved_stdout(t_mini *mini);
 int						is_cmd_empty(t_pipe_unit *cmd);
+void					close_all_fds(t_mini *mini);
+int						dup_pipes(t_mini *mini, int i);
 
 /* -- BUILT-IN --*/
 int						is_built_in(t_pipe_unit *cmd);

@@ -1,6 +1,7 @@
 #include "minishell.h"
 
 static void	run_child_process(t_mini *mini, int i);
+static int	pipe_and_fork(t_mini *mini, int i);
 
 /*
 **	Forks one child process per command in the pipeline, running each
@@ -16,17 +17,11 @@ int	create_children(t_mini *mini)
 	i = 0;
 	while (i < mini->cmd_nb)
 	{
-		mini->pids[i] = fork();
-		if (mini->pids[i] == -1)
-		{
-			mini->err_num = 1;
-			return (perror(ERR_FORK), 0);
-		}
-		if (mini->pids[i] == 0)
-			run_child_process(mini, i);
+		if (!pipe_and_fork(mini, i))
+			return (0);
 		i++;
 	}
-	close_all_fds(mini->units);
+	close_all_fds(mini);
 	return (1);
 }
 
@@ -56,6 +51,33 @@ void	wait_children(t_mini *mini)
 }
 
 /*
+**	Creates the pipe for command i (if needed) and forks it, running
+**	run_child_process in the child; keeps only the read end for the
+**	next command and closes fds no longer needed in the parent.
+*/
+static int	pipe_and_fork(t_mini *mini, int i)
+{
+	if (mini->pipe_nb && pipe(mini->fds) == -1)
+	{
+		mini->err_num = 1;
+		return (0);
+	}
+	mini->pids[i] = fork();
+	if (mini->pids[i] == -1)
+	{
+		mini->err_num = 1;
+		return (perror(ERR_FORK), 0);
+	}
+	if (mini->pids[i] == 0)
+		run_child_process(mini, i);
+	if (i > 0)
+		safe_close(&mini->old_rd_fd);
+	mini->old_rd_fd = mini->fds[0];
+	safe_close(&mini->fds[1]);
+	return (1);
+}
+
+/*
 **	Sets up a child's redirections/pipes/fds, then runs its command:
 **	a built-in directly, or an external command via execute_cmd.
 */
@@ -66,11 +88,11 @@ static void	run_child_process(t_mini *mini, int i)
 
 	if (!open_files(mini->units, i))
 		cleanup_exit(mini, 1);
-	if (mini->pipe_nb && !dup_pipes(mini->units, i))
+	if (mini->pipe_nb && !dup_pipes(mini, i))
 		cleanup_exit(mini, 1);
 	if (!dup_redirects(mini->units, i))
 		cleanup_exit(mini, 1);
-	close_all_fds(mini->units);
+	close_all_fds(mini);
 	cmd = get_cmd_unit(mini->units, i);
 	if (!cmd)
 		cleanup_exit(mini, 0);
