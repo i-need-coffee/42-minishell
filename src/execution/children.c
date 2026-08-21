@@ -16,10 +16,10 @@ int	create_children(t_mini *mini)
 	i = 0;
 	while (i < mini->cmd_nb)
 	{
-		if (mini->pipe_nb && !create_pipe(mini, i))
+		if (mini->pipe_nb && (pipe(mini->pipe_fds) == -1))
 		{
 			mini->err_num = 1;
-			return (0);
+			return (perror(ERR_PIPE), 0);
 		}
 		mini->pids[i] = fork();
 		if (mini->pids[i] == -1)
@@ -29,9 +29,15 @@ int	create_children(t_mini *mini)
 		}
 		if (mini->pids[i] == 0)
 			run_child_process(mini, i);
+		if (i > 0)
+			safe_close(&mini->old_read_fd);
+		mini->old_read_fd = mini->pipe_fds[0];
+		safe_close(&mini->pipe_fds[1]);
+		mini->pipe_fds[0] = -1;
 		i++;
 	}
 	close_all_fds(mini->units);
+	safe_close(&mini->old_read_fd);
 	return (1);
 }
 
@@ -71,11 +77,14 @@ static void	run_child_process(t_mini *mini, int i)
 
 	if (!open_files(mini->units, i))
 		cleanup_exit(mini, 1);
-	if (mini->pipe_nb && !dup_pipes(mini->units, i))
+	if (mini->pipe_nb && !dup_pipes(mini, mini->units, i))
 		cleanup_exit(mini, 1);
 	if (!dup_redirects(mini->units, i))
 		cleanup_exit(mini, 1);
 	close_all_fds(mini->units);
+	safe_close(&mini->pipe_fds[0]);
+	safe_close(&mini->pipe_fds[1]);
+	safe_close(&mini->old_read_fd);
 	cmd = get_cmd_unit(mini->units, i);
 	if (!cmd)
 		cleanup_exit(mini, 0);

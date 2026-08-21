@@ -3,7 +3,7 @@
 /*
 **	Duplicates command i's pipe fds onto stdin/stdout (PIPE_IN/PIPE_OUT).
 */
-int	dup_pipes(t_pipe_unit *units, int i)
+int	dup_pipes(t_mini *mini, t_pipe_unit *units, int i)
 {
 	while (units && units->cmd_index != i)
 		units = units->next;
@@ -11,13 +11,13 @@ int	dup_pipes(t_pipe_unit *units, int i)
 	{
 		if (units->type == PIPE_IN)
 		{
-			if (dup2(units->fd, STDIN_FILENO) == -1)
-				return (perror(ERR_DUP2), 0);
+			if (dup2(mini->old_read_fd, STDIN_FILENO) == -1)
+				return (perror("STDIN"), 0);
 		}
 		if (units->type == PIPE_OUT)
 		{
-			if (dup2(units->fd, STDOUT_FILENO) == -1)
-				return (perror(ERR_DUP2), 0);
+			if (dup2(mini->pipe_fds[1], STDOUT_FILENO) == -1)
+				return (perror("STDOUT"), 0);
 		}
 		units = units->next;
 	}
