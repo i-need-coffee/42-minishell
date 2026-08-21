@@ -138,7 +138,6 @@ t_env					*create_env_node(char *envp_node);
 void					execute_input(t_mini *mini);
 int						execute_heredocs(t_mini *mini);
 void					free_pipe_units(t_pipe_unit **root);
-int						create_pipes(t_mini *mini);
 int						open_files(t_pipe_unit *units, int i);
 int						create_children(t_mini *mini);
 int						execute_cmd(t_mini *mini, t_pipe_unit *cmd);
@@ -152,7 +151,7 @@ int						dup_saved_fds(int *saved_stdin, int *saved_stdout);
 int						restore_saved_stdin(t_mini *mini);
 int						restore_saved_stdout(t_mini *mini);
 int						is_cmd_empty(t_pipe_unit *cmd);
-int						create_pipe(t_mini *mini, t_pipe_unit *units, int i);
+int						create_pipe(t_mini *mini, int i);
 
 /* -- BUILT-IN --*/
 int						is_built_in(t_pipe_unit *cmd);
