@@ -145,7 +145,6 @@ int						create_children(t_mini *mini);
 int						execute_cmd(t_mini *mini, t_pipe_unit *cmd);
 void					wait_children(t_mini *mini);
 t_pipe_unit				*get_cmd_unit(t_pipe_unit *units, int i);
-char					**build_envp_tab(t_env *env);
 int						dup_redirects(t_pipe_unit *units, int i);
 int						dup_saved_fds(int *saved_stdin, int *saved_stdout);
 int						restore_saved_stdin(t_mini *mini);
@@ -153,6 +152,7 @@ int						restore_saved_stdout(t_mini *mini);
 int						is_cmd_empty(t_pipe_unit *cmd);
 void					close_all_fds(t_mini *mini);
 int						dup_pipes(t_mini *mini, int i);
+void					close_pipe_fds(t_mini *mini);
 
 /* -- BUILT-IN --*/
 int						is_built_in(t_pipe_unit *cmd);

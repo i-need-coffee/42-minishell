@@ -60,7 +60,7 @@ static int	pipe_and_fork(t_mini *mini, int i)
 	if (mini->pipe_nb && pipe(mini->fds) == -1)
 	{
 		mini->err_num = 1;
-		return (0);
+		return (perror(ERR_PIPE), 0);
 	}
 	mini->pids[i] = fork();
 	if (mini->pids[i] == -1)
@@ -70,8 +70,7 @@ static int	pipe_and_fork(t_mini *mini, int i)
 	}
 	if (mini->pids[i] == 0)
 		run_child_process(mini, i);
-	if (i > 0)
-		safe_close(&mini->old_rd_fd);
+	safe_close(&mini->old_rd_fd);
 	mini->old_rd_fd = mini->fds[0];
 	safe_close(&mini->fds[1]);
 	return (1);

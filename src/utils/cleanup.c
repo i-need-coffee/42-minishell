@@ -9,6 +9,7 @@ void	cleanup(t_mini *mini)
 {
 	mini->pipe_nb = 0;
 	mini->cmd_nb = 0;
+	close_pipe_fds(mini);
 	if (mini->tokens)
 		free_tokens(&mini->tokens);
 	if (mini->input)
