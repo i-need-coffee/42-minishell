@@ -3,23 +3,26 @@
 /*
 **	Duplicates command i's pipe fds onto stdin/stdout (PIPE_IN/PIPE_OUT).
 */
-int	dup_pipes(t_pipe_unit *units, int i)
+int	dup_pipes(t_mini *mini, int i)
 {
-	while (units && units->cmd_index != i)
-		units = units->next;
-	while (units && units->cmd_index == i)
+	t_pipe_unit	*curr;
+
+	curr = mini->units;
+	while (curr && curr->cmd_index != i)
+		curr = curr->next;
+	while (curr && curr->cmd_index == i)
 	{
-		if (units->type == PIPE_IN)
+		if (curr->type == PIPE_IN)
 		{
-			if (dup2(units->fd, STDIN_FILENO) == -1)
+			if (dup2(mini->old_rd_fd, STDIN_FILENO) == -1)
 				return (perror(ERR_DUP2), 0);
 		}
-		if (units->type == PIPE_OUT)
+		if (curr->type == PIPE_OUT)
 		{
-			if (dup2(units->fd, STDOUT_FILENO) == -1)
+			if (dup2(mini->fds[1], STDOUT_FILENO) == -1)
 				return (perror(ERR_DUP2), 0);
 		}
-		units = units->next;
+		curr = curr->next;
 	}
 	return (1);
 }

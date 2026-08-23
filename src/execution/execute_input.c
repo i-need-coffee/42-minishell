@@ -1,6 +1,7 @@
 #include "minishell.h"
 
 static void	init_exec_data(t_mini *mini);
+static char	**build_envp_tab(t_env *env);
 static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd);
 
 /*
@@ -18,8 +19,6 @@ void	execute_input(t_mini *mini)
 		return ;
 	}
 	init_signal_child();
-	if (mini->pipe_nb && !create_pipes(mini))
-		return ;
 	cmd = get_cmd_unit(mini->units, 0);
 	if (mini->cmd_nb == 1 && is_cmd_empty(cmd))
 	{
@@ -55,6 +54,38 @@ static void	init_exec_data(t_mini *mini)
 	mini->envp = build_envp_tab(mini->env);
 	if (!mini->envp)
 		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+}
+
+/*
+**	Builds a NULL-terminated "KEY=value" string array from the env
+**	linked list, suitable for passing to execve().
+*/
+static char	**build_envp_tab(t_env *env)
+{
+	char	**envp;
+	char	*temp;
+	int		i;
+	int		env_nodes;
+
+	env_nodes = count_env_nodes(env);
+	envp = malloc((env_nodes + 1) * sizeof(char *));
+	if (!envp)
+		return (NULL);
+	i = 0;
+	while (env)
+	{
+		temp = ft_strjoin(env->key, "=");
+		if (!temp)
+			return (free_char_tab(envp), NULL);
+		envp[i] = ft_strjoin(temp, env->value);
+		free(temp);
+		if (!envp[i])
+			return (free_char_tab(envp), NULL);
+		i++;
+		env = env->next;
+	}
+	envp[i] = NULL;
+	return (envp);
 }
 
 /*

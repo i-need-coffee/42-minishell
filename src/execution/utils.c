@@ -25,15 +25,29 @@ void	free_pipe_units(t_pipe_unit **root)
 }
 
 /*
-**	Closes every unit's fd across the whole pipeline.
+**	Closes every unit's fd across the whole pipeline and in the mini struct.
 */
-void	close_all_fds(t_pipe_unit *units)
+void	close_all_fds(t_mini *mini)
 {
-	while (units)
+	t_pipe_unit	*curr;
+
+	curr = mini->units;
+	while (curr)
 	{
-		safe_close(&units->fd);
-		units = units->next;
+		safe_close(&curr->fd);
+		curr = curr->next;
 	}
+	close_pipe_fds(mini);
+}
+
+/*
+**	Closes fds linked to pipes in the mini struct.
+*/
+void	close_pipe_fds(t_mini *mini)
+{
+	safe_close(&mini->fds[0]);
+	safe_close(&mini->fds[1]);
+	safe_close(&mini->old_rd_fd);
 }
 
 /*
@@ -51,38 +65,6 @@ t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i)
 		units = units->next;
 	}
 	return (NULL);
-}
-
-/*
-**	Builds a NULL-terminated "KEY=value" string array from the env
-**	linked list, suitable for passing to execve().
-*/
-char	**build_envp_tab(t_env *env)
-{
-	char	**envp;
-	char	*temp;
-	int		i;
-	int		env_nodes;
-
-	env_nodes = count_env_nodes(env);
-	envp = malloc((env_nodes + 1) * sizeof(char *));
-	if (!envp)
-		return (NULL);
-	i = 0;
-	while (env)
-	{
-		temp = ft_strjoin(env->key, "=");
-		if (!temp)
-			return (free_char_tab(envp), NULL);
-		envp[i] = ft_strjoin(temp, env->value);
-		free(temp);
-		if (!envp[i])
-			return (free_char_tab(envp), NULL);
-		i++;
-		env = env->next;
-	}
-	envp[i] = NULL;
-	return (envp);
 }
 
 /*
