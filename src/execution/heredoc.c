@@ -12,6 +12,8 @@ int	execute_heredocs(t_mini *mini)
 {
 	t_pipe_unit	*curr;
 
+	signal(SIGINT, signal_handler_heredoc);
+	rl_event_hook = heredoc_event_hook;
 	curr = mini->units;
 	while (curr)
 	{
@@ -22,6 +24,7 @@ int	execute_heredocs(t_mini *mini)
 		}
 		curr = curr->next;
 	}
+	init_signal_prompt();
 	return (1);
 }
 
@@ -37,8 +40,6 @@ static int	handle_heredoc(t_pipe_unit *unit, t_mini *mini)
 
 	if (pipe(fds) == -1)
 		return (perror(ERR_PIPE), 0);
-	signal(SIGINT, signal_handler_heredoc);
-	rl_event_hook = heredoc_event_hook;
 	while (1)
 	{
 		typed_line = get_typed_line(unit, unit->file, mini);

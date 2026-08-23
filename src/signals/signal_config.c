@@ -1,19 +1,9 @@
 #include "minishell.h"
 
-// void	signal_config_sigint(int signb, void (*handler_sigint)(int))
-// {
-// 	struct sigaction	config;
-//
-// 	config.sa_handler = handler_sigint;
-// 	sigemptyset(&config.sa_mask);
-// 	config.sa_flags = 0;
-// 	if (sigaction(signb, &config, NULL) < 0)
-// 		print_error(ERR_SIG);
-// }
-
 void	handler_sigint(int signb)
 {
-	(void)signb;
+	if (signb == SIGINT)
+		set_global_var(SIGINT);
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -30,7 +20,10 @@ void	signal_handler_exec(int signb)
 	if (signb == SIGINT)
 		set_global_var(SIGINT);
 	else if (signb == SIGQUIT)
+	{
 		set_global_var(SIGQUIT);
+		write(STDOUT_FILENO, "Quit (core dumped)", 18);
+	}
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	write(STDOUT_FILENO, "\n", 1);

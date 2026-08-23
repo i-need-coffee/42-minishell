@@ -64,7 +64,6 @@ static void	run_child_process(t_mini *mini, int i)
 	t_pipe_unit	*cmd;
 	int			exec_error;
 
-	signal(SIGQUIT, SIG_DFL);
 	if (!open_files(mini->units, i))
 		cleanup_exit(mini, 1);
 	if (mini->pipe_nb && !dup_pipes(mini->units, i))
