@@ -108,14 +108,14 @@ int	uptade_unit_struct_redir(t_mini *mini, t_token *current, t_unit_type type,
 
 int	parse_redirection_token(t_token *current, t_mini *mini, int cmdi)
 {
-	if (current->next == NULL)
+	if (current->next->type == TOKEN_EOF)
 	{
 		print_error(ERR_REDIR);
 		return (0);
 	}
 	if (current->next->type != TOKEN_WORD)
 	{
-		print_error(ERR_REDIR);
+		error_redir_message(current);
 		return (0);
 	}
 	if (ft_strncmp(current->value, ">>", 2) == 0)

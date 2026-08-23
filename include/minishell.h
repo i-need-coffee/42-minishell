@@ -114,13 +114,15 @@ void					add_word_token(t_mini **mini, int *i);
 void					free_tokens(t_token **root);
 
 /* -- SIGNALS -- */
-void					signal_config_sigquit(int signb,
-							void (*handler_sigquit)(int));
 void					signal_config_sigint(int signb,
 							void (*handler_sigint)(int));
 void					handler_sigint(int signb);
-void					handler_sigquit(int signb);
 void					set_global_var(int signb);
+void					signal_handler_heredoc(int signb);
+void					init_signal_prompt(void);
+void					signal_handler_exec(int signb);
+void					init_signal_child(void);
+int						heredoc_event_hook(void);
 
 /* -- ENVIRONEMENT --*/
 int						build_env(char **envp, t_env **env);
@@ -208,5 +210,6 @@ int						wrapper_coub(char **quote_buffer, char *str, int start,
 							int i);
 int						check_if_expension(char *str, int *i);
 int						quoted_heredoc(t_mini *mini, t_token *current);
+void					error_redir_message(t_token *current);
 
 #endif

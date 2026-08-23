@@ -30,6 +30,7 @@ SRCS			= \
 	$(SRC_DIR)/tokenization/utils.c \
 	$(SRC_DIR)/tokenization/add_word_token.c \
 	$(SRC_DIR)/signals/signal_config.c \
+	$(SRC_DIR)/signals/init.c \
 	$(SRC_DIR)/env/environement.c \
 	$(SRC_DIR)/env/utils_node.c \
 	$(SRC_DIR)/parsing/parsing.c \
@@ -42,6 +43,7 @@ SRCS			= \
 	$(SRC_DIR)/parsing/parse_redirection_token.c \
 	$(SRC_DIR)/parsing/wrapper.c \
 	$(SRC_DIR)/parsing/expension_utils.c \
+	$(SRC_DIR)/parsing/redirection_utils/redir_error.c \
 	$(SRC_DIR)/parsing/redirection_utils/common_redirection_utils.c \
 	$(SRC_DIR)/execution/execute_input.c \
 	$(SRC_DIR)/execution/heredoc.c \
@@ -61,6 +63,7 @@ SRCS			= \
 	$(SRC_DIR)/built-in/export.c \
 	$(SRC_DIR)/built-in/export_one_arg.c \
 	$(SRC_DIR)/built-in/exit_minishell.c
+
 
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

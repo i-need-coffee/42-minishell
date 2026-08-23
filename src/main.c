@@ -6,6 +6,7 @@
 */
 int	process_line(t_mini *mini)
 {
+	init_signal_prompt();
 	mini->input = readline("minishell> ");
 	if (!mini->input)
 		return (0);
@@ -40,13 +41,12 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	init_signal_prompt();
 	ft_bzero(&mini, sizeof(t_mini));
 	mini.saved_stdin = -1;
 	mini.saved_stdout = -1;
 	if (!build_env(envp, &mini.env))
 		print_error_and_exit(&mini, ERR_ALLOC, EXIT_FAILURE);
-	signal(SIGQUIT, SIG_IGN);
-	signal_config_sigint(SIGINT, handler_sigint);
 	while (process_line(&mini))
 		;
 	cleanup_exit(&mini, 0);
