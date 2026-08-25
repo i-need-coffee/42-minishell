@@ -56,5 +56,6 @@ int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
 			print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
 		current = current->next;
 	}
+	g_sig = 0;
 	return (1);
 }
