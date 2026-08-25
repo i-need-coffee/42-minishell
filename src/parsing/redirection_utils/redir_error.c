@@ -22,4 +22,6 @@ void	error_redir_message(t_token *current)
 		print_error(ERR_APPEND);
 	else if (current->next->type == TOKEN_HEREDOC)
 		print_error(ERR_HEREDOC);
+	else if (current->next->type == TOKEN_PIPE)
+		print_error(ERR_SYNTAX_PIPE);
 }
