@@ -46,7 +46,7 @@ static int	add_node_to_env(t_env *env, char *arg)
 	if (!key || !value)
 		return (free(key), free(value), print_error(ERR_ALLOC_EXPORT), 0);
 	node = get_env_node_with_key(&env, key);
-	if (node && (value[0] != '\0'))
+	if (node && ft_strchr(arg, '='))
 	{
 		free_and_null(&node->value);
 		node->value = value;
