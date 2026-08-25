@@ -32,7 +32,7 @@ int	create_or_update_buffer(char **buffer, char *str, int start, int end)
 	}
 	else
 	{
-		if (!(wrapper_update_buffer(*buffer, str, start, buff_len)))
+		if (!(wrapper_update_buffer(buffer, str, start, buff_len)))
 			return (0);
 	}
 	return (1);

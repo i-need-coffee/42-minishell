@@ -1,20 +1,20 @@
 #include "minishell.h"
 
-int	wrapper_update_buffer(char *buffer, char *str, int start, int buff_len)
+int	wrapper_update_buffer(char **buffer, char *str, int start, int buff_len)
 {
 	char	*substr;
 	char	*tmp_buffer;
 
-	tmp_buffer = (char *)malloc(ft_strlen(buffer) + 1);
+	tmp_buffer = (char *)malloc(ft_strlen(*buffer) + 1);
 	if (!tmp_buffer)
 		return (0);
-	ft_strlcpy(tmp_buffer, buffer, (ft_strlen(buffer) + 1));
-	free(buffer);
+	ft_strlcpy(tmp_buffer, *buffer, (ft_strlen(*buffer) + 1));
+	free(*buffer);
 	substr = ft_substr(str, start, buff_len);
 	if (!substr)
 		return (0);
-	buffer = ft_strjoin(tmp_buffer, substr);
-	if (!buffer)
+	*buffer = ft_strjoin(tmp_buffer, substr);
+	if (!*buffer)
 		return (0);
 	free(substr);
 	return (free(tmp_buffer), 1);

@@ -203,7 +203,7 @@ t_pipe_unit				*new_unit_node(int cmdi, t_unit_type type);
 int						wrapper_handle_dollar(char **str, int *i, t_mini *mini);
 int						wrapper_handle_quote(char *str, int *index,
 							t_mini *mini, char **tmp);
-int						wrapper_update_buffer(char *buffer, char *str,
+int						wrapper_update_buffer(char **buffer, char *str,
 							int start, int buff_len);
 int						wrapper_put_value_in_prev(t_pipe_unit **head,
 							t_token *current, t_mini *mini,
