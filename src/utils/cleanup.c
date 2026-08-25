@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+static void	set_mini_values_to_zero(t_mini *mini);
+
 /*
 **	Frees per-iteration data and restores the saved stdin/stdout fds.
 **	Called after each readline iteration; if restoring the fds fails,
@@ -7,9 +9,7 @@
 */
 void	cleanup(t_mini *mini)
 {
-	mini->pipe_nb = 0;
-	mini->heredoc_filename = 0;
-	mini->cmd_nb = 0;
+	set_mini_values_to_zero(mini);
 	close_pipe_fds(mini);
 	if (mini->tokens)
 		free_tokens(&mini->tokens);
@@ -53,4 +53,14 @@ void	free_everthing(t_mini *mini)
 {
 	cleanup(mini);
 	free_env(&mini->env);
+}
+
+/*
+**	Set back some values to 0 in mini on each new line.
+*/
+static void	set_mini_values_to_zero(t_mini *mini)
+{
+	mini->pipe_nb = 0;
+	mini->heredoc_filename = 0;
+	mini->cmd_nb = 0;
 }
