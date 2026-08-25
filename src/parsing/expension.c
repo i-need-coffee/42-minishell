@@ -66,18 +66,20 @@ int	check_key(t_env *temp_env, char *key, int end, char **buffer)
 int	handle_inter_mark(t_mini *mini, char **buffer)
 {
 	char	*tmp;
+	char	*tmp_buf;
 
 	if (g_sig != 0)
 		mini->err_num = 128 + g_sig;
 	tmp = ft_itoa(mini->err_num);
 	if (!tmp)
 		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+	tmp_buf = ft_strdup(*buffer);
 	free_and_null(buffer);
-	*buffer = ft_strdup(tmp);
+	*buffer = ft_strjoin(tmp_buf, tmp);
 	if (!*buffer)
 		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
-	free(tmp);
-	tmp = NULL;
+	free_and_null(&tmp);
+	free_and_null(&tmp_buf);
 	g_sig = 0;
 	return (1);
 }
