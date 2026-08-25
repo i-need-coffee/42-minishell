@@ -6,6 +6,7 @@ int	quoted_heredoc(t_mini *mini, t_token *current)
 
 	if (!(current->type == TOKEN_HEREDOC))
 		return (0);
+	mini->heredoc_filename = 1;
 	current_unit = mini->units;
 	while (current_unit->next)
 	{

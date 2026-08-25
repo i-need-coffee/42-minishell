@@ -52,7 +52,10 @@ int	handle_single_quote(char *str, int i, char **b, t_mini *mini)
 	char	*substr;
 
 	i++;
-	end = check_quote_sanity(str, i, '\'');
+	if (mini->heredoc_filename == 2)
+		end = check_quote_sanity(str, i, '\"');
+	else
+		end = check_quote_sanity(str, i, '\'');
 	if (end == 0)
 		return (0);
 	substr = ft_substr(str, i, end - i);
@@ -66,7 +69,15 @@ int	handle_single_quote(char *str, int i, char **b, t_mini *mini)
 int	handle_quote(char *str, int i, t_mini *mini, char **b)
 {
 	if (str[i] == '\"')
-		i = handle_double_quote(str, i + 1, mini, b);
+	{
+		if (mini->heredoc_filename == 1)
+		{
+			mini->heredoc_filename = 2;
+			i = handle_single_quote(str, i, b, mini);
+		}
+		else
+			i = handle_double_quote(str, i + 1, mini, b);
+	}
 	else
 		i = handle_single_quote(str, i, b, mini);
 	if (i == 0)

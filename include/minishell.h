@@ -81,6 +81,7 @@ typedef struct s_mini
 	int					pipe_nb;
 	int					err_num;
 	int					cmd_nb;
+	int					heredoc_filename;
 	int					saved_stdin;
 	int					saved_stdout;
 	int					fds[2];
