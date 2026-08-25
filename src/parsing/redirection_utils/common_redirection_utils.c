@@ -20,12 +20,40 @@ void	clean_str(char *str)
 	}
 }
 
-int	put_value_in_prev_args(t_pipe_unit *cnode, t_token **current, t_mini *mini)
+void	create_cmd_node(t_pipe_unit *cnode, t_token **current,
+	t_pipe_unit **head, t_mini *mini)
+{
+	t_pipe_unit	*tmp_unit;
+	t_pipe_unit	*tmp_head;
+
+	(void)current;
+	tmp_head = *head;
+	tmp_unit = cnode->prev;
+	if ((tmp_unit))
+	{
+		while (tmp_unit->prev != NULL)
+			tmp_unit = tmp_unit->prev;
+	}
+	tmp_unit = new_unit_node(0, CMD);
+	if (!tmp_unit)
+		print_error_and_exit(mini, ERR_ALLOC, EXIT_FAILURE);
+	tmp_unit->prev = NULL;
+	tmp_unit->next = tmp_head;
+	*head = tmp_unit;
+}
+
+int	put_value_in_prev_args(t_pipe_unit *cnode, t_token **current,
+	t_mini *mini, t_pipe_unit **head)
 {
 	int		i;
 	char	*str;
 
 	i = 0;
+	if (cnode->type != CMD)
+	{
+		create_cmd_node(cnode, current, head, mini);
+		cnode = mini->units;
+	}
 	str = (*current)->value;
 	while (str[i])
 	{

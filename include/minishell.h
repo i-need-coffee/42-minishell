@@ -206,7 +206,7 @@ int						parse_redirection_token(t_token *current, t_mini *mini,
 							int cmdi);
 void					clean_str(char *str);
 int						put_value_in_prev_args(t_pipe_unit *cnode,
-							t_token **current, t_mini *mini);
+							t_token **current, t_mini *mini, t_pipe_unit **head);
 int						replace_str(char **str, char *second_part,
 							int replace_start, int replace_end);
 int						create_redirection_node(t_pipe_unit **head,
