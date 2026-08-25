@@ -119,7 +119,7 @@ static int	is_key_valid(char *key)
 */
 static void	print_export_error(char *arg)
 {
-	write(2, "minishell: export: `", 21);
+	write(2, "minishell: export: `", 20);
 	write(2, arg, ft_strlen(arg));
 	write(2, "': not a valid identifier\n", 26);
 }
