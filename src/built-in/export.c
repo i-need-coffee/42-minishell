@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:11:08 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/08/25 17:11:11 by sjolliet         ###   ########.fr       */
+/*   Updated: 2026/08/29 17:32:07 by shadya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,13 @@ static int	add_node_to_env(t_env *env, char *arg)
 	if (!key || !value)
 		return (free(key), free(value), print_error(ERR_ALLOC_EXPORT), 0);
 	node = get_env_node_with_key(&env, key);
-	if (node && ft_strchr(arg, '='))
+	if (node)
 	{
+		free(key);
+		if (!ft_strchr(arg, '='))
+			return (free(value), 1);
 		free_and_null(&node->value);
 		node->value = value;
-		free(key);
 		return (1);
 	}
 	if (!is_key_valid(key))
@@ -72,8 +74,7 @@ static int	add_node_to_env(t_env *env, char *arg)
 		return (free(key), free(value), print_error(ERR_ALLOC_EXPORT), 0);
 	node->key = key;
 	node->value = value;
-	add_back(&env, node);
-	return (1);
+	return (add_back(&env, node), 1);
 }
 
 /*
