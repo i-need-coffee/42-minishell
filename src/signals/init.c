@@ -6,7 +6,7 @@
 /*   By: jturrel <jturrel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:00:17 by jturrel           #+#    #+#             */
-/*   Updated: 2026/08/25 17:00:18 by jturrel          ###   ########.fr       */
+/*   Updated: 2026/08/30 16:19:13 by jturrel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	init_signal_prompt(void)
 {
 	rl_done = 0;
+	g_sig = 0;
 	rl_event_hook = NULL;
 	signal(SIGINT, handler_sigint);
 	signal(SIGQUIT, SIG_IGN);
