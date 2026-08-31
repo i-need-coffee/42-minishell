@@ -6,7 +6,7 @@
 /*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:10:41 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/08/31 20:26:22 by shadya           ###   ########.fr       */
+/*   Updated: 2026/08/31 23:31:47 by shadya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@ void	execute_input(t_mini *mini)
 		return ;
 	init_signal_child();
 	cmd = get_cmd_unit(mini->units, 0);
-	if (mini->cmd_nb == 1 && is_cmd_empty(cmd))
-	{
-		mini->err_num = 0;
-		return ;
-	}
 	if (mini->cmd_nb == 1 && !is_cmd_empty(cmd) && is_built_in(cmd))
 	{
 		mini->err_num = exec_in_parent(mini, cmd);
