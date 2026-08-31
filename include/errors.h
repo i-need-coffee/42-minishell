@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jturrel <jturrel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:02:54 by jturrel           #+#    #+#             */
-/*   Updated: 2026/08/25 17:02:55 by jturrel          ###   ########.fr       */
+/*   Updated: 2026/08/29 17:55:37 by shadya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@
 # define ERR_EXIT_ARGS_NUM "minishell: exit: too many arguments"
 # define ERR_CMD_NOT_FOUND "command not found"
 # define ERR_IS_A_DIR "is a directory"
+# define ERR_ALLOC_CD "minishell: cd: cannot allocate memory"
 
 #endif
