@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environement.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jturrel <jturrel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 16:58:52 by jturrel           #+#    #+#             */
-/*   Updated: 2026/08/25 17:01:27 by jturrel          ###   ########.fr       */
+/*   Updated: 2026/08/31 20:02:12 by shadya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,25 @@ int	strlen_key(char *envp)
 }
 
 /*
-**	Builds the env list from envp, or from add_base_env if envp is
+**	Builds the env list from envp, or add base env variables if envp is
 **	NULL/empty. Returns 0 on allocation failure.
 */
 int	build_env(char **envp, t_env **env)
 {
 	int		i;
 	t_env	*node;
+	char	*curr_dir;
 
 	if (!envp || !envp[0])
 	{
-		if (!add_base_env(env))
+		curr_dir = get_curr_dir();
+		if (!curr_dir)
 			return (0);
+		if (!add_base_node_to_env(env, "PWD", curr_dir)
+			|| !add_base_node_to_env(env, "OLDPWD", "\0")
+			|| !add_base_node_to_env(env, "SHLVL", "1"))
+			return (free_and_null(&curr_dir), 0);
+		free_and_null(&curr_dir);
 	}
 	i = 0;
 	while (envp[i])

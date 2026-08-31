@@ -6,7 +6,7 @@
 /*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:02:48 by jturrel           #+#    #+#             */
-/*   Updated: 2026/08/29 15:30:42 by shadya           ###   ########.fr       */
+/*   Updated: 2026/08/31 20:01:25 by shadya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,9 @@ void					free_env(t_env **root);
 char					*get_value_with_key(t_env *env, char *key);
 int						count_env_nodes(t_env *env);
 t_env					*get_env_node_with_key(t_env **root, char *key);
-int						add_base_env(t_env **env);
 t_env					*create_env_node(char *envp_node);
+int						add_base_node_to_env(t_env **env,
+							char *key, char *value);
 
 /* -- EXECUTION --*/
 void					execute_input(t_mini *mini);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_node.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jturrel <jturrel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 16:59:17 by jturrel           #+#    #+#             */
-/*   Updated: 2026/08/25 17:01:32 by jturrel          ###   ########.fr       */
+/*   Updated: 2026/08/31 19:54:51 by shadya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,30 +85,19 @@ int	count_env_nodes(t_env *env)
 }
 
 /*
-**	Adds default PWD and SHLVL=1 nodes to env, used when envp is empty.
+**	Creates a new node with key/value and appends it to the env list.
 */
-int	add_base_env(t_env **env)
+int	add_base_node_to_env(t_env **env, char *key, char *value)
 {
-	t_env	*pwd;
-	t_env	*shlvl;
+	t_env	*node;
 
-	pwd = new_node();
-	if (!pwd)
+	node = new_node();
+	if (!node)
 		return (0);
-	pwd->key = ft_strdup("PWD");
-	pwd->value = get_curr_dir();
-	if (!pwd->key || !pwd->value)
-		return (free_and_null(&pwd->key), free_and_null(&pwd->value), free(pwd),
-			0);
-	add_back(env, pwd);
-	shlvl = new_node();
-	if (!shlvl)
-		return (0);
-	shlvl->key = ft_strdup("SHLVL");
-	shlvl->value = ft_strdup("1");
-	if (!shlvl->key || !shlvl->value)
-		return (free_and_null(&shlvl->key), free_and_null(&shlvl->value),
-			free(shlvl), 0);
-	add_back(env, shlvl);
+	node->key = ft_strdup(key);
+	node->value = ft_strdup(value);
+	if (!node->value || !node->key)
+		return (free(node->key), free(node->value), free(node), 0);
+	add_back(env, node);
 	return (1);
 }
