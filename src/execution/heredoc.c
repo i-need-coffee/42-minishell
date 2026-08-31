@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:10:46 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/08/25 17:10:47 by sjolliet         ###   ########.fr       */
+/*   Updated: 2026/08/31 20:34:13 by shadya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static char	*get_typed_line(t_pipe_unit *unit, char *delimiter, t_mini *mini);
 /*
 **	Processes every HEREDOC unit in the pipeline, reading its content
 **	from stdin before the commands are executed.
+**	The int returned here is the result of the heredoc execution (exit code)
 */
 int	execute_heredocs(t_mini *mini)
 {
@@ -32,12 +33,14 @@ int	execute_heredocs(t_mini *mini)
 		if (curr->type == HEREDOC)
 		{
 			if (!handle_heredoc(curr, mini))
-				return (0);
+				return (1);
+			if (g_sig == SIGINT)
+				return (128 + SIGINT);
 		}
 		curr = curr->next;
 	}
 	init_signal_prompt();
-	return (1);
+	return (0);
 }
 
 /*
