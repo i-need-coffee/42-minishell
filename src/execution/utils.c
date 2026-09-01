@@ -6,7 +6,7 @@
 /*   By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:10:48 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/08/25 17:10:50 by sjolliet         ###   ########.fr       */
+/*   Updated: 2026/09/01 17:22:28 by sjolliet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_pipe_unit	*get_cmd_unit(t_pipe_unit *units, int i)
 */
 int	is_cmd_empty(t_pipe_unit *cmd)
 {
-	if (!cmd || !cmd->args || !cmd->args[0] || !cmd->args[0][0])
+	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);
 	return (0);
 }

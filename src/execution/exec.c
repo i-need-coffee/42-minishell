@@ -6,7 +6,7 @@
 /*   By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:10:37 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/08/25 17:10:40 by sjolliet         ###   ########.fr       */
+/*   Updated: 2026/09/01 17:27:34 by sjolliet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ static char	*get_cmd_path(char *env_path, char *cmd_arg)
 */
 static int	print_exec_error(char *cmd, int error)
 {
-	if (error == ENOENT && !ft_strchr(cmd, '/'))
+	if ((error == ENOENT && !ft_strchr(cmd, '/')) || cmd[0] == '\0')
 		print_error3("minishell", cmd, ERR_CMD_NOT_FOUND);
 	else if (error == EACCES && cmd[0] == '/')
 		print_error3("minishell", cmd, ERR_IS_A_DIR);
 	else
 		print_error3("minishell", cmd, strerror(error));
-	if (error == ENOENT)
+	if (error == ENOENT || cmd[0] == '\0')
 		return (127);
 	else
 		return (126);
