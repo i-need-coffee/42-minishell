@@ -75,7 +75,7 @@ int	wrapper_put_value_in_prev(t_pipe_unit **head, t_token *current,
 
 int	wrapper_coub(char **quote_buffer, char *str, int start, int i)
 {
-	if (start < i)
+	if (start <= i)
 	{
 		if ((create_or_update_buffer(quote_buffer, str, start, i)) == 0)
 			return (0);
@@ -88,10 +88,11 @@ int	wrapper_handle_dollar(char **str, int *i, t_mini *mini)
 	int		start;
 	char	*tmp;
 
+	tmp = NULL;
 	if (check_if_expension(*str, i))
 	{
 		(*i)++;
-		return (1);
+		return (0);
 	}
 	start = *i;
 	*i = handle_dollar(*str, *(i), mini, &tmp);

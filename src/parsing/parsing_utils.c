@@ -56,8 +56,6 @@ int	create_or_update_args(t_pipe_unit *unit, char *buffer)
 	int		n;
 	int		i;
 
-	if (buffer[0] == '\0')
-		return (1);
 	n = 0;
 	if (unit->args)
 		while (unit->args[n])

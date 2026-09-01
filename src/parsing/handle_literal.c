@@ -113,7 +113,8 @@ int	add_arg(char **str, int i, t_pipe_unit *unit, t_mini *mini)
 		}
 		if (str[0][i] == '$')
 		{
-			wrapper_handle_dollar(str, &i, mini);
+			if (!wrapper_handle_dollar(str, &i, mini))
+				return (i) ;
 			continue ;
 		}
 		i++;
