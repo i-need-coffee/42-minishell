@@ -87,12 +87,16 @@ int	wrapper_handle_dollar(char **str, int *i, t_mini *mini)
 {
 	int		start;
 	char	*tmp;
+	int		flag;
 
 	tmp = NULL;
-	if (check_if_expension(*str, i))
+	flag = check_if_expension(*str, i);
+	if (flag > 0)
 	{
 		(*i)++;
-		return (0);
+		if (flag == 2)
+			return (0);
+		return (1);
 	}
 	start = *i;
 	*i = handle_dollar(*str, *(i), mini, &tmp);
