@@ -62,7 +62,7 @@ int	check_more(char *str, int start)
 		{
 			if (str[start + 1] == '\"')
 			{
-				if (str[start - 1] == '$')
+				if ((start - 1) >= 0 && str[start - 1] == '$')
 					return (1);
 				return (2);
 			}
