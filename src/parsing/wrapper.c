@@ -99,6 +99,8 @@ int	wrapper_handle_dollar(char **str, int *i, t_mini *mini)
 		return (1);
 	}
 	start = *i;
+	if ((*str)[*i + 1] == 0)
+		return (1);
 	*i = handle_dollar(*str, *(i), mini, &tmp);
 	*i = replace_str(str, tmp, start, *(i));
 	if (*i == -1)
