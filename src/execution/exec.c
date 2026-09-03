@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:10:37 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/09/01 17:27:34 by sjolliet         ###   ########.fr       */
+/*   Updated: 2026/09/03 09:53:54 by shadya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char	*get_cmd_path(char *env_path, char *cmd);
-static int	print_exec_error(char *cmd, int error);
+static int	print_exec_error(char *cmd, char *path, int error);
 
 /*
 **	Executes an external command: runs it directly if it contains a
@@ -32,7 +32,7 @@ int	execute_cmd(t_mini *mini, t_pipe_unit *cmd)
 	{
 		if (execve(cmd->args[0], cmd->args, mini->envp) == -1)
 		{
-			exit_code = print_exec_error(cmd->args[0], errno);
+			exit_code = print_exec_error(cmd->args[0], cmd->args[0], errno);
 			return (exit_code);
 		}
 	}
@@ -41,8 +41,8 @@ int	execute_cmd(t_mini *mini, t_pipe_unit *cmd)
 		return (perror(ERR_ALLOC), 1);
 	if (execve(cmd_path, cmd->args, mini->envp) == -1)
 	{
+		exit_code = print_exec_error(cmd->args[0], cmd_path, errno);
 		free(cmd_path);
-		exit_code = print_exec_error(cmd->args[0], errno);
 		return (exit_code);
 	}
 	return (0);
@@ -84,15 +84,26 @@ static char	*get_cmd_path(char *env_path, char *cmd_arg)
 **	Prints the appropriate error message for a failed execve() and
 **	returns the matching shell exit code (127 or 126).
 */
-static int	print_exec_error(char *cmd, int error)
+static int	print_exec_error(char *cmd, char *path, int error)
 {
-	if ((error == ENOENT && !ft_strchr(cmd, '/')) || cmd[0] == '\0')
+	if (ft_strcmp(cmd, ".") || ft_strcmp(cmd, ".."))
+		error = ENOENT;
+	if (ft_strchr(cmd, '/'))
+	{
+		if (access(path, F_OK) != 0)
+			error = ENOENT;
+		else if (access(path, X_OK) != 0)
+			error = EACCES;
+		else
+			error = EISDIR;
+	}
+	if (error == ENOENT && !ft_strchr(cmd, '/'))
 		print_error3("minishell", cmd, ERR_CMD_NOT_FOUND);
-	else if (error == EACCES && cmd[0] == '/')
+	else if (error == EISDIR)
 		print_error3("minishell", cmd, ERR_IS_A_DIR);
 	else
 		print_error3("minishell", cmd, strerror(error));
-	if (error == ENOENT || cmd[0] == '\0')
+	if (error == ENOENT)
 		return (127);
 	else
 		return (126);
