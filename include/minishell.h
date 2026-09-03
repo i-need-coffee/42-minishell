@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:02:48 by jturrel           #+#    #+#             */
-/*   Updated: 2026/08/31 20:01:25 by shadya           ###   ########.fr       */
+/*   Updated: 2026/09/03 14:10:08 by sjolliet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ int						cd(t_env *env, char **args);
 int						count_args(char **args);
 int						env(char **envp, char **args);
 int						unset(t_env **root, char **args);
-int						export(t_env *env, char **args);
+int						export(t_env **env, char **args);
 void					sort_env_nodes(t_env **root);
 int						print_env_nodes(t_env **root);
 char					*get_curr_dir(void);

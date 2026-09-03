@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:11:04 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/08/25 17:11:05 by sjolliet         ###   ########.fr       */
+/*   Updated: 2026/09/03 10:22:28 by shadya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,13 @@ static int	is_numeric_arg(char *arg);
 */
 int	exit_minishell(t_mini *mini, char **args)
 {
-	int			i;
 	long long	nb;
 
 	if (count_args(args) > 1)
 	{
 		if (!check_errors(mini, args))
 			return (1);
-		i = 0;
-		while (args[1][i] && args[1][i] == '0')
-			i++;
-		if (i == (int)ft_strlen(args[1]))
+		if (ft_str_is_zero(args[1]))
 		{
 			if (mini->pipe_nb == 0)
 				printf("exit\n");
@@ -81,12 +77,8 @@ static int	check_errors(t_mini *mini, char **args)
 static int	is_numeric_arg(char *arg)
 {
 	long long	nb;
-	int			i;
 
-	i = 0;
-	while (arg[i] && arg[i] == '0')
-		i++;
-	if (i == (int)ft_strlen(arg))
+	if (ft_str_is_zero(arg))
 		return (1);
 	nb = ft_str_to_lld(arg);
 	if (nb == 0)
