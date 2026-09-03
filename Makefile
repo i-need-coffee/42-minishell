@@ -6,15 +6,14 @@
 #    By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/28 18:50:42 by jturrel           #+#    #+#              #
-#    Updated: 2026/09/03 14:14:07 by sjolliet         ###   ########.fr        #
+#    Updated: 2026/09/03 14:50:12 by sjolliet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			= minishell
 
 CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -g -Iinclude -Ilibft/include
-#CFLAGS			= -Wall -Wextra -Werror -g -fsanitize=address -Iinclude -Ilibft/include
+CFLAGS			= -Wall -Wextra -Werror -g -fsanitize=address -Iinclude -Ilibft/include
 
 LIBFT_DIR		= libft
 LIBFT			= $(LIBFT_DIR)/libft.a
