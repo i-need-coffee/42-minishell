@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:11:08 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/08/29 17:32:07 by shadya           ###   ########.fr       */
+/*   Updated: 2026/09/03 14:10:35 by sjolliet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	add_node_to_env(t_env *env, char *arg);
+static int	add_node_to_env(t_env **env, char *arg);
 static void	set_values(char *arg, char **key, char **value);
 static int	is_key_valid(char *key);
 static void	print_export_error(char *arg);
@@ -21,7 +21,7 @@ static void	print_export_error(char *arg);
 **	With no args, prints all env vars in "declare -x" format; otherwise
 **	adds/updates each KEY[=value] arg in env.
 */
-int	export(t_env *env, char **args)
+int	export(t_env **env, char **args)
 {
 	int	i;
 	int	exit_code;
@@ -29,8 +29,8 @@ int	export(t_env *env, char **args)
 	exit_code = 0;
 	if (count_args(args) == 1)
 	{
-		sort_env_nodes(&env);
-		if (!print_env_nodes(&env))
+		sort_env_nodes(env);
+		if (!print_env_nodes(env))
 			exit_code = 1;
 		return (exit_code);
 	}
@@ -48,7 +48,7 @@ int	export(t_env *env, char **args)
 **	Parses arg into a key/value pair and either updates the matching
 **	env node or appends a new one.
 */
-static int	add_node_to_env(t_env *env, char *arg)
+static int	add_node_to_env(t_env **env, char *arg)
 {
 	char	*key;
 	char	*value;
@@ -57,7 +57,7 @@ static int	add_node_to_env(t_env *env, char *arg)
 	set_values(arg, &key, &value);
 	if (!key || !value)
 		return (free(key), free(value), print_error(ERR_ALLOC_EXPORT), 0);
-	node = get_env_node_with_key(&env, key);
+	node = get_env_node_with_key(env, key);
 	if (node)
 	{
 		free(key);
@@ -74,7 +74,7 @@ static int	add_node_to_env(t_env *env, char *arg)
 		return (free(key), free(value), print_error(ERR_ALLOC_EXPORT), 0);
 	node->key = key;
 	node->value = value;
-	return (add_back(&env, node), 1);
+	return (add_back(env, node), 1);
 }
 
 /*

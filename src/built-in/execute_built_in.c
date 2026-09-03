@@ -6,7 +6,7 @@
 /*   By: sjolliet <sjolliet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:11:01 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/08/25 17:11:03 by sjolliet         ###   ########.fr       */
+/*   Updated: 2026/09/03 14:09:39 by sjolliet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	execute_built_in(t_mini *mini, t_pipe_unit *cmd)
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		exec_result = unset(&mini->env, cmd->args);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
-		exec_result = export(mini->env, cmd->args);
+		exec_result = export(&mini->env, cmd->args);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		exec_result = exit_minishell(mini, cmd->args);
 	return (exec_result);
