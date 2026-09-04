@@ -6,7 +6,7 @@
 /*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:10:41 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/08/31 23:31:47 by shadya           ###   ########.fr       */
+/*   Updated: 2026/09/04 13:41:00 by shadya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,15 @@ static int	exec_in_parent(t_mini *mini, t_pipe_unit *cmd);
 void	execute_input(t_mini *mini)
 {
 	t_pipe_unit	*cmd;
+	int			exec_res;
 
 	init_exec_data(mini);
-	mini->err_num = execute_heredocs(mini);
-	if (mini->err_num != 0)
+	exec_res = execute_heredocs(mini);
+	if (exec_res != 0)
+	{
+		mini->err_num = exec_res;
 		return ;
+	}
 	init_signal_child();
 	cmd = get_cmd_unit(mini->units, 0);
 	if (mini->cmd_nb == 1 && !is_cmd_empty(cmd) && is_built_in(cmd))

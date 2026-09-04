@@ -6,7 +6,7 @@
 /*   By: shadya <shadya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 17:11:04 by sjolliet          #+#    #+#             */
-/*   Updated: 2026/09/03 10:22:28 by shadya           ###   ########.fr       */
+/*   Updated: 2026/09/04 13:39:04 by shadya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	exit_minishell(t_mini *mini, char **args)
 	}
 	if (mini->pipe_nb == 0)
 		printf("exit\n");
-	cleanup_exit(mini, 0);
+	cleanup_exit(mini, mini->err_num);
 	return (0);
 }
 
