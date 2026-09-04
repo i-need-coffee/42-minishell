@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/*
+**	Appends buff_len characters from str starting at start to the
+**	existing *buffer, reallocating it. Returns 1 on success, 0 on
+**	allocation failure.
+*/
 int	wrapper_update_buffer(char **buffer, char *str, int start, int buff_len)
 {
 	char	*substr;
@@ -32,6 +37,11 @@ int	wrapper_update_buffer(char **buffer, char *str, int start, int buff_len)
 	return (free(tmp_buffer), 1);
 }
 
+/*
+**	Resolves the quoted section of str at *index into *tmp via
+**	handle_quote, and advances *index to the matching closing quote.
+**	Prints an error and returns 0 on failure, 1 on success.
+*/
 int	wrapper_handle_quote(char *str, int *index, t_mini *mini, char **tmp)
 {
 	int	i;
@@ -48,6 +58,12 @@ int	wrapper_handle_quote(char *str, int *index, t_mini *mini, char **tmp)
 	return (1);
 }
 
+/*
+**	If current's next token still has leftover text, ensures a CMD unit
+**	exists before current_node (creating one if needed), moves the text
+**	into its args, and clears the token's value. Returns 1 on success, 0
+**	on failure.
+*/
 int	wrapper_put_value_in_prev(t_pipe_unit **head, t_token *current,
 		t_mini *mini, t_pipe_unit *current_node)
 {
@@ -73,6 +89,11 @@ int	wrapper_put_value_in_prev(t_pipe_unit **head, t_token *current,
 	return (1);
 }
 
+/*
+**	Appends str[start:i] to *quote_buffer via create_or_update_buffer,
+**	if start is at or before i. Returns 1 on success (including the
+**	no-op case), 0 on allocation failure.
+*/
 int	wrapper_coub(char **quote_buffer, char *str, int start, int i)
 {
 	if (start <= i)
@@ -83,6 +104,12 @@ int	wrapper_coub(char **quote_buffer, char *str, int start, int i)
 	return (1);
 }
 
+/*
+**	Handles the '$' at *i in *str: skips it if check_if_expension says
+**	it is not a valid expansion, otherwise expands the variable
+**	reference and splices the result back into *str, updating *i. Exits
+**	on allocation failure.
+*/
 int	wrapper_handle_dollar(char **str, int *i, t_mini *mini)
 {
 	int		start;

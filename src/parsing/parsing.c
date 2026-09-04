@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+/*
+**	Dispatches current to parse_word_token or parse_pipe_token depending
+**	on its token type. Returns 1 on success, 0 on failure.
+*/
 int	parse_tokens_word_or_pipe(t_mini *mini, t_token *current, int *cmdi,
 		t_pipe_unit **unit)
 {
@@ -28,6 +32,11 @@ int	parse_tokens_word_or_pipe(t_mini *mini, t_token *current, int *cmdi,
 	return (1);
 }
 
+/*
+**	If current is a redirection token, parses it via
+**	parse_redirection_token and sets mini->err_num on failure. Returns 1
+**	on success, 0 on failure.
+*/
 int	parse_tokens_redirection(t_mini *mini, t_token *current,
 		int cmdi)
 {
@@ -43,6 +52,11 @@ int	parse_tokens_redirection(t_mini *mini, t_token *current,
 	return (1);
 }
 
+/*
+**	Walks mini's token list, parsing each word, pipe and redirection
+**	token into unit, and skipping empty word tokens. Returns 1 on
+**	success, 0 on syntax or allocation error.
+*/
 int	parse_tokens(t_mini *mini, t_pipe_unit **unit)
 {
 	t_token	*current;

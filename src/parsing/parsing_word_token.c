@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/*
+**	Adds a CMD unit for cmdi and splits current's value into arguments,
+**	resolving quotes and expansions, appending each to the unit's args.
+**	Returns 1 on success, 0 on failure.
+*/
 int	parse_word_token(t_pipe_unit **head, t_token *current, t_mini *mini,
 		int cmdi)
 {

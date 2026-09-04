@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+/*
+**	Prints the syntax error message matching the type of the token
+**	right after current's redirection operator.
+*/
 void	error_redir_message(t_token *current)
 {
 	if (current->next->type == TOKEN_REDIR_OUT)

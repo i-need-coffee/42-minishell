@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/*
+**	Resets *start to *i after an expansion inside a quoted string, so
+**	the next literal segment starts from the right position. Always
+**	returns 1.
+*/
 int	increment(int *start, int *i, int *end)
 {
 	*start = *i;
@@ -20,6 +25,9 @@ int	increment(int *start, int *i, int *end)
 	return (1);
 }
 
+/*
+**	Duplicates *quote_buffer into *b and frees *quote_buffer.
+*/
 int	dup_and_free(char **b, char **quote_buffer)
 {
 	if (!*quote_buffer)
@@ -29,6 +37,11 @@ int	dup_and_free(char **b, char **quote_buffer)
 	return (0);
 }
 
+/*
+**	Parses a double-quoted string starting at i, expanding any variable
+**	references inside it, and stores the result in *b. Returns the
+**	index just past the closing quote, or 0 if unterminated.
+*/
 int	handle_double_quote(char *str, int i, t_mini *mini, char **b)
 {
 	int		start;
@@ -58,6 +71,12 @@ int	handle_double_quote(char *str, int i, t_mini *mini, char **b)
 	return (end + 1);
 }
 
+/*
+**	Extracts the literal content of a single-quoted string (or a
+**	double-quoted one, when reading a quoted heredoc delimiter) into *b
+**	with no expansion. Returns the index past the closing quote, or 0
+**	if unterminated.
+*/
 int	handle_single_quote(char *str, int i, char **b, t_mini *mini)
 {
 	int		end;
@@ -78,6 +97,11 @@ int	handle_single_quote(char *str, int i, char **b, t_mini *mini)
 	return (end);
 }
 
+/*
+**	Dispatches to handle_single_quote or handle_double_quote depending
+**	on the quote character at str[i] and the current heredoc-parsing
+**	state. Returns 0 on failure, or the index past the closing quote.
+*/
 int	handle_quote(char *str, int i, t_mini *mini, char **b)
 {
 	if (str[i] == '\"')

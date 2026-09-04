@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+/*
+**	Validates that the pipe token at current is syntactically correct,
+**	then closes the previous command with a PIPE_OUT unit and opens the
+**	next one with a PIPE_IN unit, advancing *cmdi. Returns 1 on success,
+**	0 on syntax error.
+*/
 int	parse_pipe_token(t_pipe_unit **unit, t_token *current, int *cmdi,
 		t_mini *mini)
 {

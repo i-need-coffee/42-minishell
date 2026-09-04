@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/*
+**	Splits *str at index i: returns the prefix as a newly allocated
+**	string and stores the suffix into *next_value, replacing its
+**	previous content. Exits on allocation failure.
+*/
 char	*put_rest_on_value(char **str, int i, char **next_value, t_mini *mini)
 {
 	char	*rest;
@@ -35,6 +40,11 @@ char	*put_rest_on_value(char **str, int i, char **next_value, t_mini *mini)
 	return (substr);
 }
 
+/*
+**	Resolves the quoted section of *str at *i, replacing it in place
+**	with its unquoted content, and updates *i accordingly. Returns 1 on
+**	success, 0 on failure.
+*/
 int	quote_part(char **str, int *i, t_mini *mini)
 {
 	char	*substr;
@@ -60,6 +70,11 @@ int	quote_part(char **str, int *i, t_mini *mini)
 	return (1);
 }
 
+/*
+**	Scans *str for the redirection target, resolving quotes and (unless
+**	this is a heredoc) variable expansions, up to the first unquoted
+**	space. Returns the resolved filename, or NULL on failure.
+*/
 char	*get_file_name(t_mini *mini, char **next_value, char **str,
 		t_token *current)
 {
@@ -88,6 +103,12 @@ char	*get_file_name(t_mini *mini, char **next_value, char **str,
 	return (substr);
 }
 
+/*
+**	Adds a redirection unit of type to the command list for cmdi,
+**	resolves its target filename from the token after current, and
+**	attaches the result (plus any leftover arguments) to the right
+**	command. Returns 1 on success, 0 on failure.
+*/
 int	uptade_unit_struct_redir(t_mini *mini, t_token *current, t_unit_type type,
 		int cmdi)
 {
@@ -118,6 +139,11 @@ int	uptade_unit_struct_redir(t_mini *mini, t_token *current, t_unit_type type,
 	return (free_and_null(&str), 1);
 }
 
+/*
+**	Validates the token following the redirection operator at current,
+**	then dispatches to uptade_unit_struct_redir with the matching
+**	redirection type. Returns 1 on success, 0 on syntax error.
+*/
 int	parse_redirection_token(t_token *current, t_mini *mini, int cmdi)
 {
 	if (current->next->type == TOKEN_EOF)

@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+/*
+**	Expands the "$..." sequence in str starting at index i into a newly
+**	allocated string stored in *b, and returns the index just past it.
+*/
 int	handle_dollar(char *str, int i, t_mini *mini, char **b)
 {
 	char	*buffer;
@@ -28,6 +32,10 @@ int	handle_dollar(char *str, int i, t_mini *mini, char **b)
 	return (i);
 }
 
+/*
+**	Appends temp_env's value to *buffer, using tmp_buffer as a scratch
+**	copy of the previous content. Returns 1 on success, 0 on failure.
+*/
 int	cmp_key(char **buffer, char *tmp_buffer, t_env *temp_env)
 {
 	ft_strlcpy(tmp_buffer, *buffer, (ft_strlen(*buffer) + 1));
@@ -41,6 +49,11 @@ int	cmp_key(char **buffer, char *tmp_buffer, t_env *temp_env)
 	return (1);
 }
 
+/*
+**	Searches temp_env for a node whose key matches key and, if found,
+**	appends its value to *buffer. Returns end on match, 1 if the
+**	variable is unset, or 0 on allocation failure.
+*/
 int	check_key(t_env *temp_env, char *key, int end, char **buffer)
 {
 	char	*tmp_buffer;
@@ -63,6 +76,10 @@ int	check_key(t_env *temp_env, char *key, int end, char **buffer)
 	return (1);
 }
 
+/*
+**	Expands "$?" by appending the last exit status (or signal-adjusted
+**	status) to *buffer. Always returns 1.
+*/
 int	handle_inter_mark(t_mini *mini, char **buffer)
 {
 	char	*tmp;
@@ -84,6 +101,11 @@ int	handle_inter_mark(t_mini *mini, char **buffer)
 	return (1);
 }
 
+/*
+**	Expands the environment variable reference starting right after the
+**	'$' at index i, appending its value to *buffer. Returns the index
+**	just past the variable name.
+*/
 int	expension(char *str, int i, t_mini *mini, char **buffer)
 {
 	int		end;

@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/*
+**	Builds and returns a new string made of str's prefix up to
+**	replace_start joined with second_part. Returns NULL on allocation
+**	failure.
+*/
 char	*built_first_part(char *str, char *second_part, int replace_start)
 {
 	char	*first_part;
@@ -30,6 +35,10 @@ char	*built_first_part(char *str, char *second_part, int replace_start)
 	return (tmp);
 }
 
+/*
+**	Builds and returns a new string made of tmp joined with str's suffix
+**	starting at replace_end. Returns NULL on allocation failure.
+*/
 char	*built_last_part(char *str, char *tmp, int replace_end)
 {
 	char	*last_part;
@@ -48,6 +57,11 @@ char	*built_last_part(char *str, char *tmp, int replace_end)
 	return (joined_args);
 }
 
+/*
+**	Replaces the [replace_start, replace_end) slice of *str with
+**	second_part, reallocating *str in place. Returns the length of the
+**	new prefix (up to and including the replacement), or -1 on failure.
+*/
 int	replace_str(char **str, char *second_part, int replace_start,
 		int replace_end)
 {
@@ -78,6 +92,11 @@ int	replace_str(char **str, char *second_part, int replace_start,
 	return (ret);
 }
 
+/*
+**	Resolves the quoted section of *str starting at *i and replaces it
+**	in place with its unquoted (and expanded) content. Updates *i to the
+**	index just past the replacement, exiting on allocation failure.
+*/
 int	replace_quote_part(char **str, int *i, t_mini *mini)
 {
 	char	*tmp;
@@ -97,6 +116,11 @@ int	replace_quote_part(char **str, int *i, t_mini *mini)
 	return (*i);
 }
 
+/*
+**	Parses one space-delimited argument from *str starting at i,
+**	resolving quotes and expansions in place, then appends it to unit's
+**	args. Returns the index just past the argument, or -1 on failure.
+*/
 int	add_arg(char **str, int i, t_pipe_unit *unit, t_mini *mini)
 {
 	int		start;

@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/*
+**	Allocates *buffer, if not already allocated, and fills it with
+**	buff_len characters from str starting at start. Returns 1 on
+**	success, 0 on allocation failure.
+*/
 int	wrapper_create_buffer(char **buffer, char *str, int start, int buff_len)
 {
 	char	*substr;
@@ -32,6 +37,10 @@ int	wrapper_create_buffer(char **buffer, char *str, int start, int buff_len)
 	return (1);
 }
 
+/*
+**	Allocates *buffer if it is NULL, or appends to it otherwise, copying
+**	str[start:end] in either case. Returns 1 on success, 0 on failure.
+*/
 int	create_or_update_buffer(char **buffer, char *str, int start, int end)
 {
 	int	buff_len;
@@ -50,6 +59,10 @@ int	create_or_update_buffer(char **buffer, char *str, int start, int end)
 	return (1);
 }
 
+/*
+**	Appends a duplicate of buffer to unit's args array, growing it by
+**	one element. Returns 1 on success, 0 on allocation failure.
+*/
 int	create_or_update_args(t_pipe_unit *unit, char *buffer)
 {
 	char	**new_args;
@@ -76,6 +89,10 @@ int	create_or_update_args(t_pipe_unit *unit, char *buffer)
 	return (1);
 }
 
+/*
+**	Allocates and initializes a new t_pipe_unit of the given type,
+**	bound to command index cmdi. Returns NULL on allocation failure.
+*/
 t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)
 {
 	t_pipe_unit	*new_token;
@@ -94,6 +111,11 @@ t_pipe_unit	*new_unit_node(int cmdi, t_unit_type type)
 	return (new_token);
 }
 
+/*
+**	Appends a new unit node of type type to the list at head, creating
+**	the list if it is empty. Returns 1 on success, 0 on allocation
+**	failure.
+*/
 int	create_or_update_unit_struct(t_pipe_unit **head, int cmdi,
 		t_unit_type type)
 {

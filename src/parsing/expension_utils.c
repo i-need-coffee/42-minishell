@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+/*
+**	If current is a heredoc token, flags the last pipe unit as having a
+**	quoted heredoc delimiter. Returns 1 if applied, 0 otherwise.
+*/
 int	quoted_heredoc(t_mini *mini, t_token *current)
 {
 	t_pipe_unit	*current_unit;
@@ -28,6 +32,10 @@ int	quoted_heredoc(t_mini *mini, t_token *current)
 	return (1);
 }
 
+/*
+**	Advances *i over a run of consecutive '$' characters, leaving it on
+**	the last one. Returns 1 if the run has an odd length, 0 otherwise.
+*/
 int	check_dollar_sign_number(char *str, int *i)
 {
 	int	dollar_num;
@@ -50,6 +58,11 @@ int	check_dollar_sign_number(char *str, int *i)
 	return (0);
 }
 
+/*
+**	Checks whether the character following str[start] can start a
+**	variable name. Returns 0 if it can (expansion applies), 1 if the
+**	'$' is literal, or 2 for a literal '$' immediately before a quote.
+*/
 int	check_more(char *str, int start)
 {
 	if (str[start + 1])
@@ -73,6 +86,11 @@ int	check_more(char *str, int start)
 	return (1);
 }
 
+/*
+**	Determines whether the '$' at *i introduces a variable expansion,
+**	first collapsing any run of consecutive '$' characters. Returns 0
+**	if expansion applies, 1 or 2 if the '$' should be treated literally.
+*/
 int	check_if_expension(char *str, int *i)
 {
 	int	start;
